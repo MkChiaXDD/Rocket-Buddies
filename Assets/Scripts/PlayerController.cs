@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 10f;
     public float maxSpeed = 8f;
     public float airControlMultiplier = 0.8f;
+    [SerializeField] private float groundAccel = 80f;   // NEW: how fast we move toward target speed
+    [SerializeField] private float groundFriction = 6f; // keep your friction value
 
     [Header("Aiming (Gizmo Only)")]
     [Tooltip("Ignore tiny stick drift.")]
@@ -43,23 +45,25 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // --- Grounded movement uses direct linear velocity ---
         if (isGrounded)
         {
             Vector2 v = rb.linearVelocity;
-            v.x = movementInput.x * maxSpeed; // snappy ground control
+
+            float target = movementInput.x * maxSpeed;
+
+            // accelerate toward target instead of snapping (preserves blast X)
+            v.x = Mathf.MoveTowards(v.x, target, groundAccel * Time.fixedDeltaTime);
             rb.linearVelocity = v;
 
-            // friction when no input
-            if (Mathf.Approximately(movementInput.x, 0f))
+            // friction only when truly idle (no input and tiny speed)
+            if (Mathf.Approximately(movementInput.x, 0f) && Mathf.Abs(v.x) < 0.05f)
             {
-                v.x = Mathf.MoveTowards(v.x, 0f, 6f * Time.fixedDeltaTime);
+                v.x = Mathf.MoveTowards(v.x, 0f, groundFriction * Time.fixedDeltaTime);
                 rb.linearVelocity = v;
             }
         }
         else
         {
-            // --- Airborne movement uses AddForce for momentum ---
             rb.AddForce(Vector2.right * movementInput.x * moveForce * airControlMultiplier,
                         ForceMode2D.Force);
         }
@@ -118,7 +122,7 @@ public class PlayerController : MonoBehaviour
 
         // spawn and initialize rocket
         RocketBullet rocket = Instantiate(rocketPrefab, spawnPos, Quaternion.identity);
-        rocket.Init(rocketSpeed, dir, rocketExplosionForce, rocketExplosionRadius);
+        rocket.Init(rocketSpeed, dir, rocketExplosionForce, rocketExplosionRadius, gameObject);
 
         lastFireTime = Time.time;
     }

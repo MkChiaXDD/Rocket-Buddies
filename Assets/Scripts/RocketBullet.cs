@@ -20,17 +20,21 @@ public class RocketBullet : MonoBehaviour
     private float explosionRadius;
 
     private Rigidbody2D rb;
+    private GameObject owner;
 
     // --- Called from PlayerController when spawning the rocket ---
-    public void Init(float speed, Vector2 direction, float explosionForce, float explosionRadius)
+    public void Init(float speed, Vector2 direction, float explosionForce, float explosionRadius, GameObject owner)
     {
         this.speed = speed;
         this.dir = direction.normalized;
         this.explosionForce = explosionForce;
         this.explosionRadius = explosionRadius;
+        this.owner = owner;
 
         rb = GetComponent<Rigidbody2D>();
         rb.linearVelocity = dir * speed;
+
+        IgnoreOwnerCollisions();
 
         // face travel direction immediately
         if (rb.linearVelocity.sqrMagnitude > 0.0001f)
@@ -109,6 +113,18 @@ public class RocketBullet : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    private void IgnoreOwnerCollisions()
+    {
+        if (!owner) return;
+
+        var myCols = GetComponentsInChildren<Collider2D>(true);
+        var ownerCols = owner.GetComponentsInChildren<Collider2D>(true);
+
+        foreach (var a in myCols)
+            foreach (var b in ownerCols)
+                Physics2D.IgnoreCollision(a, b, true);
     }
 
 
