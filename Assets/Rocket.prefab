@@ -170,4 +170,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 63
   explosionVFX: {fileID: 0}
-  upwardBias: 0.6
+  upwardBias: 0.4
