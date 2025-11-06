@@ -873,17 +873,6 @@
                 },
                 {
                     "name": "",
-                    "id": "3e9e7cd1-f7e4-48a1-be4b-e0f5352e73f1",
-                    "path": "<XInputController>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "3bbab8d9-0532-4f64-83ef-110aa4ae5280",
                     "path": "<XInputController>/leftTrigger",
                     "interactions": "",
@@ -930,6 +919,17 @@
                     "name": "",
                     "id": "400c76d6-a420-4e80-b62a-aa44b994a1da",
                     "path": "<XInputController>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6e1745e2-80e8-4024-a7a0-9651125a1b7f",
+                    "path": "<XInputController>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

@@ -110,7 +110,7 @@ MonoBehaviour:
   moveForce: 5
   jumpForce: 7.5
   maxSpeed: 8
-  airControlMultiplier: 1.5
+  airControlMultiplier: 2
   groundAccel: 80
   groundFriction: 6
   aimDeadzone: 0.2
