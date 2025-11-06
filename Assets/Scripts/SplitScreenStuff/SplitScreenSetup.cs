@@ -43,5 +43,7 @@ public class SplitScreenSetup : MonoBehaviour
             else if (p.playerIndex == 1)
                 cam.rect = new Rect(0f, 0f, 1f, 0.5f); // bottom half
         }
+
+        FindFirstObjectByType<WorldOneManager>().StartGame();
     }
 }
