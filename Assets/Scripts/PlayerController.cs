@@ -9,8 +9,8 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 10f;
     public float maxSpeed = 8f;
     public float airControlMultiplier = 0.8f;
-    [SerializeField] private float groundAccel = 80f;   // NEW: how fast we move toward target speed
-    [SerializeField] private float groundFriction = 6f; // keep your friction value
+    [SerializeField] private float groundAccel = 80f;
+    [SerializeField] private float groundFriction = 6f;
 
     [Header("Aiming (Gizmo Only)")]
     [Tooltip("Ignore tiny stick drift.")]
@@ -22,8 +22,8 @@ public class PlayerController : MonoBehaviour
     public Transform firePoint;
 
     [Header("Aiming Visuals")]
-    [SerializeField] private Transform launcherTransform; // assign your rectangle object here
-    [SerializeField] private float rotationSmoothness = 10f; // optional for smooth turning
+    [SerializeField] private Transform launcherTransform;
+    [SerializeField] private float rotationSmoothness = 10f;
 
     [Header("Shooting Settings")]
     [SerializeField] private RocketBullet rocketPrefab;
@@ -32,9 +32,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float rocketExplosionRadius = 2.5f;
     [SerializeField] private float fireCooldown = 0.15f;
 
+    [Header("Ground Check")]
+    [SerializeField] private float groundCheckDistance = 0.5f;
+    [SerializeField] private LayerMask groundLayers;
+    [SerializeField] private Transform groundCheckPoint;
+
     private Rigidbody2D rb;
     private Vector2 movementInput;
-    private Vector2 aimInput;   // right-stick value
+    private Vector2 aimInput;
     private bool isGrounded;
     private float lastFireTime = -999f;
 
@@ -45,17 +50,17 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        isGrounded = CheckGrounded();
+
         if (isGrounded)
         {
             Vector2 v = rb.linearVelocity;
 
             float target = movementInput.x * maxSpeed;
 
-            // accelerate toward target instead of snapping (preserves blast X)
             v.x = Mathf.MoveTowards(v.x, target, groundAccel * Time.fixedDeltaTime);
             rb.linearVelocity = v;
 
-            // friction only when truly idle (no input and tiny speed)
             if (Mathf.Approximately(movementInput.x, 0f) && Mathf.Abs(v.x) < 0.05f)
             {
                 v.x = Mathf.MoveTowards(v.x, 0f, groundFriction * Time.fixedDeltaTime);
@@ -82,8 +87,6 @@ public class PlayerController : MonoBehaviour
         launcherTransform.rotation = targetRot;
     }
 
-
-    // ---- Input System Unity Events (PlayerInput = Send Messages) ----
     public void OnMove(InputAction.CallbackContext ctx)
     {
         movementInput = ctx.ReadValue<Vector2>();
@@ -98,29 +101,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // NEW: Aim action (Value/Vector2) bound to <Gamepad>/rightStick
     public void OnAim(InputAction.CallbackContext ctx)
     {
-        // store raw stick; we'll dead-zone it when drawing/using
         if (ctx.performed) aimInput = ctx.ReadValue<Vector2>();
         else if (ctx.canceled) aimInput = Vector2.zero;
     }
 
-    // --- NEW SHOOT METHOD ---
     public void OnShoot(InputAction.CallbackContext ctx)
     {
         if (!ctx.performed) return;
         if (Time.time < lastFireTime + fireCooldown) return;
 
-        // determine direction (fallback right if neutral)
         Vector2 dir = aimInput.sqrMagnitude > aimDeadzone * aimDeadzone
             ? aimInput.normalized
             : Vector2.right;
 
-        // choose spawn position
         Vector3 spawnPos = firePoint ? firePoint.position : transform.position;
 
-        // spawn and initialize rocket
         RocketBullet rocket = Instantiate(rocketPrefab, spawnPos, Quaternion.identity);
         rocket.Init(rocketSpeed, dir, rocketExplosionForce, rocketExplosionRadius, gameObject);
 
@@ -128,14 +125,13 @@ public class PlayerController : MonoBehaviour
     }
 
     // --- Ground check ---
-    private void OnCollisionEnter2D(Collision2D c)
+    private bool CheckGrounded()
     {
-        if (c.gameObject.CompareTag("Ground")) isGrounded = true;
+        Vector2 origin = groundCheckPoint ? groundCheckPoint.position : (Vector2)transform.position;
+        RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, groundCheckDistance, groundLayers);
+        return hit.collider != null;
     }
-    private void OnCollisionExit2D(Collision2D c)
-    {
-        if (c.gameObject.CompareTag("Ground")) isGrounded = false;
-    }
+
 
     // --- Gizmo to visualize aim ---
     void OnDrawGizmos()

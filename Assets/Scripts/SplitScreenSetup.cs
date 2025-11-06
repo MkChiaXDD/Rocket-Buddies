@@ -3,8 +3,17 @@ using UnityEngine.InputSystem;
 
 public class SplitScreenSetup : MonoBehaviour
 {
+    [SerializeField] private GameObject DividerCannvas;
+
+    private void Start()
+    {
+        if (DividerCannvas) DividerCannvas.SetActive(false);
+    }
+
     private void OnPlayerJoined(PlayerInput player)
     {
+        if (DividerCannvas) DividerCannvas.SetActive(true);
+
         Camera cam = player.GetComponentInChildren<Camera>();
 
         if (player.playerIndex == 0)
