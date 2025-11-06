@@ -108,9 +108,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveForce: 5
-  jumpForce: 7.5
-  maxSpeed: 8
-  airControlMultiplier: 2
+  jumpForce: 9
+  maxSpeed: 6.5
+  airControlMultiplier: 1.5
   groundAccel: 80
   groundFriction: 6
   aimDeadzone: 0.2
@@ -121,7 +121,7 @@ MonoBehaviour:
   rotationSmoothness: 0
   rocketPrefab: {fileID: 8088578308020927259, guid: 50160006cc115bb4f85ce5f111d2d9f5, type: 3}
   rocketSpeed: 18
-  rocketExplosionForce: 8
+  rocketExplosionForce: 9
   rocketExplosionRadius: 2.5
   fireCooldown: 0.25
   groundCheckDistance: 0.5
@@ -282,6 +282,18 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 86653985-1c1a-468d-a528-3944c3a925a4
     m_ActionName: 'ControllerPlayer/Shoot[/XInputControllerWindows1/rightShoulder]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b93b5f57-ced8-4dd1-83c1-1392561ce540
+    m_ActionName: 'MenuSelection/Next[/XInputControllerWindows1/leftStick/down,/XInputControllerWindows1/dpad/down]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8853fb94-e172-495b-8429-bcb44e688843
+    m_ActionName: 'MenuSelection/Previous[/XInputControllerWindows1/leftStick/up,/XInputControllerWindows1/dpad/up]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9d893f96-bb1b-460d-b6ac-6433b2b020c5
+    m_ActionName: 'MenuSelection/Submit[/XInputControllerWindows1/buttonSouth]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: ControllerPlayer
