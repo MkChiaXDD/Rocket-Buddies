@@ -113,6 +113,10 @@ MonoBehaviour:
   airControlMultiplier: 1.5
   groundAccel: 80
   groundFriction: 6
+  airAccelWith: 0.5
+  airAccelAgainst: 1.6
+  airAccelNeutral: 1.3
+  neutralSpeedThreshold: 0.2
   aimDeadzone: 0.2
   aimGizmoLength: 5
   aimGizmoColor: {r: 0, g: 1, b: 0, a: 1}
@@ -121,9 +125,9 @@ MonoBehaviour:
   rotationSmoothness: 0
   rocketPrefab: {fileID: 8088578308020927259, guid: 50160006cc115bb4f85ce5f111d2d9f5, type: 3}
   rocketSpeed: 18
-  rocketExplosionForce: 9
+  rocketExplosionForce: 9.2
   rocketExplosionRadius: 2.5
-  fireCooldown: 0.25
+  fireCooldown: 0.65
   groundCheckDistance: 0.5
   groundLayers:
     serializedVersion: 2

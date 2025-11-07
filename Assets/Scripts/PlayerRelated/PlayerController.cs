@@ -19,12 +19,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float neutralSpeedThreshold = 0.2f;
 
     [Header("Aiming (Gizmo Only)")]
-    [Tooltip("Ignore tiny stick drift.")]
     [Range(0f, 1f)] public float aimDeadzone = 0.2f;
-    [Tooltip("How far to draw the aim ray.")]
     public float aimGizmoLength = 2f;
     public Color aimGizmoColor = Color.green;
-    [Tooltip("Optional: where the shot would come from. Falls back to transform if null.")]
     public Transform firePoint;
 
     [Header("Aiming Visuals")]
@@ -36,6 +33,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float rocketSpeed = 18f;
     [SerializeField] private float rocketExplosionForce = 12f;
     [SerializeField] private float rocketExplosionRadius = 2.5f;
+    [Tooltip("Time between shots for both tap and hold (seconds).")]
     [SerializeField] private float fireCooldown = 0.15f;
 
     [Header("Ground Check")]
@@ -47,6 +45,9 @@ public class PlayerController : MonoBehaviour
     private Vector2 movementInput;
     private Vector2 aimInput;
     private bool isGrounded;
+
+    // --- NEW: tap + hold state ---
+    private bool isFireHeld = false;
     private float lastFireTime = -999f;
 
     void Awake()
@@ -61,9 +62,7 @@ public class PlayerController : MonoBehaviour
         if (isGrounded)
         {
             Vector2 v = rb.linearVelocity;
-
             float target = movementInput.x * maxSpeed;
-
             v.x = Mathf.MoveTowards(v.x, target, groundAccel * Time.fixedDeltaTime);
             rb.linearVelocity = v;
 
@@ -93,18 +92,22 @@ public class PlayerController : MonoBehaviour
         return (sameDir > 0f) ? airAccelWith : airAccelAgainst;
     }
 
-
     void Update()
     {
-        if (!launcherTransform) return;
+        // Aim rotation (don’t early-return; we still want hold-fire below)
+        if (launcherTransform && aimInput.magnitude >= aimDeadzone)
+        {
+            Vector2 dir = aimInput.normalized;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            var targetRot = Quaternion.Euler(0f, 0f, angle);
+            launcherTransform.rotation = targetRot;
+        }
 
-        if (aimInput.magnitude < aimDeadzone) return;
-
-        Vector2 dir = aimInput.normalized;
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-
-        Quaternion targetRot = Quaternion.Euler(0f, 0f, angle);
-        launcherTransform.rotation = targetRot;
+        // --- Hold-to-fire: auto-fire while held respecting cooldown ---
+        if (isFireHeld && Time.time >= lastFireTime + fireCooldown)
+        {
+            TryFire();
+        }
     }
 
     public void OnMove(InputAction.CallbackContext ctx)
@@ -127,10 +130,29 @@ public class PlayerController : MonoBehaviour
         else if (ctx.canceled) aimInput = Vector2.zero;
     }
 
+    // --- UPDATED: tap + hold shooting ---
     public void OnShoot(InputAction.CallbackContext ctx)
     {
-        if (!ctx.performed) return;
-        if (Time.time < lastFireTime + fireCooldown) return;
+        // When button starts/presses: begin holding, and also fire immediately (tap)
+        if (ctx.started || ctx.performed)
+        {
+            isFireHeld = true;
+
+            // Tap should feel responsive; try an immediate shot if off cooldown
+            if (Time.time >= lastFireTime + fireCooldown)
+                TryFire();
+        }
+
+        // When button released: stop autofire
+        if (ctx.canceled)
+        {
+            isFireHeld = false;
+        }
+    }
+
+    private bool TryFire()
+    {
+        if (Time.time < lastFireTime + fireCooldown) return false;
 
         Vector2 dir = aimInput.sqrMagnitude > aimDeadzone * aimDeadzone
             ? aimInput.normalized
@@ -142,6 +164,7 @@ public class PlayerController : MonoBehaviour
         rocket.Init(rocketSpeed, dir, rocketExplosionForce, rocketExplosionRadius, gameObject);
 
         lastFireTime = Time.time;
+        return true;
     }
 
     // --- Ground check ---
@@ -151,7 +174,6 @@ public class PlayerController : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, groundCheckDistance, groundLayers);
         return hit.collider != null;
     }
-
 
     // --- Gizmo to visualize aim ---
     void OnDrawGizmos()
