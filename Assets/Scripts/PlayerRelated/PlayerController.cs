@@ -12,6 +12,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float groundAccel = 80f;
     [SerializeField] private float groundFriction = 6f;
 
+    [Header("Air Steering")]
+    [SerializeField] private float airAccelWith = 0.35f;     // weaker when same direction as current velocity
+    [SerializeField] private float airAccelAgainst = 1.6f;   // stronger when trying to reverse
+    [SerializeField] private float airAccelNeutral = 1.0f;   // when nearly stopped
+    [SerializeField] private float neutralSpeedThreshold = 0.2f;
+
     [Header("Aiming (Gizmo Only)")]
     [Tooltip("Ignore tiny stick drift.")]
     [Range(0f, 1f)] public float aimDeadzone = 0.2f;
@@ -69,10 +75,24 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            rb.AddForce(Vector2.right * movementInput.x * moveForce * airControlMultiplier,
+            float factor = GetAirControlFactor(movementInput.x);
+            rb.AddForce(Vector2.right * movementInput.x * moveForce * airControlMultiplier * factor,
                         ForceMode2D.Force);
         }
     }
+
+    private float GetAirControlFactor(float inputX)
+    {
+        if (Mathf.Approximately(inputX, 0f)) return 0f;
+
+        float vx = rb.linearVelocity.x;
+        if (Mathf.Abs(vx) < neutralSpeedThreshold) return airAccelNeutral;
+
+        // >0 if same direction, <0 if opposite
+        float sameDir = Mathf.Sign(inputX) * Mathf.Sign(vx);
+        return (sameDir > 0f) ? airAccelWith : airAccelAgainst;
+    }
+
 
     void Update()
     {

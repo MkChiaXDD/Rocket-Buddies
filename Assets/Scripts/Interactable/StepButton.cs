@@ -1,12 +1,18 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class StepButton : MonoBehaviour
 {
+    private bool isActive;
     [SerializeField] private GameObject unPressedButton;
     [SerializeField] private GameObject pressedButton;
 
+    [SerializeField] private List<Door> doors;
+
     private void Start()
     {
+        isActive = false;
         if (unPressedButton) unPressedButton.SetActive(true);
         if (pressedButton) pressedButton.SetActive(false);
     }
@@ -31,5 +37,19 @@ public class StepButton : MonoBehaviour
     {
         if (unPressedButton) unPressedButton.SetActive(!pressed);
         if (pressedButton) pressedButton.SetActive(pressed);
+        isActive = pressed;
+        OpenDoors();
     }
+
+    private void OpenDoors()
+    {
+        foreach (var door in doors)
+        {
+            if (isActive)
+            {
+                // set doors active
+            }
+        }
+    }
+
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -68,8 +69,36 @@ public class RocketBullet : MonoBehaviour
 
     private void Explode(Vector2 pos)
     {
-        if (explosionVFX) Instantiate(explosionVFX, pos, Quaternion.identity);
+        // run explosion sequence coroutine
+        StartCoroutine(ExplodeSequence(pos));
+    }
 
+    private IEnumerator ExplodeSequence(Vector2 pos)
+    {
+        // disable visual and colliders first
+        foreach (var r in GetComponentsInChildren<SpriteRenderer>())
+            r.enabled = false;
+
+        foreach (var c in GetComponentsInChildren<Collider2D>())
+            c.enabled = false;
+
+        rb.linearVelocity = Vector2.zero;
+        rb.simulated = false;
+
+        // optional: instantiate extra explosion prefab
+        if (explosionVFX)
+            Instantiate(explosionVFX, pos, Quaternion.identity);
+
+        // play built-in child particle system
+        ParticleSystem ps = GetComponentInChildren<ParticleSystem>();
+        if (ps)
+        {
+            ps.transform.parent = null; // detach so it won’t be destroyed instantly
+            ps.Play();
+            Destroy(ps.gameObject, ps.main.duration);
+        }
+
+        // apply explosion forces
         var hits = Physics2D.OverlapCircleAll(pos, explosionRadius, affectedLayers);
 
         // 1) pick one closest collider per Rigidbody2D
@@ -92,7 +121,7 @@ public class RocketBullet : MonoBehaviour
             }
         }
 
-        // 2) apply impulse once per body, using distance to closest collider
+        // 2) apply impulse once per body
         foreach (var kv in closest)
         {
             var body = kv.Key;
@@ -101,17 +130,17 @@ public class RocketBullet : MonoBehaviour
             Vector2 nearest = col.ClosestPoint(pos);
             float dist = Mathf.Max(0.05f, (nearest - pos).magnitude);
 
-            // smooth falloff; strong when close, fades to 0 at radius
             float t = dist / explosionRadius;
             float falloff = Mathf.Clamp01(1f - t * t);
 
             Vector2 dir = ((Vector2)body.worldCenterOfMass - pos).normalized;
             Vector2 impulse = dir * (explosionForce * falloff);
-            impulse += Vector2.up * (explosionForce * upwardBias * falloff); // set upwardBias=0 for neutral
+            impulse += Vector2.up * (explosionForce * upwardBias * falloff);
 
             body.AddForce(impulse, ForceMode2D.Impulse);
         }
 
+        yield return new WaitForSeconds(explosionVFX.GetComponent<ParticleSystem>().main.duration); // small delay if needed
         Destroy(gameObject);
     }
 
@@ -126,7 +155,6 @@ public class RocketBullet : MonoBehaviour
             foreach (var b in ownerCols)
                 Physics2D.IgnoreCollision(a, b, true);
     }
-
 
     private void OnDrawGizmosSelected()
     {
