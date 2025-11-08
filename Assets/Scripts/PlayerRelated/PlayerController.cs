@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public float airControlMultiplier = 0.8f;
     [SerializeField] private float groundAccel = 80f;
     [SerializeField] private float groundFriction = 6f;
+    [SerializeField, Range(0f, 1f)] private float moveDeadzone = 0.2f;
 
     [Header("Air Steering")]
     [SerializeField] private float airAccelWith = 0.35f;     // weaker when same direction as current velocity
@@ -112,8 +113,15 @@ public class PlayerController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext ctx)
     {
-        movementInput = ctx.ReadValue<Vector2>();
+        Vector2 raw = ctx.ReadValue<Vector2>();
+
+        // Apply deadzone on X only (for horizontal movement)
+        movementInput.x = Mathf.Abs(raw.x) < moveDeadzone ? 0f : raw.x;
+
+        // Optional: if you want vertical input too (for ladders, menus, etc.)
+        movementInput.y = Mathf.Abs(raw.y) < moveDeadzone ? 0f : raw.y;
     }
+
 
     public void OnJump(InputAction.CallbackContext ctx)
     {
