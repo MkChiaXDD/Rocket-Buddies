@@ -47,7 +47,11 @@ public class StepButton : MonoBehaviour
         {
             if (isActive)
             {
-                // set doors active
+                door.SetDoor(true);
+            }
+            else
+            {
+                door.SetDoor(false);
             }
         }
     }

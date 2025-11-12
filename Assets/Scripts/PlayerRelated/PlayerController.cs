@@ -14,10 +14,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Range(0f, 1f)] private float moveDeadzone = 0.2f;
 
     [Header("Air Steering")]
-    [SerializeField] private float airAccelWith = 0.35f;     // weaker when same direction as current velocity
-    [SerializeField] private float airAccelAgainst = 1.6f;   // stronger when trying to reverse
-    [SerializeField] private float airAccelNeutral = 1.0f;   // when nearly stopped
+    [SerializeField] private float airAccelWith = 0.35f;     
+    [SerializeField] private float airAccelAgainst = 1.6f;   
+    [SerializeField] private float airAccelNeutral = 1.0f;   
     [SerializeField] private float neutralSpeedThreshold = 0.2f;
+    private Vector2 lastAimDir = Vector2.right;
 
     [Header("Aiming (Gizmo Only)")]
     [Range(0f, 1f)] public float aimDeadzone = 0.2f;
@@ -28,6 +29,7 @@ public class PlayerController : MonoBehaviour
     [Header("Aiming Visuals")]
     [SerializeField] private Transform launcherTransform;
     [SerializeField] private float rotationSmoothness = 10f;
+    [SerializeField] private GameObject longerRedLine;
 
     [Header("Shooting Settings")]
     [SerializeField] private RocketBullet rocketPrefab;
@@ -79,6 +81,8 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(Vector2.right * movementInput.x * moveForce * airControlMultiplier * factor,
                         ForceMode2D.Force);
         }
+
+        if (launcherTransform) lastAimDir = launcherTransform.right;
     }
 
     private float GetAirControlFactor(float inputX)
@@ -95,6 +99,10 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+
+        if (aimInput.sqrMagnitude >= aimDeadzone * aimDeadzone)
+            lastAimDir = aimInput.normalized;
+
         // Aim rotation (don’t early-return; we still want hold-fire below)
         if (launcherTransform && aimInput.magnitude >= aimDeadzone)
         {
@@ -134,9 +142,21 @@ public class PlayerController : MonoBehaviour
 
     public void OnAim(InputAction.CallbackContext ctx)
     {
-        if (ctx.performed) aimInput = ctx.ReadValue<Vector2>();
-        else if (ctx.canceled) aimInput = Vector2.zero;
+        Vector2 raw = ctx.ReadValue<Vector2>();
+
+        // Apply deadzone to both X and Y of aim input
+        if (raw.magnitude < moveDeadzone)
+        {
+            aimInput = Vector2.zero;
+            longerRedLine.SetActive(false);
+        }
+        else
+        {
+            aimInput = raw.normalized; // normalized keeps direction consistent
+            longerRedLine.SetActive(true);
+        }
     }
+
 
     // --- UPDATED: tap + hold shooting ---
     public void OnShoot(InputAction.CallbackContext ctx)
@@ -162,9 +182,9 @@ public class PlayerController : MonoBehaviour
     {
         if (Time.time < lastFireTime + fireCooldown) return false;
 
-        Vector2 dir = aimInput.sqrMagnitude > aimDeadzone * aimDeadzone
+        Vector2 dir = (aimInput.sqrMagnitude >= aimDeadzone * aimDeadzone)
             ? aimInput.normalized
-            : Vector2.right;
+            : lastAimDir;   // use cached aim when idle
 
         Vector3 spawnPos = firePoint ? firePoint.position : transform.position;
 
@@ -174,6 +194,7 @@ public class PlayerController : MonoBehaviour
         lastFireTime = Time.time;
         return true;
     }
+
 
     // --- Ground check ---
     private bool CheckGrounded()
