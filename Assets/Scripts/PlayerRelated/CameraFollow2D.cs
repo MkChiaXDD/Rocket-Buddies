@@ -2,19 +2,27 @@ using UnityEngine;
 
 public class CameraFollow2D : MonoBehaviour
 {
-    [SerializeField] private Transform target; // your player
-    [SerializeField] private float smoothSpeed = 5f;
-    [SerializeField] private Vector3 offset;   // e.g. new Vector3(0, 1, -10)
+    [SerializeField] private Transform target;
+    [SerializeField] private Vector3 offset = new Vector3(0f, 0f, -10f);
+    [SerializeField] private float followSpeed = 10f;
 
-    void LateUpdate()
+    public Camera Cam { get; private set; }
+
+    private void Awake()
+    {
+        Cam = GetComponent<Camera>();
+    }
+
+    public void SetTarget(Transform newTarget)
+    {
+        target = newTarget;
+    }
+
+    private void LateUpdate()
     {
         if (!target) return;
 
-        Vector3 desired = target.position + offset;
-        Vector3 smoothed = Vector3.Lerp(transform.position, desired, smoothSpeed * Time.deltaTime);
-        transform.position = smoothed;
-
-        // keep camera rotation fixed (no rotation inheritance)
-        transform.rotation = Quaternion.identity;
+        Vector3 desiredPos = target.position + offset;
+        transform.position = Vector3.Lerp(transform.position, desiredPos, followSpeed * Time.deltaTime);
     }
 }

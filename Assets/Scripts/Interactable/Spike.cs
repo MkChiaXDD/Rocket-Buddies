@@ -8,7 +8,7 @@ public class Spike : MonoBehaviour
         hpMgr = FindFirstObjectByType<HealthManager>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {

@@ -9,6 +9,9 @@ public class Door : MonoBehaviour
     [SerializeField] private GameObject openDoor;
     private BoxCollider2D boxCollider;
 
+    // set this in Inspector to only hit the Player layer
+    [SerializeField] private LayerMask playerLayer;
+
     private void Start()
     {
         boxCollider = GetComponent<BoxCollider2D>();
@@ -22,6 +25,12 @@ public class Door : MonoBehaviour
 
         if (!activated)
         {
+            // if we are closing the door, check for players inside it
+            if (!open)
+            {
+                CrushPlayersInside();
+            }
+
             ToggleDoorCollider(open);
             ToggleDoorVisuals(open);
         }
@@ -37,6 +46,40 @@ public class Door : MonoBehaviour
 
     private void ToggleDoorCollider(bool open)
     {
-        boxCollider.isTrigger = open;
+        boxCollider.isTrigger = open;   // trigger when open, solid when closed
+    }
+
+    private void CrushPlayersInside()
+    {
+        // use the door collider’s bounds as the overlap area
+        Bounds b = boxCollider.bounds;
+
+        Collider2D[] hits = Physics2D.OverlapBoxAll(
+            b.center,
+            b.size,
+            0f,
+            playerLayer
+        );
+
+        foreach (var hit in hits)
+        {
+            // whatever script handles your death/respawn
+            var health = hit.GetComponent<HealthManager>();   // or PlayerRespawn, etc.
+            if (health != null)
+            {
+                health.Damage(99);   // or health.TakeDamage(999), health.Die(), etc.
+            }
+        }
+    }
+
+    // just to help visualize in editor
+    private void OnDrawGizmosSelected()
+    {
+        if (!boxCollider) boxCollider = GetComponent<BoxCollider2D>();
+        if (!boxCollider) return;
+
+        Gizmos.color = Color.red;
+        Bounds b = boxCollider.bounds;
+        Gizmos.DrawWireCube(b.center, b.size);
     }
 }
