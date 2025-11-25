@@ -48,6 +48,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 movementInput;
     private Vector2 aimInput;
     private bool isGrounded;
+    private bool isAiming = false;
+    private float lastMoveDir = 1f;
 
     // --- NEW: tap + hold state ---
     private bool isFireHeld = false;
@@ -83,6 +85,12 @@ public class PlayerController : MonoBehaviour
         }
 
         if (launcherTransform) lastAimDir = launcherTransform.right;
+
+        if (!isAiming)
+        {
+            if (movementInput.x > 0.01f) lastMoveDir = 1f;
+            else if (movementInput.x < -0.01f) lastMoveDir = -1f;
+        }
     }
 
     private float GetAirControlFactor(float inputX)
@@ -148,11 +156,13 @@ public class PlayerController : MonoBehaviour
         if (raw.magnitude < moveDeadzone)
         {
             aimInput = Vector2.zero;
+            isAiming = false;
             longerRedLine.SetActive(false);
         }
         else
         {
             aimInput = raw.normalized; // normalized keeps direction consistent
+            isAiming = true;
             longerRedLine.SetActive(true);
         }
     }
@@ -216,4 +226,30 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawLine(origin, origin + (Vector3)(dir * aimGizmoLength));
         Gizmos.DrawSphere(origin + (Vector3)(dir * aimGizmoLength), 0.05f);
     }
+
+    public bool GetIsMoving()
+    {
+        return rb.linearVelocity.sqrMagnitude > 0.01f;
+    }
+
+    public bool GetIsGrounded()
+    {
+        return isGrounded;
+    }
+
+    public bool GetIsAiming()
+    {
+        return isAiming;
+    }
+
+    public Vector2 GetAimDirection()
+    {
+        return lastAimDir;
+    }
+
+    public float GetLastMoveDirection()
+    {
+        return lastMoveDir;   // +1 right, -1 left
+    }
+
 }
