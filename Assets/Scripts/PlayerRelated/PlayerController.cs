@@ -252,4 +252,13 @@ public class PlayerController : MonoBehaviour
         return lastMoveDir;   // +1 right, -1 left
     }
 
+    public bool GetIsGoingUp()
+    {
+        return rb.linearVelocityY > 0.1f;
+    }
+    
+    public bool GetIsGoingDown()
+    {
+        return rb.linearVelocityY < -0.1f;
+    }
 }
