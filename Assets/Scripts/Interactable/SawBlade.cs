@@ -8,6 +8,7 @@ public class SawBlade : MonoBehaviour
     private HealthManager hpMgr;
 
     private int currentWaypoint = 0;
+    private int direction = 1; // +1 = forward, -1 = backwards
 
     [SerializeField] private float rotateSpeed = 10f;
 
@@ -28,18 +29,26 @@ public class SawBlade : MonoBehaviour
             moveSpeed * Time.deltaTime
         );
 
-        // check if reached waypoint
+        // reached waypoint?
         if (Vector3.Distance(transform.position, target.position) < 0.05f)
         {
-            currentWaypoint++;
+            // Move forward or backward depending on direction
+            currentWaypoint += direction;
 
-            // loop back to first (0)
+            // Reverse direction at either end
             if (currentWaypoint >= waypoints.Count)
             {
-                currentWaypoint = 0;
+                currentWaypoint = waypoints.Count - 2; // bounce back
+                direction = -1;
+            }
+            else if (currentWaypoint < 0)
+            {
+                currentWaypoint = 1; // bounce forward
+                direction = 1;
             }
         }
 
+        // spin
         transform.Rotate(0f, 0f, rotateSpeed * Time.deltaTime);
     }
 
