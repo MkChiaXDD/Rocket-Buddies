@@ -15,6 +15,10 @@ public class SplitScreenSetup : MonoBehaviour
     [SerializeField] private float splitDistance = 18f; // when to split
     [SerializeField] private float mergeDistance = 14f; // when to merge back (smaller to avoid flicker)
 
+    [Header("Animator Controllers")]
+    [SerializeField] private RuntimeAnimatorController player1AnimatorController;
+    [SerializeField] private RuntimeAnimatorController player2AnimatorController;
+
     private int playerCount = 0;
     private Transform[] playerFollowTargets = new Transform[2];
     private Transform midTarget;            // midpoint object
@@ -40,6 +44,26 @@ public class SplitScreenSetup : MonoBehaviour
     {
         int index = player.playerIndex;
         playerCount++;
+
+        player.gameObject.name = (index == 0) ? "Player1" : "Player2";
+
+        // ? Set the animator controller based on which player it is
+        Transform capsule = player.transform.Find("Capsule");
+        if (capsule != null)
+        {
+            Animator anim = capsule.GetComponent<Animator>();
+            if (anim != null)
+            {
+                if (index == 0 && player1AnimatorController != null)
+                {
+                    anim.runtimeAnimatorController = player1AnimatorController;
+                }
+                else if (index == 1 && player2AnimatorController != null)
+                {
+                    anim.runtimeAnimatorController = player2AnimatorController;
+                }
+            }
+        }
 
         // Spawn position
         if (spawnPoints != null && index < spawnPoints.Length)

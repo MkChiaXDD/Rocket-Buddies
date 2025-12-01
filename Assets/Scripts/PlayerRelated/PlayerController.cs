@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float rocketExplosionRadius = 2.5f;
     [Tooltip("Time between shots for both tap and hold (seconds).")]
     [SerializeField] private float fireCooldown = 0.15f;
+    private ObjectPool rocketPool;
 
     [Header("Ground Check")]
     [SerializeField] private float groundCheckDistance = 0.5f;
@@ -58,6 +59,7 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        rocketPool = FindFirstObjectByType<ObjectPool>();
     }
 
     void FixedUpdate()
@@ -198,8 +200,11 @@ public class PlayerController : MonoBehaviour
 
         Vector3 spawnPos = firePoint ? firePoint.position : transform.position;
 
-        RocketBullet rocket = Instantiate(rocketPrefab, spawnPos, Quaternion.identity);
-        rocket.Init(rocketSpeed, dir, rocketExplosionForce, rocketExplosionRadius, gameObject);
+        GameObject rocketObj = rocketPool.GetObject();
+        rocketObj.transform.SetPositionAndRotation(spawnPos, Quaternion.identity);
+
+        RocketBullet rocket = rocketObj.GetComponent<RocketBullet>();
+        rocket.Init(rocketSpeed, dir, rocketExplosionForce, rocketExplosionRadius, gameObject, rocketPool);
 
         lastFireTime = Time.time;
         return true;

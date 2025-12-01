@@ -7,31 +7,70 @@ public class RocketBullet : MonoBehaviour
 {
     [Header("Basic")]
     [SerializeField] private float maxLifetime = 4f;
-    [SerializeField] private LayerMask affectedLayers;   // e.g. Player, Default
+    [SerializeField] private LayerMask affectedLayers;
 
     [Header("Feel")]
     [SerializeField, Range(0f, 1f)]
-    private float upwardBias = 0.15f; // small extra up for nicer jumps
+    private float upwardBias = 0.15f;
 
-    // Set via Init()
     private float speed;
     private Vector2 dir;
     private float explosionForce;
     private float explosionRadius;
+    private ObjectPool pool;
 
     private Rigidbody2D rb;
     private GameObject owner;
 
-    // --- Called from PlayerController when spawning the rocket ---
-    public void Init(float speed, Vector2 direction, float explosionForce, float explosionRadius, GameObject owner)
+    private void Awake()
     {
+        rb = GetComponent<Rigidbody2D>();
+        rb.gravityScale = 0f;
+        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+        rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+    }
+
+    // ?? Reset everything needed when this rocket is reused from the pool
+    private void ResetState()
+    {
+        // cancel any previous explode timers / coroutines
+        CancelInvoke();
+        StopAllCoroutines();
+
+        if (rb == null)
+            rb = GetComponent<Rigidbody2D>();
+
+        rb.simulated = true;
+        rb.linearVelocity = Vector2.zero;
+        rb.angularVelocity = 0f;
+
+        // re-enable visuals & colliders
+        foreach (var r in GetComponentsInChildren<SpriteRenderer>(true))
+            r.enabled = true;
+
+        foreach (var c in GetComponentsInChildren<Collider2D>(true))
+            c.enabled = true;
+    }
+
+    // --- Called from PlayerController when spawning the rocket ---
+    public void Init(
+        float speed,
+        Vector2 direction,
+        float explosionForce,
+        float explosionRadius,
+        GameObject owner,
+        ObjectPool pool)
+    {
+        // very important for pooled reuse
+        ResetState();
+
         this.speed = speed;
         this.dir = direction.normalized;
         this.explosionForce = explosionForce;
         this.explosionRadius = explosionRadius;
         this.owner = owner;
+        this.pool = pool;
 
-        rb = GetComponent<Rigidbody2D>();
         rb.linearVelocity = dir * speed;
 
         IgnoreOwnerCollisions();
@@ -41,14 +80,6 @@ public class RocketBullet : MonoBehaviour
             rb.SetRotation(Mathf.Atan2(rb.linearVelocity.y, rb.linearVelocity.x) * Mathf.Rad2Deg);
 
         Invoke(nameof(ExplodeSelf), maxLifetime);
-    }
-
-    private void Awake()
-    {
-        rb = GetComponent<Rigidbody2D>();
-        rb.gravityScale = 0f;
-        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
-        rb.interpolation = RigidbodyInterpolation2D.Interpolate;
     }
 
     private void FixedUpdate()
@@ -100,10 +131,9 @@ public class RocketBullet : MonoBehaviour
         rb.linearVelocity = Vector2.zero;
         rb.simulated = false;
 
-        // Apply explosion forces
+        // Apply explosion forces (unchanged)
         var hits = Physics2D.OverlapCircleAll(pos, explosionRadius, affectedLayers);
 
-        // 1) pick one closest collider per Rigidbody2D
         var closest = new Dictionary<Rigidbody2D, Collider2D>();
         foreach (var c in hits)
         {
@@ -123,7 +153,6 @@ public class RocketBullet : MonoBehaviour
             }
         }
 
-        // 2) apply impulse once per body
         foreach (var kv in closest)
         {
             var body = kv.Key;
@@ -142,8 +171,10 @@ public class RocketBullet : MonoBehaviour
             body.AddForce(impulse, ForceMode2D.Impulse);
         }
 
-        yield return null; // small delay, ensures impulses applied before destruction
-        Destroy(gameObject);
+        yield return null;
+
+        // Return to pool after explosion
+        pool.ReturnObject(gameObject);
     }
 
     private void IgnoreOwnerCollisions()
@@ -164,3 +195,4 @@ public class RocketBullet : MonoBehaviour
         Gizmos.DrawSphere(transform.position, explosionRadius);
     }
 }
+

@@ -1,0 +1,1859 @@
+fileFormatVersion: 2
+guid: a2cc48fc05e26e24195bbc8792e4b7b5
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7103825332301665602
+    second: Red Slime Spritesheet_0
+  - first:
+      213: 6787493795905052668
+    second: Red Slime Spritesheet_1
+  - first:
+      213: -860854444069365772
+    second: Red Slime Spritesheet_2
+  - first:
+      213: -3349785632744559888
+    second: Red Slime Spritesheet_3
+  - first:
+      213: -712380273321174843
+    second: Red Slime Spritesheet_4
+  - first:
+      213: 8976875559309557031
+    second: Red Slime Spritesheet_5
+  - first:
+      213: 7628553839422560444
+    second: Red Slime Spritesheet_6
+  - first:
+      213: -2133879088566543078
+    second: Red Slime Spritesheet_7
+  - first:
+      213: -3550411910886320093
+    second: Red Slime Spritesheet_8
+  - first:
+      213: 6212254897077558766
+    second: Red Slime Spritesheet_9
+  - first:
+      213: 521569361941738965
+    second: Red Slime Spritesheet_10
+  - first:
+      213: -180400440896332494
+    second: Red Slime Spritesheet_11
+  - first:
+      213: 198016879552502712
+    second: Red Slime Spritesheet_12
+  - first:
+      213: 2398270681544712430
+    second: Red Slime Spritesheet_13
+  - first:
+      213: 8306569319639786724
+    second: Red Slime Spritesheet_14
+  - first:
+      213: -2763357762419554465
+    second: Red Slime Spritesheet_15
+  - first:
+      213: 7219760429452513912
+    second: Red Slime Spritesheet_16
+  - first:
+      213: -4522173259286185276
+    second: Red Slime Spritesheet_17
+  - first:
+      213: -7438072107455537473
+    second: Red Slime Spritesheet_18
+  - first:
+      213: -928788569050652660
+    second: Red Slime Spritesheet_19
+  - first:
+      213: -1391797295340241356
+    second: Red Slime Spritesheet_20
+  - first:
+      213: -3580286942232168274
+    second: Red Slime Spritesheet_21
+  - first:
+      213: 9124468719714974638
+    second: Red Slime Spritesheet_22
+  - first:
+      213: -409232362094522183
+    second: Red Slime Spritesheet_23
+  - first:
+      213: -8292863278594675721
+    second: Red Slime Spritesheet_24
+  - first:
+      213: 1231431560090297440
+    second: Red Slime Spritesheet_25
+  - first:
+      213: -3910700567786520137
+    second: Red Slime Spritesheet_26
+  - first:
+      213: -1273685649492330217
+    second: Red Slime Spritesheet_27
+  - first:
+      213: -2738232622827777542
+    second: Red Slime Spritesheet_28
+  - first:
+      213: -3016140208110997524
+    second: Red Slime Spritesheet_29
+  - first:
+      213: 5557198206724560730
+    second: Red Slime Spritesheet_30
+  - first:
+      213: -7440366587905273628
+    second: Red Slime Spritesheet_31
+  - first:
+      213: 8354677544229867904
+    second: Red Slime Spritesheet_32
+  - first:
+      213: -1537666016380250063
+    second: Red Slime Spritesheet_33
+  - first:
+      213: -4067048146817618786
+    second: Red Slime Spritesheet_34
+  - first:
+      213: 3772711510357617015
+    second: Red Slime Spritesheet_35
+  - first:
+      213: -3520917870529037975
+    second: Red Slime Spritesheet_36
+  - first:
+      213: -8694935896201864902
+    second: Red Slime Spritesheet_37
+  - first:
+      213: -6212927876318351478
+    second: Red Slime Spritesheet_38
+  - first:
+      213: 2982277647522879131
+    second: Red Slime Spritesheet_39
+  - first:
+      213: -2509689687973005490
+    second: Red Slime Spritesheet_40
+  - first:
+      213: 8828538818258049197
+    second: Red Slime Spritesheet_41
+  - first:
+      213: -3469290977436704648
+    second: Red Slime Spritesheet_42
+  - first:
+      213: 532589356404796544
+    second: Red Slime Spritesheet_43
+  - first:
+      213: 4813120362749743211
+    second: Red Slime Spritesheet_44
+  - first:
+      213: 9186749192200894486
+    second: Red Slime Spritesheet_45
+  - first:
+      213: -5909120054798199765
+    second: Red Slime Spritesheet_46
+  - first:
+      213: -6450926000720408258
+    second: Red Slime Spritesheet_47
+  - first:
+      213: -2319798059656796829
+    second: Red Slime Spritesheet_48
+  - first:
+      213: 1433589060982455418
+    second: Red Slime Spritesheet_49
+  - first:
+      213: -9108454573948550217
+    second: Red Slime Spritesheet_50
+  - first:
+      213: 7525282229701120670
+    second: Red Slime Spritesheet_51
+  - first:
+      213: -7499279579439490134
+    second: Red Slime Spritesheet_52
+  - first:
+      213: 8557261502601304336
+    second: Red Slime Spritesheet_53
+  - first:
+      213: 4348078465988545607
+    second: Red Slime Spritesheet_54
+  - first:
+      213: -1352350276767562764
+    second: Red Slime Spritesheet_55
+  - first:
+      213: 7803742196410621166
+    second: Red Slime Spritesheet_56
+  - first:
+      213: 5635096815865779346
+    second: Red Slime Spritesheet_57
+  - first:
+      213: 8101038550624655749
+    second: Red Slime Spritesheet_58
+  - first:
+      213: -1788716731002409905
+    second: Red Slime Spritesheet_59
+  - first:
+      213: -8189409900516669237
+    second: Red Slime Spritesheet_60
+  - first:
+      213: 2676463040442860343
+    second: Red Slime Spritesheet_61
+  - first:
+      213: 938989954776387553
+    second: Red Slime Spritesheet_62
+  - first:
+      213: 593910615548121947
+    second: Red Slime Spritesheet_63
+  - first:
+      213: 5107651260381436903
+    second: Red Slime Spritesheet_64
+  - first:
+      213: 1939935088236429027
+    second: Red Slime Spritesheet_65
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_0
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 113
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ebaecb97f742a6d90800000000000000
+      internalID: -7103825332301665602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_1
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 113
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cff961c45a5023e50800000000000000
+      internalID: 6787493795905052668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 113
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f7dde1b171ad04f0800000000000000
+      internalID: -860854444069365772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_3
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 113
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0faad8607bb2381d0800000000000000
+      internalID: -3349785632744559888
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 111
+        width: 16
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c812bf6aed1d16f0800000000000000
+      internalID: -712380273321174843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_5
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 111
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 72d388972c4449c70800000000000000
+      internalID: 8976875559309557031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 111
+        width: 16
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb859b49c411ed960800000000000000
+      internalID: 7628553839422560444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 111
+        width: 16
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1d5b545640f262e0800000000000000
+      internalID: -2133879088566543078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 111
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3281e4d8d276abec0800000000000000
+      internalID: -3550411910886320093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_9
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 97
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eed1d7a3aec563650800000000000000
+      internalID: 6212254897077558766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_10
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 97
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d5b340429cfc3700800000000000000
+      internalID: 521569361941738965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_11
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 97
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23ddc0b31c61f7df0800000000000000
+      internalID: -180400440896332494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_12
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 97
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8bb12458d4f7fb200800000000000000
+      internalID: 198016879552502712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_13
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 95
+        width: 16
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee0e4b07a7e584120800000000000000
+      internalID: 2398270681544712430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_14
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 95
+        width: 16
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e4a94f39ccd64370800000000000000
+      internalID: 8306569319639786724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_15
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 95
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f570aa781c496a9d0800000000000000
+      internalID: -2763357762419554465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_16
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 95
+        width: 16
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87250f0dbddb13460800000000000000
+      internalID: 7219760429452513912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_17
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 95
+        width: 16
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4caf97351630e31c0800000000000000
+      internalID: -4522173259286185276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_18
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 95
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fbe1f5da3d8a6c890800000000000000
+      internalID: -7438072107455537473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_19
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 95
+        width: 16
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c00ea46a7b74c13f0800000000000000
+      internalID: -928788569050652660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 81
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43e35e3ebb75face0800000000000000
+      internalID: -1391797295340241356
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_21
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 81
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea83846cef3405ec0800000000000000
+      internalID: -3580286942232168274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_22
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 81
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eab36c205ff90ae70800000000000000
+      internalID: 9124468719714974638
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_23
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 81
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b013cab55d125af0800000000000000
+      internalID: -409232362094522183
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_24
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 81
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7fbab7c19c4d9ec80800000000000000
+      internalID: -8292863278594675721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_25
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 81
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0642360ca7ce61110800000000000000
+      internalID: 1231431560090297440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_26
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 81
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b18a2aad866ab9c0800000000000000
+      internalID: -3910700567786520137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_27
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 79
+        width: 16
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7193f7a66a5f25ee0800000000000000
+      internalID: -1273685649492330217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_28
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 79
+        width: 16
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af1d6f3ffe7dff9d0800000000000000
+      internalID: -2738232622827777542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_29
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 79
+        width: 16
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cef65cef5748426d0800000000000000
+      internalID: -3016140208110997524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_30
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 79
+        width: 16
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a57514263522f1d40800000000000000
+      internalID: 5557198206724560730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_31
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 79
+        width: 16
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e0983152028eb890800000000000000
+      internalID: -7440366587905273628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_32
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 66
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08111c426f6c1f370800000000000000
+      internalID: 8354677544229867904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_33
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 66
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 138177ea7ec19aae0800000000000000
+      internalID: -1537666016380250063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_34
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 66
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9c66843241fe87c0800000000000000
+      internalID: -4067048146817618786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_35
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 66
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 779a4e6412d5b5430800000000000000
+      internalID: 3772711510357617015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_36
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 66
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 969bac3f9df232fc0800000000000000
+      internalID: -3520917870529037975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_37
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 66
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a395812ced1655780800000000000000
+      internalID: -8694935896201864902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_38
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 63
+        width: 16
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8f2ce4930f37c9a0800000000000000
+      internalID: -6212927876318351478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_39
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 63
+        width: 16
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b96503a38bd236920800000000000000
+      internalID: 2982277647522879131
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_40
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 63
+        width: 16
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4778e3968acb2dd0800000000000000
+      internalID: -2509689687973005490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_41
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 43
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da894049745458a70800000000000000
+      internalID: 8828538818258049197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_42
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 43
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 870ea63bc3a9adfc0800000000000000
+      internalID: -3469290977436704648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_43
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 43
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08c69a7a233246700800000000000000
+      internalID: 532589356404796544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_44
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 43
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b60d5ea0873abc240800000000000000
+      internalID: 4813120362749743211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_45
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 43
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 618bdb187b3ed7f70800000000000000
+      internalID: 9186749192200894486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_46
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 43
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b24dd963e969efda0800000000000000
+      internalID: -5909120054798199765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_47
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 31
+        width: 16
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e319ab61bf4b976a0800000000000000
+      internalID: -6450926000720408258
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_48
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 31
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 365248f94fb6ecfd0800000000000000
+      internalID: -2319798059656796829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_49
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 31
+        width: 16
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7cbebdc7a125e310800000000000000
+      internalID: 1433589060982455418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_50
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 31
+        width: 26
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b3c30bd2d4489180800000000000000
+      internalID: -9108454573948550217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_51
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 31
+        width: 34
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9215e7315c2f6860800000000000000
+      internalID: 7525282229701120670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_52
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 10
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aab1b2494f43de790800000000000000
+      internalID: -7499279579439490134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_53
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 10
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0191da09fff71c670800000000000000
+      internalID: 8557261502601304336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_54
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 10
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74cc5c4e35a775c30800000000000000
+      internalID: 4348078465988545607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_55
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 10
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f34e5d969c7b3de0800000000000000
+      internalID: -1352350276767562764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_56
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 0
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eec18cf7e267c4c60800000000000000
+      internalID: 7803742196410621166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_57
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 0
+        width: 16
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2945d90b2b2e33e40800000000000000
+      internalID: 5635096815865779346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_58
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 0
+        width: 16
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5895ab104abac6070800000000000000
+      internalID: 8101038550624655749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_59
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 6
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4cadc43c933d27e0800000000000000
+      internalID: -1788716731002409905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_60
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 9
+        width: 16
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc803a7b51f595e80800000000000000
+      internalID: -8189409900516669237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_61
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 6
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7330f0c64f4b42520800000000000000
+      internalID: 2676463040442860343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_62
+      rect:
+        serializedVersion: 2
+        x: 248
+        y: 1
+        width: 16
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ef4b1e8366f70d00800000000000000
+      internalID: 938989954776387553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_63
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 0
+        width: 16
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b535414ee8efd3800800000000000000
+      internalID: 593910615548121947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_64
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 0
+        width: 16
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7eb9c9382c502e640800000000000000
+      internalID: 5107651260381436903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Red Slime Spritesheet_65
+      rect:
+        serializedVersion: 2
+        x: 344
+        y: 0
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3eef5ad3fa80cea10800000000000000
+      internalID: 1939935088236429027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Red Slime Spritesheet_0: -7103825332301665602
+      Red Slime Spritesheet_1: 6787493795905052668
+      Red Slime Spritesheet_10: 521569361941738965
+      Red Slime Spritesheet_11: -180400440896332494
+      Red Slime Spritesheet_12: 198016879552502712
+      Red Slime Spritesheet_13: 2398270681544712430
+      Red Slime Spritesheet_14: 8306569319639786724
+      Red Slime Spritesheet_15: -2763357762419554465
+      Red Slime Spritesheet_16: 7219760429452513912
+      Red Slime Spritesheet_17: -4522173259286185276
+      Red Slime Spritesheet_18: -7438072107455537473
+      Red Slime Spritesheet_19: -928788569050652660
+      Red Slime Spritesheet_2: -860854444069365772
+      Red Slime Spritesheet_20: -1391797295340241356
+      Red Slime Spritesheet_21: -3580286942232168274
+      Red Slime Spritesheet_22: 9124468719714974638
+      Red Slime Spritesheet_23: -409232362094522183
+      Red Slime Spritesheet_24: -8292863278594675721
+      Red Slime Spritesheet_25: 1231431560090297440
+      Red Slime Spritesheet_26: -3910700567786520137
+      Red Slime Spritesheet_27: -1273685649492330217
+      Red Slime Spritesheet_28: -2738232622827777542
+      Red Slime Spritesheet_29: -3016140208110997524
+      Red Slime Spritesheet_3: -3349785632744559888
+      Red Slime Spritesheet_30: 5557198206724560730
+      Red Slime Spritesheet_31: -7440366587905273628
+      Red Slime Spritesheet_32: 8354677544229867904
+      Red Slime Spritesheet_33: -1537666016380250063
+      Red Slime Spritesheet_34: -4067048146817618786
+      Red Slime Spritesheet_35: 3772711510357617015
+      Red Slime Spritesheet_36: -3520917870529037975
+      Red Slime Spritesheet_37: -8694935896201864902
+      Red Slime Spritesheet_38: -6212927876318351478
+      Red Slime Spritesheet_39: 2982277647522879131
+      Red Slime Spritesheet_4: -712380273321174843
+      Red Slime Spritesheet_40: -2509689687973005490
+      Red Slime Spritesheet_41: 8828538818258049197
+      Red Slime Spritesheet_42: -3469290977436704648
+      Red Slime Spritesheet_43: 532589356404796544
+      Red Slime Spritesheet_44: 4813120362749743211
+      Red Slime Spritesheet_45: 9186749192200894486
+      Red Slime Spritesheet_46: -5909120054798199765
+      Red Slime Spritesheet_47: -6450926000720408258
+      Red Slime Spritesheet_48: -2319798059656796829
+      Red Slime Spritesheet_49: 1433589060982455418
+      Red Slime Spritesheet_5: 8976875559309557031
+      Red Slime Spritesheet_50: -9108454573948550217
+      Red Slime Spritesheet_51: 7525282229701120670
+      Red Slime Spritesheet_52: -7499279579439490134
+      Red Slime Spritesheet_53: 8557261502601304336
+      Red Slime Spritesheet_54: 4348078465988545607
+      Red Slime Spritesheet_55: -1352350276767562764
+      Red Slime Spritesheet_56: 7803742196410621166
+      Red Slime Spritesheet_57: 5635096815865779346
+      Red Slime Spritesheet_58: 8101038550624655749
+      Red Slime Spritesheet_59: -1788716731002409905
+      Red Slime Spritesheet_6: 7628553839422560444
+      Red Slime Spritesheet_60: -8189409900516669237
+      Red Slime Spritesheet_61: 2676463040442860343
+      Red Slime Spritesheet_62: 938989954776387553
+      Red Slime Spritesheet_63: 593910615548121947
+      Red Slime Spritesheet_64: 5107651260381436903
+      Red Slime Spritesheet_65: 1939935088236429027
+      Red Slime Spritesheet_7: -2133879088566543078
+      Red Slime Spritesheet_8: -3550411910886320093
+      Red Slime Spritesheet_9: 6212254897077558766
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
