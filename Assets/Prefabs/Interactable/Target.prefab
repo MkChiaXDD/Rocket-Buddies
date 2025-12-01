@@ -103,6 +103,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf055c2eceb8327498a525477aaec362, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  openDoorDuration: 3
+  door: {fileID: 0}
 --- !u!50 &7160198331954672453
 Rigidbody2D:
   serializedVersion: 5
@@ -241,7 +243,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
