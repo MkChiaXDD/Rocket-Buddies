@@ -1,102 +1,84 @@
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
-    [SerializeField] private PlayerInput action;
+    [Header("Image to Animate")]
+    [SerializeField] private Image image;                 // drag your UI Image here
+    [SerializeField] private RectTransform imageRect;     // or drag the RectTransform
 
-    [Header("Buttons (top ? bottom)")]
-    [SerializeField] private List<Button> buttons;
+    [Header("Swipe In Settings")]
+    [SerializeField] private Vector2 targetAnchoredPos = Vector2.zero; // final position on screen
+    [SerializeField] private float swipeDistance = 600f;               // how far below to start
+    [SerializeField] private float swipeDuration = 0.8f;
+    [SerializeField]
+    private AnimationCurve swipeCurve =
+        AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
-    [Header("Options")]
-    [SerializeField] private bool wrapAround = true;   // allow cycling from last?first
-    [SerializeField] private Color selectedColor = Color.yellow;
-    [SerializeField] private Color normalColor = Color.white;
+    [Header("Heartbeat Settings")]
+    [SerializeField] private float beatScaleAmount = 0.08f;  // how strong the pulse
+    [SerializeField] private float beatSpeed = 2f;           // beats per second-ish
 
-    private int index = 0;
+    private Vector2 startPos;
+    private Vector3 baseScale;
+    private bool heartbeatActive = false;
 
-    // Cached actions (must match names in your Input Actions)
-    private InputAction nextAction;
-    private InputAction prevAction;
-    private InputAction submitAction; // optional
-
-    void OnEnable()
+    private void Awake()
     {
-        if (action != null && action.actions != null)
+        // Make sure we have a RectTransform to animate
+        if (imageRect == null)
         {
-            nextAction = action.actions.FindAction("Next");
-            prevAction = action.actions.FindAction("Previous");
-            submitAction = action.actions.FindAction("Submit"); // optional
-
-            if (nextAction != null) { nextAction.performed += _ => Move(1); nextAction.Enable(); }
-            if (prevAction != null) { prevAction.performed += _ => Move(-1); prevAction.Enable(); }
-            if (submitAction != null) { submitAction.performed += _ => Press(); submitAction.Enable(); }
-        }
-
-        if (buttons != null && buttons.Count > 0)
-            HighlightButton(index);
-    }
-
-    void OnDisable()
-    {
-        if (nextAction != null) { nextAction.performed -= _ => Move(1); }
-        if (prevAction != null) { prevAction.performed -= _ => Move(-1); }
-        if (submitAction != null) { submitAction.performed -= _ => Press(); }
-    }
-
-    void Start()
-    {
-        if (buttons != null && buttons.Count > 0)
-            HighlightButton(0);
-    }
-
-    private void Move(int dir)
-    {
-        if (buttons == null || buttons.Count == 0) return;
-
-        int next = index + dir;
-        if (wrapAround)
-        {
-            if (next < 0) next = buttons.Count - 1;
-            if (next >= buttons.Count) next = 0;
-        }
-        else
-        {
-            next = Mathf.Clamp(next, 0, buttons.Count - 1);
-        }
-
-        if (next != index)
-        {
-            index = next;
-            HighlightButton(index);
+            if (image != null)
+                imageRect = image.rectTransform;
+            else
+                imageRect = GetComponent<RectTransform>();
         }
     }
 
-    private void Press()
+    private void Start()
     {
-        if (buttons == null || buttons.Count == 0) return;
-        var btn = buttons[index];
-        if (btn != null) btn.onClick.Invoke();
+        if (imageRect == null) return;
+
+        baseScale = imageRect.localScale;
+
+        // start off-screen below
+        startPos = targetAnchoredPos + new Vector2(0f, -swipeDistance);
+        imageRect.anchoredPosition = startPos;
+
+        StartCoroutine(SwipeInThenHeartbeat());
     }
 
-    private void HighlightButton(int i)
+    private IEnumerator SwipeInThenHeartbeat()
     {
-        for (int k = 0; k < buttons.Count; k++)
+        float t = 0f;
+
+        while (t < swipeDuration)
         {
-            var btn = buttons[k];
-            if (btn == null) continue;
+            t += Time.deltaTime;
+            float normalized = Mathf.Clamp01(t / swipeDuration);
+            float eased = swipeCurve.Evaluate(normalized);
 
-            var colors = btn.colors;
-            colors.normalColor = (k == i) ? selectedColor : normalColor;
-            btn.colors = colors; // reassign struct
+            imageRect.anchoredPosition = Vector2.Lerp(startPos, targetAnchoredPos, eased);
+            yield return null;
         }
+
+        imageRect.anchoredPosition = targetAnchoredPos;
+        heartbeatActive = true;
     }
 
-    public void PlayButton()
+    private void Update()
     {
-        SceneManager.LoadScene("LevelOne");
+        if (!heartbeatActive || imageRect == null) return;
+
+        // heartbeat scale using a sine wave
+        float offset = Mathf.Sin(Time.time * beatSpeed) * beatScaleAmount;
+        imageRect.localScale = baseScale * (1f + offset);
+    }
+
+    private void OnDisable()
+    {
+        if (imageRect != null)
+            imageRect.localScale = baseScale;
     }
 }
