@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -38,12 +39,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float rocketExplosionRadius = 2.5f;
     [Tooltip("Time between shots for both tap and hold (seconds).")]
     [SerializeField] private float fireCooldown = 0.15f;
-    private ObjectPool rocketPool;
+    private BulletPool rocketPool;
 
     [Header("Ground Check")]
     [SerializeField] private float groundCheckDistance = 0.5f;
     [SerializeField] private LayerMask groundLayers;
     [SerializeField] private Transform groundCheckPoint;
+    private LandParticlePool landParticlePool;
+    private bool wasGroundedLastFrame = true;
 
     private Rigidbody2D rb;
     private Vector2 movementInput;
@@ -59,7 +62,8 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        rocketPool = FindFirstObjectByType<ObjectPool>();
+        rocketPool = FindFirstObjectByType<BulletPool>();
+        landParticlePool = FindFirstObjectByType<LandParticlePool>();
     }
 
     void FixedUpdate()
@@ -93,6 +97,14 @@ public class PlayerController : MonoBehaviour
             if (movementInput.x > 0.01f) lastMoveDir = 1f;
             else if (movementInput.x < -0.01f) lastMoveDir = -1f;
         }
+
+        // Landing detection: air ? ground
+        if (!wasGroundedLastFrame && isGrounded)
+        {
+            PlayLandParticles();
+        }
+
+        wasGroundedLastFrame = isGrounded;
     }
 
     private float GetAirControlFactor(float inputX)
@@ -231,6 +243,35 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawLine(origin, origin + (Vector3)(dir * aimGizmoLength));
         Gizmos.DrawSphere(origin + (Vector3)(dir * aimGizmoLength), 0.05f);
     }
+
+    private void PlayLandParticles()
+    {
+        if (landParticlePool == null) return;
+
+        GameObject particleObj = landParticlePool.GetObject();
+
+        // place at feet
+        Vector3 pos = groundCheckPoint ? groundCheckPoint.position : transform.position;
+        particleObj.transform.position = pos;
+
+        // restart particle system
+        var ps = particleObj.GetComponent<ParticleSystem>();
+        if (ps != null)
+        {
+            ps.Clear(true);
+            ps.Play(true);
+
+            StartCoroutine(ReturnLandParticle(ps.main.duration + 0.7f, particleObj));
+        }
+    }
+
+    private IEnumerator ReturnLandParticle(float delay, GameObject obj)
+    {
+        yield return new WaitForSeconds(delay);
+        landParticlePool.ReturnObject(obj);
+    }
+
+
 
     public bool GetIsMoving()
     {

@@ -17,7 +17,8 @@ public class RocketBullet : MonoBehaviour
     private Vector2 dir;
     private float explosionForce;
     private float explosionRadius;
-    private ObjectPool pool;
+    private BulletPool bulletPool;
+    private ParticlePool particlePool;
 
     private Rigidbody2D rb;
     private GameObject owner;
@@ -50,16 +51,13 @@ public class RocketBullet : MonoBehaviour
 
         foreach (var c in GetComponentsInChildren<Collider2D>(true))
             c.enabled = true;
+
+        if (particlePool == null)
+            particlePool = FindFirstObjectByType<ParticlePool>();
     }
 
     // --- Called from PlayerController when spawning the rocket ---
-    public void Init(
-        float speed,
-        Vector2 direction,
-        float explosionForce,
-        float explosionRadius,
-        GameObject owner,
-        ObjectPool pool)
+    public void Init(float speed, Vector2 direction, float explosionForce, float explosionRadius, GameObject owner, BulletPool pool)
     {
         // very important for pooled reuse
         ResetState();
@@ -69,7 +67,7 @@ public class RocketBullet : MonoBehaviour
         this.explosionForce = explosionForce;
         this.explosionRadius = explosionRadius;
         this.owner = owner;
-        this.pool = pool;
+        this.bulletPool = pool;
 
         rb.linearVelocity = dir * speed;
 
@@ -120,6 +118,23 @@ public class RocketBullet : MonoBehaviour
 
     private IEnumerator ExplodeSequence(Vector2 pos)
     {
+        if (particlePool != null)
+        {
+            GameObject particleObj = particlePool.GetObject();
+            particleObj.transform.position = pos;
+
+            // Restart particle system
+            var ps = particleObj.GetComponent<ParticleSystem>();
+            if (ps != null)
+            {
+                ps.Clear(true);
+                ps.Play(true);
+
+                // auto-return after particle finishes
+                StartCoroutine(ReturnParticleAfter(ps.main.duration, particleObj));
+            }
+        }
+
         // Disable visuals & collisions
         foreach (var r in GetComponentsInChildren<SpriteRenderer>())
             r.enabled = false;
@@ -174,7 +189,7 @@ public class RocketBullet : MonoBehaviour
         yield return null;
 
         // Return to pool after explosion
-        pool.ReturnObject(gameObject);
+        bulletPool.ReturnObject(gameObject);
     }
 
     private void IgnoreOwnerCollisions()
@@ -194,5 +209,12 @@ public class RocketBullet : MonoBehaviour
         Gizmos.color = new Color(1f, 0.5f, 0f, 0.25f);
         Gizmos.DrawSphere(transform.position, explosionRadius);
     }
+
+    private IEnumerator ReturnParticleAfter(float delay, GameObject obj)
+    {
+        yield return new WaitForSeconds(delay);
+        particlePool.ReturnObject(obj);
+    }
+
 }
 
