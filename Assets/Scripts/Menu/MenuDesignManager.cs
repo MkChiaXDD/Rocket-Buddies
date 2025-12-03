@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MenuManager : MonoBehaviour
+public class MenuDesignManager : MonoBehaviour
 {
     [Header("Image to Animate")]
     [SerializeField] private Image image;                 // drag your UI Image here
