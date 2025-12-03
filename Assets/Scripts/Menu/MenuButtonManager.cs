@@ -97,6 +97,6 @@ public class MenuButtonManager : MonoBehaviour
 
     public void PlayButton()
     {
-        SceneManager.LoadScene("LevelOne");
+        SceneManager.LoadScene("WorldOne");
     }
 }
