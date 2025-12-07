@@ -57,6 +57,7 @@ public class SawBlade : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             hpMgr.Damage(10);
+            FindFirstObjectByType<DeathCounter>()?.IncreaseDeath(collision.gameObject.name);
         }
     }
 }

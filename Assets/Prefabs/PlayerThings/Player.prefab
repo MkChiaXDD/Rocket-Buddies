@@ -133,6 +133,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   groundCheckPoint: {fileID: 2580960115869560582}
+  player1Hex: '#4A65B5'
+  player2Hex: '#C52053'
 --- !u!114 &8695617778799761993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,6 +300,18 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9d893f96-bb1b-460d-b6ac-6433b2b020c5
     m_ActionName: 'MenuSelection/Submit[/XInputControllerWindows1/buttonSouth]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b7b8a448-fc88-4bc7-accd-ca3bdb15da3b
+    m_ActionName: 'MenuSelection/Back[/XInputControllerWindows/buttonEast,/XInputControllerWindows1/buttonEast]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fb6e7734-4741-4046-af9f-0da45a1ccd96
+    m_ActionName: 'MenuSelection/Louder[/XInputControllerWindows/dpad/right,/XInputControllerWindows1/dpad/right,/XInputControllerWindows/leftStick/right,/XInputControllerWindows1/leftStick/right]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e8964858-fdd0-4062-bfe7-6ce7fb728dcc
+    m_ActionName: 'MenuSelection/Softer[/XInputControllerWindows/dpad/left,/XInputControllerWindows1/dpad/left,/XInputControllerWindows/leftStick/left,/XInputControllerWindows1/leftStick/left]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: ControllerPlayer

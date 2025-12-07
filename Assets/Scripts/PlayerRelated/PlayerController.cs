@@ -48,6 +48,10 @@ public class PlayerController : MonoBehaviour
     private LandParticlePool landParticlePool;
     private bool wasGroundedLastFrame = true;
 
+    [Header("Player Colours (Hex)")]
+    [SerializeField] private string player1Hex = "#4287F5"; // Blue
+    [SerializeField] private string player2Hex = "#F54269"; // Red/Pink
+
     private Rigidbody2D rb;
     private Vector2 movementInput;
     private Vector2 aimInput;
@@ -159,6 +163,7 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             isGrounded = false;
+            AudioManager.Instance.PlaySFX("Jump");
         }
     }
 
@@ -218,6 +223,8 @@ public class PlayerController : MonoBehaviour
         RocketBullet rocket = rocketObj.GetComponent<RocketBullet>();
         rocket.Init(rocketSpeed, dir, rocketExplosionForce, rocketExplosionRadius, gameObject, rocketPool);
 
+        AudioManager.Instance.PlaySFX("Shoot", 0.3f);
+
         lastFireTime = Time.time;
         return true;
     }
@@ -254,10 +261,20 @@ public class PlayerController : MonoBehaviour
         Vector3 pos = groundCheckPoint ? groundCheckPoint.position : transform.position;
         particleObj.transform.position = pos;
 
-        // restart particle system
+        // Pick hex based on which player this is
+        string hex = (gameObject.name == "Player1") ? player1Hex : player2Hex;
+
+        // Convert hex ? Color
+        Color c = Color.white;
+        ColorUtility.TryParseHtmlString(hex, out c);
+
+        // Apply color to particle system
         var ps = particleObj.GetComponent<ParticleSystem>();
         if (ps != null)
         {
+            var main = ps.main;
+            main.startColor = c;
+
             ps.Clear(true);
             ps.Play(true);
 
@@ -270,8 +287,6 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(delay);
         landParticlePool.ReturnObject(obj);
     }
-
-
 
     public bool GetIsMoving()
     {

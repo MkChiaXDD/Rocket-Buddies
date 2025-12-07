@@ -30,6 +30,8 @@ public class CheckPointManager : MonoBehaviour
             if (rb != null)
                 rb.linearVelocity = Vector2.zero;
 
+            AudioManager.Instance.PlaySFX("Respawn", 0.7f);
+
             // Optional: disable/enable scripts for safety
             //player.GetComponent<PlayerController>().ResetState();
         }

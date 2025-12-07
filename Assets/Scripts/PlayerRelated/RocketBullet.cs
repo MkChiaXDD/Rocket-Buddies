@@ -13,12 +13,20 @@ public class RocketBullet : MonoBehaviour
     [SerializeField, Range(0f, 1f)]
     private float upwardBias = 0.15f;
 
+    [Header("Player Colours (Hex)")]
+    [SerializeField] private string player1Hex = "#00A2FF"; // blue
+    [SerializeField] private string player2Hex = "#FF4747"; // red
+
+    private Color player1Color;
+    private Color player2Color;
+
     private float speed;
     private Vector2 dir;
     private float explosionForce;
     private float explosionRadius;
     private BulletPool bulletPool;
-    private ParticlePool particlePool;
+    private RedParticlePool redParticlePool;
+    private BlueParticlePool blueParticlePool;
 
     private Rigidbody2D rb;
     private GameObject owner;
@@ -29,12 +37,18 @@ public class RocketBullet : MonoBehaviour
         rb.gravityScale = 0f;
         rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+
+        // Parse hex strings into Color once
+        if (!ColorUtility.TryParseHtmlString(player1Hex, out player1Color))
+            player1Color = Color.blue;   // fallback
+
+        if (!ColorUtility.TryParseHtmlString(player2Hex, out player2Color))
+            player2Color = Color.red;    // fallback
     }
 
-    // ?? Reset everything needed when this rocket is reused from the pool
+    // Reset everything needed when this rocket is reused from the pool
     private void ResetState()
     {
-        // cancel any previous explode timers / coroutines
         CancelInvoke();
         StopAllCoroutines();
 
@@ -52,14 +66,23 @@ public class RocketBullet : MonoBehaviour
         foreach (var c in GetComponentsInChildren<Collider2D>(true))
             c.enabled = true;
 
-        if (particlePool == null)
-            particlePool = FindFirstObjectByType<ParticlePool>();
+        // lazily find particle pools
+        if (redParticlePool == null)
+            redParticlePool = FindFirstObjectByType<RedParticlePool>();
+
+        if (blueParticlePool == null)
+            blueParticlePool = FindFirstObjectByType<BlueParticlePool>();
     }
 
-    // --- Called from PlayerController when spawning the rocket ---
-    public void Init(float speed, Vector2 direction, float explosionForce, float explosionRadius, GameObject owner, BulletPool pool)
+    // Called from PlayerController when spawning the rocket
+    public void Init(
+        float speed,
+        Vector2 direction,
+        float explosionForce,
+        float explosionRadius,
+        GameObject owner,
+        BulletPool pool)
     {
-        // very important for pooled reuse
         ResetState();
 
         this.speed = speed;
@@ -69,11 +92,13 @@ public class RocketBullet : MonoBehaviour
         this.owner = owner;
         this.bulletPool = pool;
 
+        // ???? tint the rocket based on which player fired it
+        ApplyColorForOwner();
+
         rb.linearVelocity = dir * speed;
 
         IgnoreOwnerCollisions();
 
-        // face travel direction immediately
         if (rb.linearVelocity.sqrMagnitude > 0.0001f)
             rb.SetRotation(Mathf.Atan2(rb.linearVelocity.y, rb.linearVelocity.x) * Mathf.Rad2Deg);
 
@@ -82,7 +107,6 @@ public class RocketBullet : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // rotate rocket to face its current velocity
         Vector2 v = rb.linearVelocity;
         if (v.sqrMagnitude > 0.0001f)
             rb.SetRotation(Mathf.Atan2(v.y, v.x) * Mathf.Rad2Deg);
@@ -114,24 +138,34 @@ public class RocketBullet : MonoBehaviour
     private void Explode(Vector2 pos)
     {
         StartCoroutine(ExplodeSequence(pos));
+        AudioManager.Instance.PlaySFX("Explode", 0.5f);
     }
 
     private IEnumerator ExplodeSequence(Vector2 pos)
     {
-        if (particlePool != null)
+        // choose particle pool based on which player fired
+        ObjectPool chosenPool = null;
+
+        if (owner != null)
         {
-            GameObject particleObj = particlePool.GetObject();
+            if (owner.name == "Player1")
+                chosenPool = blueParticlePool;  // blue explosion
+            else if (owner.name == "Player2")
+                chosenPool = redParticlePool;   // red explosion
+        }
+
+        if (chosenPool != null)
+        {
+            GameObject particleObj = chosenPool.GetObject();
             particleObj.transform.position = pos;
 
-            // Restart particle system
             var ps = particleObj.GetComponent<ParticleSystem>();
             if (ps != null)
             {
                 ps.Clear(true);
                 ps.Play(true);
 
-                // auto-return after particle finishes
-                StartCoroutine(ReturnParticleAfter(ps.main.duration, particleObj));
+                StartCoroutine(ReturnParticleAfter(ps.main.duration, particleObj, chosenPool));
             }
         }
 
@@ -142,11 +176,10 @@ public class RocketBullet : MonoBehaviour
         foreach (var c in GetComponentsInChildren<Collider2D>())
             c.enabled = false;
 
-        // Stop movement
         rb.linearVelocity = Vector2.zero;
         rb.simulated = false;
 
-        // Apply explosion forces (unchanged)
+        // Explosion forces
         var hits = Physics2D.OverlapCircleAll(pos, explosionRadius, affectedLayers);
 
         var closest = new Dictionary<Rigidbody2D, Collider2D>();
@@ -188,7 +221,6 @@ public class RocketBullet : MonoBehaviour
 
         yield return null;
 
-        // Return to pool after explosion
         bulletPool.ReturnObject(gameObject);
     }
 
@@ -210,11 +242,26 @@ public class RocketBullet : MonoBehaviour
         Gizmos.DrawSphere(transform.position, explosionRadius);
     }
 
-    private IEnumerator ReturnParticleAfter(float delay, GameObject obj)
+    private IEnumerator ReturnParticleAfter(float delay, GameObject obj, ObjectPool pool)
     {
         yield return new WaitForSeconds(delay);
-        particlePool.ReturnObject(obj);
+        if (pool != null)
+            pool.ReturnObject(obj);
     }
 
-}
+    private void ApplyColorForOwner()
+    {
+        Color col = Color.white;
 
+        if (owner != null)
+        {
+            if (owner.name == "Player1")
+                col = player1Color;
+            else if (owner.name == "Player2")
+                col = player2Color;
+        }
+
+        foreach (var sr in GetComponentsInChildren<SpriteRenderer>(true))
+            sr.color = col;
+    }
+}

@@ -47,6 +47,8 @@ public class CheckPoint : MonoBehaviour
             FindFirstObjectByType<CheckPointManager>()
                 .SetCheckPoint(checkPointIndex, transform.position);
 
+            AudioManager.Instance.PlaySFX("Checkpoint");
+
             // Switch visuals
             if (inactiveIndicator) inactiveIndicator.SetActive(false);
             if (activeIndicator) activeIndicator.SetActive(true);

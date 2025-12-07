@@ -4913,8 +4913,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 3474400765828723021, guid: 83575c7eb5cdf32479fe2947f2a75bd4, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -5003,5 +5003,6 @@ MonoBehaviour:
   affectedLayers:
     serializedVersion: 2
     m_Bits: 63
-  explosionVFX: {fileID: 6902825783565724677}
   upwardBias: 0.4
+  player1Hex: '#4A65B5'
+  player2Hex: '#C52053'

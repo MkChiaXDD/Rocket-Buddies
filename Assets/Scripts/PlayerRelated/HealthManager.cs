@@ -1,4 +1,4 @@
-using Mono.Cecil.Cil;
+using System.Collections;
 using UnityEngine;
 
 public class HealthManager : MonoBehaviour
@@ -31,6 +31,15 @@ public class HealthManager : MonoBehaviour
     private void Die()
     {
         currHp = maxHp;
+
+        AudioManager.Instance.PlaySFX("Die", 0.7f);
+
+        StartCoroutine(DelayRespawn());
+    }
+
+    private IEnumerator DelayRespawn()
+    {
+        yield return new WaitForSeconds(1f);
 
         //Call respawn function
         FindFirstObjectByType<CheckPointManager>().RespawnPlayers();
