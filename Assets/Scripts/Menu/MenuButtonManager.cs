@@ -20,6 +20,7 @@ public class MenuButtonManager : MonoBehaviour
 
     [Header("Settings Panel")]
     [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private GameObject IdkPanel;
 
     [Header("Settings UI")]
     [SerializeField] private TMP_Text masterText;
@@ -215,6 +216,7 @@ public class MenuButtonManager : MonoBehaviour
     public void OpenSettingsPage()
     {
         settingsPanel.SetActive(true);
+        IdkPanel.SetActive(false);
         inSettings = true;
         settingsIndex = 0;
         HighlightSettings(settingsIndex);
@@ -223,6 +225,7 @@ public class MenuButtonManager : MonoBehaviour
     public void CloseSettingsPage()
     {
         settingsPanel.SetActive(false);
+        IdkPanel.SetActive(true);
         inSettings = false;
 
         // restore highlight to current main button
