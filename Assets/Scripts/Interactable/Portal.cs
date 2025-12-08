@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class Portal : MonoBehaviour
 {
-    public string sceneName;
+    [SerializeField] private Portal linkedPortal;
 
     private bool player1Reached = false;
     private bool player2Reached = false;
@@ -25,7 +25,7 @@ public class Portal : MonoBehaviour
 
         if (player1Reached && player2Reached)
         {
-            SceneManager.LoadScene(sceneName);
+           
         }
     }
 }
