@@ -34,6 +34,12 @@ public class HealthManager : MonoBehaviour
 
         AudioManager.Instance.PlaySFX("Die", 0.7f);
 
+        PlayerController[] players = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
+        foreach (var p in players)
+        {
+            p.DisableAllMovement(true);
+        }
+
         StartCoroutine(DelayRespawn());
     }
 
@@ -43,5 +49,11 @@ public class HealthManager : MonoBehaviour
 
         //Call respawn function
         FindFirstObjectByType<CheckPointManager>().RespawnPlayers();
+
+        PlayerController[] players = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
+        foreach (var p in players)
+        {
+            p.DisableAllMovement(false);
+        }
     }
 }

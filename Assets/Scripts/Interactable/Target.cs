@@ -28,7 +28,14 @@ public class Target : MonoBehaviour
 
     private IEnumerator Reset()
     {
-        yield return new WaitForSeconds(2f);
+        if (door != null)
+        {
+            yield return new WaitForSeconds(openDoorDuration);
+        }
+        else
+        {
+            yield return new WaitForSeconds(2f);
+        }
 
         isHit = false;
         gameObject.GetComponent<SpriteRenderer>().color = Color.white;

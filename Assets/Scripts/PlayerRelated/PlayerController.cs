@@ -63,6 +63,8 @@ public class PlayerController : MonoBehaviour
     private bool isFireHeld = false;
     private float lastFireTime = -999f;
 
+    private bool movementDisabled = false;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -72,6 +74,9 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (movementDisabled)
+            return;
+
         isGrounded = CheckGrounded();
 
         if (isGrounded)
@@ -111,20 +116,10 @@ public class PlayerController : MonoBehaviour
         wasGroundedLastFrame = isGrounded;
     }
 
-    private float GetAirControlFactor(float inputX)
-    {
-        if (Mathf.Approximately(inputX, 0f)) return 0f;
-
-        float vx = rb.linearVelocity.x;
-        if (Mathf.Abs(vx) < neutralSpeedThreshold) return airAccelNeutral;
-
-        // >0 if same direction, <0 if opposite
-        float sameDir = Mathf.Sign(inputX) * Mathf.Sign(vx);
-        return (sameDir > 0f) ? airAccelWith : airAccelAgainst;
-    }
-
     void Update()
     {
+        if (movementDisabled)
+            return;
 
         if (aimInput.sqrMagnitude >= aimDeadzone * aimDeadzone)
             lastAimDir = aimInput.normalized;
@@ -145,8 +140,39 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void DisableAllMovement(bool disable)
+    {
+        movementDisabled = disable;
+
+        if (disable)
+        {
+            // stop all motion immediately
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+
+            // clear inputs
+            movementInput = Vector2.zero;
+            aimInput = Vector2.zero;
+            isFireHeld = false;
+        }
+    }
+
+    private float GetAirControlFactor(float inputX)
+    {
+        if (Mathf.Approximately(inputX, 0f)) return 0f;
+
+        float vx = rb.linearVelocity.x;
+        if (Mathf.Abs(vx) < neutralSpeedThreshold) return airAccelNeutral;
+
+        // >0 if same direction, <0 if opposite
+        float sameDir = Mathf.Sign(inputX) * Mathf.Sign(vx);
+        return (sameDir > 0f) ? airAccelWith : airAccelAgainst;
+    }
+
     public void OnMove(InputAction.CallbackContext ctx)
     {
+        if (movementDisabled)
+            return;
         Vector2 raw = ctx.ReadValue<Vector2>();
 
         // Apply deadzone on X only (for horizontal movement)
@@ -159,6 +185,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext ctx)
     {
+        if (movementDisabled)
+            return;
         if (ctx.performed && isGrounded)
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
@@ -169,6 +197,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnAim(InputAction.CallbackContext ctx)
     {
+        if (movementDisabled)
+            return;
         Vector2 raw = ctx.ReadValue<Vector2>();
 
         // Apply deadzone to both X and Y of aim input
@@ -190,6 +220,8 @@ public class PlayerController : MonoBehaviour
     // --- UPDATED: tap + hold shooting ---
     public void OnShoot(InputAction.CallbackContext ctx)
     {
+        if (movementDisabled)
+            return;
         // When button starts/presses: begin holding, and also fire immediately (tap)
         if (ctx.started || ctx.performed)
         {
