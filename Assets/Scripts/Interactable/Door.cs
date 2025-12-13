@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 
 public class Door : MonoBehaviour
 {
@@ -7,6 +8,9 @@ public class Door : MonoBehaviour
 
     [SerializeField] private GameObject closedDoor;
     [SerializeField] private GameObject openDoor;
+    [SerializeField] private TMP_Text timerText;
+    private float timerRemaining = 0f;
+    private bool timerRunning = false;
 
     private BoxCollider2D boxCollider;
 
@@ -70,5 +74,41 @@ public class Door : MonoBehaviour
         {
             playersInside = Mathf.Max(0, playersInside - 1);
         }
+    }
+
+    public void StartTimer(float duration)
+    {
+        timerRemaining = Mathf.Max(0f, duration);
+        timerRunning = true;
+        UpdateTimerText();
+    }
+
+    private void UpdateTimerText()
+    {
+        if (timerText == null) return;
+
+        if (!timerRunning)
+        {
+            timerText.text = "";
+            return;
+        }
+
+        timerText.text = timerRemaining.ToString("F2");
+    }
+
+    private void Update()
+    {
+        if (!timerRunning) return;
+
+        timerRemaining -= Time.deltaTime;
+
+        if (timerRemaining <= 0f)
+        {
+            timerRemaining = 0f;
+            timerRunning = false;
+            timerText.text = "";
+        }
+
+        UpdateTimerText();
     }
 }

@@ -234,9 +234,22 @@ public class PlayerController : MonoBehaviour
     private bool CheckGrounded()
     {
         Vector2 origin = groundCheckPoint ? groundCheckPoint.position : (Vector2)transform.position;
-        RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, groundCheckDistance, groundLayers);
+
+        Vector2 boxSize = new Vector2(0.6f, 0.1f); // width = feet width, height = thickness
+        float castDistance = groundCheckDistance;
+
+        RaycastHit2D hit = Physics2D.BoxCast(
+            origin,
+            boxSize,
+            0f,
+            Vector2.down,
+            castDistance,
+            groundLayers
+        );
+
         return hit.collider != null;
     }
+
 
     // --- Gizmo to visualize aim ---
     void OnDrawGizmos()

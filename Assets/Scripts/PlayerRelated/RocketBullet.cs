@@ -114,7 +114,7 @@ public class RocketBullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (owner != null && col.collider.transform.root == owner.transform.root)
+        if (owner != null && col.collider.gameObject == owner)
             return;
 
         Explode(col.GetContact(0).point);

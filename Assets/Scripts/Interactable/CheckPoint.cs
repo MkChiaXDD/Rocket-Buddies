@@ -54,4 +54,21 @@ public class CheckPoint : MonoBehaviour
             if (activeIndicator) activeIndicator.SetActive(true);
         }
     }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        // Identify which player entered
+        if (collision.gameObject.name == "Player1")
+        {
+            player1Reached = false;
+        }
+        else if (collision.gameObject.name == "Player2")
+        {
+            player2Reached = false;
+        }
+        else
+        {
+            return; // not a player
+        }
+    }
 }

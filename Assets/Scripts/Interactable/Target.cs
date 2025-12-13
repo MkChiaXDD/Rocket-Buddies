@@ -37,6 +37,7 @@ public class Target : MonoBehaviour
     private IEnumerator OpenCloseDoor()
     {
         door.SetDoor(true);
+        door.StartTimer(openDoorDuration);
 
         yield return new WaitForSeconds(openDoorDuration);
 
