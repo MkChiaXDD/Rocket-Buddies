@@ -131,6 +131,16 @@ public class RocketBullet : MonoBehaviour
                 script.OnHit();
             }
         }
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            EnemyBase enemy = collision.GetComponentInParent<EnemyBase>();
+
+            if (enemy != null)
+            {
+                enemy.OnHit(1); // or any damage value you want
+                Explode(collision.transform.position);
+            }
+        }
     }
 
     private void ExplodeSelf() => Explode(transform.position);
