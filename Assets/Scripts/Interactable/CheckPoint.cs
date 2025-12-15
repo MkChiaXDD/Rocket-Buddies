@@ -12,6 +12,10 @@ public class CheckPoint : MonoBehaviour
     private bool player2Reached = false;
     private bool activated = false;
 
+    [Header("Enemies for this Checkpoint")]
+    [SerializeField] private EnemyBase[] checkpointEnemies;
+
+
     private void Start()
     {
         // Initial visual state
@@ -70,5 +74,21 @@ public class CheckPoint : MonoBehaviour
         {
             return; // not a player
         }
+    }
+
+    public void ResetEnemies()
+    {
+        if (checkpointEnemies == null) return;
+
+        foreach (var enemy in checkpointEnemies)
+        {
+            if (enemy != null)
+                enemy.ResetEnemy();
+        }
+    }
+
+    public int GetCheckPointIndex()
+    {
+        return checkPointIndex;
     }
 }

@@ -5,6 +5,8 @@ public class CheckPointManager : MonoBehaviour
     [SerializeField] private int currCheckPointIndex = 0;
     private Vector3 LatestCheckPointLocation;
 
+    private CheckPoint currentCheckPoint;
+
     // Call this when a checkpoint is triggered
     public void SetCheckPoint(int index, Vector3 loc)
     {
@@ -12,6 +14,8 @@ public class CheckPointManager : MonoBehaviour
         {
             currCheckPointIndex = index;
             LatestCheckPointLocation = loc;
+
+            currentCheckPoint = FindCheckPointByIndex(index);
         }
     }
 
@@ -35,5 +39,22 @@ public class CheckPointManager : MonoBehaviour
             // Optional: disable/enable scripts for safety
             //player.GetComponent<PlayerController>().ResetState();
         }
+
+        // ?? THIS IS THE KEY LINE
+        if (currentCheckPoint != null)
+            currentCheckPoint.ResetEnemies();
+    }
+
+    private CheckPoint FindCheckPointByIndex(int index)
+    {
+        CheckPoint[] cps = FindObjectsByType<CheckPoint>(FindObjectsSortMode.None);
+
+        foreach (var cp in cps)
+        {
+            if (cp != null && cp.GetCheckPointIndex() == index)
+                return cp;
+        }
+
+        return null;
     }
 }

@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public abstract class EnemyBase : MonoBehaviour
 {
+    public System.Action<EnemyBase> OnEnemyDied;
+
     [Header("Data")]
     [SerializeField] protected EnemyData data;
 
@@ -20,6 +22,9 @@ public abstract class EnemyBase : MonoBehaviour
     [Header("Facing")]
     [SerializeField] protected bool defaultFacingRight = true;
 
+    protected Vector3 spawnPosition;
+    protected Quaternion spawnRotation;
+
 
     protected float attackCooldown;
     protected int currentWaypointIndex;
@@ -28,12 +33,29 @@ public abstract class EnemyBase : MonoBehaviour
 
     protected virtual void Start()
     {
+        spawnPosition = transform.position;
+        spawnRotation = transform.rotation;
+
         gameObject.name = data.enemyName;
         currHp = data.maxHealth;
         attackCooldown = 0f;
+
         UpdateHealthBar(true);
         OnInit();
     }
+
+    public virtual void ResetEnemy()
+    {
+        currHp = data.maxHealth;
+        attackCooldown = 0f;
+
+        transform.position = spawnPosition;
+        transform.rotation = spawnRotation;
+
+        gameObject.SetActive(true);
+        UpdateHealthBar(true);
+    }
+
 
     protected virtual void Update()
     {
@@ -52,20 +74,6 @@ public abstract class EnemyBase : MonoBehaviour
         }
     }
 
-    protected virtual void LateUpdate()
-    {
-        if (healthFill != null)
-        {
-            Transform barRoot = healthFill.transform.parent;
-            barRoot.localScale = new Vector3(
-                Mathf.Abs(barRoot.localScale.x),
-                barRoot.localScale.y,
-                barRoot.localScale.z
-            );
-        }
-    }
-
-
     protected virtual void UpdateHealthBar(bool forceShow = false)
     {
         if (healthFill == null) return;
@@ -82,18 +90,29 @@ public abstract class EnemyBase : MonoBehaviour
     protected void UpdateFacing(Vector3 destination)
     {
         float dirX = destination.x - transform.position.x;
-
         if (Mathf.Abs(dirX) < 0.01f) return;
 
         Vector3 scale = transform.localScale;
+        bool facingRight = scale.x > 0;
 
-        if (dirX < 0 && scale.x > 0) // moving left
+        if (dirX < 0 && facingRight)
             scale.x *= -1;
-        else if (dirX > 0 && scale.x < 0) // moving right
+        else if (dirX > 0 && !facingRight)
             scale.x *= -1;
 
         transform.localScale = scale;
+
+        // ?? Keep HP bar always facing right
+        if (healthFill != null)
+        {
+            Transform barRoot = healthFill.transform.parent;
+
+            Vector3 barScale = barRoot.localScale;
+            barScale.x = Mathf.Abs(barScale.x);
+            barRoot.localScale = barScale;
+        }
     }
+
 
 
     // ---------------- DETECTION ----------------
@@ -190,7 +209,8 @@ public abstract class EnemyBase : MonoBehaviour
         if (healthFill != null)
             healthFill.transform.parent.gameObject.SetActive(false);
 
-        Destroy(gameObject);
+        OnEnemyDied?.Invoke(this);
+        gameObject.SetActive(false);
     }
 
 

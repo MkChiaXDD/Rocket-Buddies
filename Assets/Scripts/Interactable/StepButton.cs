@@ -26,10 +26,8 @@ public class StepButton : MonoBehaviour
 
         playersOnButton++;
 
-        if (!isActive)        // only need to activate once
-        {
+        if (!isActive)
             SetButton(true);
-        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -38,25 +36,27 @@ public class StepButton : MonoBehaviour
 
         playersOnButton = Mathf.Max(0, playersOnButton - 1);
 
-        if (playersOnButton == 0)   // only deactivate when NO players left
-        {
+        if (playersOnButton == 0)
             SetButton(false);
-        }
     }
 
     private void SetButton(bool pressed)
     {
         if (unPressedButton) unPressedButton.SetActive(!pressed);
         if (pressedButton) pressedButton.SetActive(pressed);
+
         isActive = pressed;
-        OpenDoors();
+        UpdateDoors();
     }
 
-    private void OpenDoors()
+    private void UpdateDoors()
     {
         foreach (var door in doors)
         {
-            door.SetDoor(isActive);
+            if (isActive)
+                door.OpenDoor();
+            else
+                door.CloseDoor();
         }
     }
 }

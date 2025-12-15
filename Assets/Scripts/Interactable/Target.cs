@@ -4,21 +4,21 @@ using UnityEngine;
 public class Target : MonoBehaviour
 {
     private bool isHit = false;
+
     [SerializeField] private float openDoorDuration = 3f;
     [SerializeField] private Door door;
+
     public void OnHit()
     {
         if (isHit) return;
 
         isHit = true;
-        gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+        GetComponent<SpriteRenderer>().color = Color.red;
+
         StartCoroutine(Reset());
 
-        if (door)
-        {
-            //Open door coroutine
+        if (door != null)
             StartCoroutine(OpenCloseDoor());
-        }
     }
 
     public bool GetIsHit()
@@ -28,26 +28,18 @@ public class Target : MonoBehaviour
 
     private IEnumerator Reset()
     {
-        if (door != null)
-        {
-            yield return new WaitForSeconds(openDoorDuration);
-        }
-        else
-        {
-            yield return new WaitForSeconds(2f);
-        }
-
+        yield return new WaitForSeconds(openDoorDuration);
         isHit = false;
-        gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        GetComponent<SpriteRenderer>().color = Color.white;
     }
 
     private IEnumerator OpenCloseDoor()
     {
-        door.SetDoor(true);
+        door.OpenDoor();
         door.StartTimer(openDoorDuration);
 
         yield return new WaitForSeconds(openDoorDuration);
 
-        door.SetDoor(false);
+        door.CloseDoor();
     }
 }
