@@ -6,7 +6,7 @@ public class Door : MonoBehaviour
     public enum DoorType
     {
         Normal,
-        EnemyLocked
+        EnemyLocked,
     }
 
     [Header("Door Type")]
@@ -175,4 +175,30 @@ public class Door : MonoBehaviour
             OpenDoor();
         }
     }
+
+    public void ResetEnemyGate()
+    {
+        if (doorType != DoorType.EnemyLocked)
+            return;
+
+        enemiesRemaining = 0;
+
+        if (requiredEnemies == null)
+            return;
+
+        // Re-count enemies (only alive ones)
+        foreach (var enemy in requiredEnemies)
+        {
+            if (enemy == null) continue;
+
+            enemiesRemaining++;
+
+            // avoid duplicate subscriptions
+            enemy.OnEnemyDied -= HandleEnemyKilled;
+            enemy.OnEnemyDied += HandleEnemyKilled;
+        }
+
+        CloseDoor();
+    }
+
 }

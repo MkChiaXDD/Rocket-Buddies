@@ -147,21 +147,24 @@ public class RocketBullet : MonoBehaviour
 
     private void Explode(Vector2 pos)
     {
-        StartCoroutine(ExplodeSequence(pos));
+        if (!gameObject.activeInHierarchy)
+            return;
+
+        DoExplosion(pos);
         AudioManager.Instance.PlaySFX("Explode", 0.5f);
     }
 
-    private IEnumerator ExplodeSequence(Vector2 pos)
+    private void DoExplosion(Vector2 pos)
     {
-        // choose particle pool based on which player fired
+        // choose particle pool based on owner
         ObjectPool chosenPool = null;
 
         if (owner != null)
         {
             if (owner.name == "Player1")
-                chosenPool = blueParticlePool;  // blue explosion
+                chosenPool = blueParticlePool;
             else if (owner.name == "Player2")
-                chosenPool = redParticlePool;   // red explosion
+                chosenPool = redParticlePool;
         }
 
         if (chosenPool != null)
@@ -175,6 +178,7 @@ public class RocketBullet : MonoBehaviour
                 ps.Clear(true);
                 ps.Play(true);
 
+                // particle lifetime coroutine is OK (not on rocket)
                 StartCoroutine(ReturnParticleAfter(ps.main.duration, particleObj, chosenPool));
             }
         }
@@ -200,9 +204,7 @@ public class RocketBullet : MonoBehaviour
 
             Vector2 p = c.ClosestPoint(pos);
             if (!closest.ContainsKey(body))
-            {
                 closest[body] = c;
-            }
             else
             {
                 Vector2 prevP = closest[body].ClosestPoint(pos);
@@ -229,8 +231,7 @@ public class RocketBullet : MonoBehaviour
             body.AddForce(impulse, ForceMode2D.Impulse);
         }
 
-        yield return null;
-
+        // RETURN TO POOL (safe now)
         bulletPool.ReturnObject(gameObject);
     }
 

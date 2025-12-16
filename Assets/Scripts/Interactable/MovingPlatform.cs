@@ -13,10 +13,14 @@ public class MovingPlatform : MonoBehaviour
     [SerializeField] private float moveUpDelay = 1f;
     [SerializeField] private float moveDownDelay = 2f;
 
+    [Header("Endpoint Behaviour")]
+    [SerializeField] private bool goBack = true; // NEW
+
     private float upTimer = 0f;
     private float downTimer = 0f;
 
     private bool movingUp = false;
+    private bool reachedEndPoint = false; // NEW
 
     void Start()
     {
@@ -25,6 +29,10 @@ public class MovingPlatform : MonoBehaviour
 
     void Update()
     {
+        // If endpoint reached and goBack is OFF, lock platform at top
+        if (reachedEndPoint && !goBack)
+            return;
+
         // BOTH players on platform ? prepare to move UP
         if (player1Active && player2Active)
         {
@@ -36,7 +44,7 @@ public class MovingPlatform : MonoBehaviour
         }
         else
         {
-            // One or both players left ? prepare to move DOWN
+            // Players left ? prepare to move DOWN
             downTimer += Time.deltaTime;
             upTimer = 0f;
 
@@ -44,19 +52,28 @@ public class MovingPlatform : MonoBehaviour
                 movingUp = false;
         }
 
-        // Move platform
-        Vector3 target;
-
-        if (movingUp)
-            target = endPoint.position;
+        Vector3 target = movingUp ? endPoint.position : startPos;
+        float finalMoveSpeed = 0f;
+        if (!movingUp)
+        {
+            finalMoveSpeed = moveSpeed * 2f;
+        }
         else
-            target = startPos;
+        {
+            finalMoveSpeed = moveSpeed;
+        }
 
         transform.position = Vector3.MoveTowards(
             transform.position,
             target,
-            moveSpeed * Time.deltaTime
+            finalMoveSpeed * Time.deltaTime
         );
+
+        // Check if endpoint is reached
+        if (!reachedEndPoint && Vector3.Distance(transform.position, endPoint.position) < 0.01f)
+        {
+            reachedEndPoint = true;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D col)

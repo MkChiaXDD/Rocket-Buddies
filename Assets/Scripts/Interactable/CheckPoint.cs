@@ -15,6 +15,9 @@ public class CheckPoint : MonoBehaviour
     [Header("Enemies for this Checkpoint")]
     [SerializeField] private EnemyBase[] checkpointEnemies;
 
+    [Header("Door To Unlock")]
+    [SerializeField] private Door linkedDoor;   // DRAG DOOR HERE ??
+    [SerializeField] private Door enemyResetDoor;
 
     private void Start()
     {
@@ -26,7 +29,7 @@ public class CheckPoint : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (activated)
-            return; // already activated, nothing else needed
+            return;
 
         // Identify which player entered
         if (collision.gameObject.name == "Player1")
@@ -39,7 +42,7 @@ public class CheckPoint : MonoBehaviour
         }
         else
         {
-            return; // not a player
+            return;
         }
 
         // Only activate when BOTH have arrived
@@ -56,12 +59,17 @@ public class CheckPoint : MonoBehaviour
             // Switch visuals
             if (inactiveIndicator) inactiveIndicator.SetActive(false);
             if (activeIndicator) activeIndicator.SetActive(true);
+
+            // ?? OPEN LINKED DOOR
+            if (linkedDoor != null)
+            {
+                linkedDoor.OpenDoor();
+            }
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        // Identify which player entered
         if (collision.gameObject.name == "Player1")
         {
             player1Reached = false;
@@ -69,10 +77,6 @@ public class CheckPoint : MonoBehaviour
         else if (collision.gameObject.name == "Player2")
         {
             player2Reached = false;
-        }
-        else
-        {
-            return; // not a player
         }
     }
 
@@ -85,10 +89,20 @@ public class CheckPoint : MonoBehaviour
             if (enemy != null)
                 enemy.ResetEnemy();
         }
+
+        if (enemyResetDoor != null)
+        {
+            enemyResetDoor.ResetEnemyGate();
+        }
     }
 
     public int GetCheckPointIndex()
     {
         return checkPointIndex;
+    }
+
+    public bool IsActivated()
+    {
+        return activated;
     }
 }
