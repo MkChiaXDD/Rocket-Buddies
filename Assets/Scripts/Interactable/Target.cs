@@ -8,6 +8,9 @@ public class Target : MonoBehaviour
     [SerializeField] private float openDoorDuration = 3f;
     [SerializeField] private Door door;
 
+    // ?? ADD THIS
+    [SerializeField] private Lazer lazer;
+
     public void OnHit()
     {
         if (isHit) return;
@@ -17,8 +20,13 @@ public class Target : MonoBehaviour
 
         StartCoroutine(Reset());
 
+        // Door logic (UNCHANGED)
         if (door != null)
             StartCoroutine(OpenCloseDoor());
+
+        // ?? ADD THIS (Laser logic)
+        if (lazer != null)
+            lazer.DeactivateLazer(openDoorDuration);
     }
 
     public bool GetIsHit()
