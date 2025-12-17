@@ -7,9 +7,12 @@ public class HealthManager : MonoBehaviour
     [Header("Health")]
     [SerializeField] private int maxHp = 3;
     private int currHp;
+    [SerializeField] private bool godMode = false;
 
     [Header("UI")]
     [SerializeField] private Image[] hearts;
+
+    private bool alreadyDead = false;
 
     private void Start()
     {
@@ -29,6 +32,8 @@ public class HealthManager : MonoBehaviour
 
     public void Damage(int amount)
     {
+        if (godMode) return;
+        if (alreadyDead) return;
         currHp -= amount;
         UpdateHearts();
 
@@ -53,6 +58,7 @@ public class HealthManager : MonoBehaviour
 
     private IEnumerator DelayRespawn()
     {
+        alreadyDead = true;
         yield return new WaitForSeconds(1f);
 
         FindFirstObjectByType<CheckPointManager>().RespawnPlayers();
@@ -64,6 +70,7 @@ public class HealthManager : MonoBehaviour
             p.DisableAllMovement(false);
 
         currHp = maxHp;
+        alreadyDead = false;
         UpdateHearts();
     }
 
