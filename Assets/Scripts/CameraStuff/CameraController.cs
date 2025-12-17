@@ -9,7 +9,8 @@ public class CameraController : MonoBehaviour
 
     [Header("Cameras")]
     [SerializeField] private CameraFollow2D sharedCamera;
-    [SerializeField] private CameraFollow2D[] playerCameras; // size 2
+    [SerializeField] private CameraFollow2D[] playerCameras;
+
 
     [Header("Shared Camera Offset Control")]
     [SerializeField] private float offsetSmoothSpeed = 5f;
@@ -18,9 +19,17 @@ public class CameraController : MonoBehaviour
     private Vector2 currentOffset = Vector2.zero;
     private Vector2 targetOffset = Vector2.zero;
 
+    [Header("Cinematic Split Settings")]
+    [SerializeField] private float splitTransitionSpeed = 2.5f;
+    [SerializeField] private AnimationCurve splitCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+
+    private float splitBlend = 0f; // 0 = shared, 1 = fully split
+    private float targetBlend = 0f;
+
+
     [Header("Distances")]
-    [SerializeField] private float splitDistance = 18f; // when to split
-    [SerializeField] private float mergeDistance = 14f; // when to merge back (smaller to avoid flicker)
+    [SerializeField] private float splitDistance = 18f;
+    [SerializeField] private float mergeDistance = 14f;
 
     [Header("Animator Controllers")]
     [SerializeField] private RuntimeAnimatorController player1AnimatorController;
@@ -145,7 +154,6 @@ public class CameraController : MonoBehaviour
 
         midTarget.position = midpoint;
 
-
         float dist = Vector3.Distance(p1, p2);
 
         if (usingShared && dist > splitDistance)
@@ -156,23 +164,57 @@ public class CameraController : MonoBehaviour
         {
             SwitchToShared();
         }
+
+        splitBlend = Mathf.MoveTowards(
+            splitBlend,
+            targetBlend,
+            splitTransitionSpeed * Time.deltaTime
+        );
+
+        float t = splitCurve.Evaluate(splitBlend);
+
+        UpdateCameraRects(t);
+
+        if (splitBlend <= 0.01f)
+        {
+            SetSplitCamerasActive(false);
+            SetSharedCameraActive(true);
+            Divider?.SetActive(false);
+        }
+        else
+        {
+            // active during transition AND full split
+            Divider?.SetActive(true);
+
+            if (splitBlend >= 0.99f)
+            {
+                SetSharedCameraActive(false);
+                SetSplitCamerasActive(true);
+            }
+            else
+            {
+                SetSharedCameraActive(true);
+                SetSplitCamerasActive(true);
+            }
+        }
+
     }
+
 
     private void SwitchToSplit()
     {
         usingShared = false;
-        SetSharedCameraActive(false);
-        SetSplitCamerasActive(true);
+        targetBlend = 1f;
         Divider?.SetActive(true);
     }
 
     private void SwitchToShared()
     {
         usingShared = true;
-        SetSplitCamerasActive(false);
-        SetSharedCameraActive(true);
-        Divider?.SetActive(false);
+        targetBlend = 0f;
+        Divider?.SetActive(true); // keep active during blend
     }
+
 
     private void SetSharedCameraActive(bool active)
     {
@@ -197,6 +239,46 @@ public class CameraController : MonoBehaviour
     public void ResetSharedCameraOffset()
     {
         targetOffset = baseOffset;
+    }
+
+    private void UpdateCameraRects(float t)
+    {
+        if (playerCameras.Length < 2) return;
+
+        if (sharedCamera?.Cam != null)
+        {
+            sharedCamera.Cam.rect = new Rect(
+                0f,
+                Mathf.Lerp(0f, 0.25f, t),
+                1f,
+                Mathf.Lerp(1f, 0.5f, t)
+            );
+        }
+
+        if (playerCameras[0]?.Cam != null)
+        {
+            playerCameras[0].Cam.rect = new Rect(
+                0f,
+                Mathf.Lerp(0.25f, 0.5f, t),
+                1f,
+                Mathf.Lerp(0.5f, 0.5f, t)
+            );
+        }
+
+        if (playerCameras[1]?.Cam != null)
+        {
+            playerCameras[1].Cam.rect = new Rect(
+                0f,
+                Mathf.Lerp(0.25f, 0f, t),
+                1f,
+                Mathf.Lerp(0.5f, 0.5f, t)
+            );
+        }
+
+        if (Divider != null)
+        {
+            Divider.transform.localScale = new Vector3(1f, Mathf.Lerp(0f, 1f, t), 1f);
+        }
     }
 
 }

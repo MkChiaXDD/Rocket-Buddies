@@ -56,7 +56,7 @@ public class MovingPlatform : MonoBehaviour
         float finalMoveSpeed = 0f;
         if (!movingUp)
         {
-            finalMoveSpeed = moveSpeed * 2f;
+            finalMoveSpeed = moveSpeed * 3f;
         }
         else
         {
