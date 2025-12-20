@@ -83,6 +83,7 @@ public class Door : MonoBehaviour
         if (!open && playersInside > 0 && hpMgr != null)
         {
             hpMgr.Damage(99);
+            playersInside = 0;
         }
 
         ToggleDoorVisuals(open);
