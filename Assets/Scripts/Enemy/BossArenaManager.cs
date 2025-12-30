@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class BossArenaManager : MonoBehaviour
 {
+    [Header("Chainsaw Attack")]
+    [SerializeField] private Transform chainsaw;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
