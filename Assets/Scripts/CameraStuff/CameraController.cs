@@ -40,6 +40,11 @@ public class CameraController : MonoBehaviour
     private Transform midTarget;            // midpoint object
     private bool usingShared = true;
 
+    [Header("Mode Toggles")]
+    [SerializeField] private bool enableShared = true;
+    [SerializeField] private bool enableSplit = true;
+
+
     private void Awake()
     {
         // midpoint object for shared camera
@@ -51,10 +56,25 @@ public class CameraController : MonoBehaviour
         if (Divider) Divider.SetActive(false);
         if (TextField) TextField.SetActive(true);
 
-        // start in shared mode (even if it won't show until 2 players)
-        SetSharedCameraActive(true);
-        SetSplitCamerasActive(false);
+        if (!enableShared && enableSplit)
+        {
+            usingShared = false;
+            splitBlend = 1f;
+            targetBlend = 1f;
+            SetSharedCameraActive(false);
+            SetSplitCamerasActive(true);
+            Divider?.SetActive(true);
+        }
+        else
+        {
+            usingShared = true;
+            splitBlend = 0f;
+            targetBlend = 0f;
+            SetSharedCameraActive(true);
+            SetSplitCamerasActive(false);
+        }
     }
+
 
     private void OnPlayerJoined(PlayerInput player)
     {
@@ -156,14 +176,26 @@ public class CameraController : MonoBehaviour
 
         float dist = Vector3.Distance(p1, p2);
 
-        if (usingShared && dist > splitDistance)
+        if (enableShared && enableSplit)
         {
-            SwitchToSplit();
+            if (usingShared && dist > splitDistance)
+                SwitchToSplit();
+            else if (!usingShared && dist < mergeDistance)
+                SwitchToShared();
         }
-        else if (!usingShared && dist < mergeDistance)
+        else if (!enableShared && enableSplit)
         {
-            SwitchToShared();
+            // FORCE split only
+            usingShared = false;
+            targetBlend = 1f;
         }
+        else if (enableShared && !enableSplit)
+        {
+            // FORCE shared only
+            usingShared = true;
+            targetBlend = 0f;
+        }
+
 
         splitBlend = Mathf.MoveTowards(
             splitBlend,
@@ -203,6 +235,8 @@ public class CameraController : MonoBehaviour
 
     private void SwitchToSplit()
     {
+        if (!enableSplit) return;
+
         usingShared = false;
         targetBlend = 1f;
         Divider?.SetActive(true);
@@ -210,6 +244,8 @@ public class CameraController : MonoBehaviour
 
     private void SwitchToShared()
     {
+        if (!enableShared) return;
+
         usingShared = true;
         targetBlend = 0f;
         Divider?.SetActive(true); // keep active during blend

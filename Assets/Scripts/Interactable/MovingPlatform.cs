@@ -22,9 +22,12 @@ public class MovingPlatform : MonoBehaviour
     private bool movingUp = false;
     private bool reachedEndPoint = false; // NEW
 
+    private HealthManager hpMgr;
+
     void Start()
     {
         startPos = transform.position;
+        hpMgr = FindFirstObjectByType<HealthManager>();
     }
 
     void Update()
@@ -102,5 +105,10 @@ public class MovingPlatform : MonoBehaviour
             player2Active = false;
             col.transform.SetParent(null);
         }
+    }
+
+    public bool GetIsGoingUp()
+    {
+        return movingUp;
     }
 }
