@@ -19,11 +19,15 @@ public class BossController : MonoBehaviour
     [SerializeField] private float chargeSpeed = 2f;
     [SerializeField] private int numberOfCharges = 3;
     [SerializeField] private float chargeCooldown = 1f;
+
+    [Header("Arena Attacks")]
+    [SerializeField] private BossArenaManager arena;
     private enum States
     {
         idle,
         shoot,
         charge,
+        chainsaw,
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -61,6 +65,12 @@ public class BossController : MonoBehaviour
                 isAttacking = true;
                 StartCoroutine(PerformChargeAttack());
                 break;
+            case 3:
+                if (isAttacking) return;
+
+                isAttacking = true;
+                arena.PerformChainsawAttack();
+                break;
         }
 
         if (Input.GetKeyDown(KeyCode.X))
@@ -87,7 +97,6 @@ public class BossController : MonoBehaviour
         }
 
         Debug.Log("Shoot Attack Complete");
-        isAttacking = false;
         NextState();
     }
 
@@ -141,7 +150,6 @@ public class BossController : MonoBehaviour
         }
 
         Debug.Log("Charge Attack Complete");
-        isAttacking = false;
         NextState();
     }
 
@@ -167,8 +175,9 @@ public class BossController : MonoBehaviour
         }
     }
 
-    private void NextState()
+    public void NextState()
     {
+        isAttacking = false;
         currentAttack++;
     }
 
