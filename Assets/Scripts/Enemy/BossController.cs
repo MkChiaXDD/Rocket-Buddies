@@ -71,6 +71,12 @@ public class BossController : MonoBehaviour
                 isAttacking = true;
                 arena.PerformChainsawAttack();
                 break;
+            case 4:
+                if (isAttacking) return;
+
+                isAttacking = true;
+                arena.PerformSpikeFallAttack();
+                break;
         }
 
         if (Input.GetKeyDown(KeyCode.X))
@@ -89,14 +95,14 @@ public class BossController : MonoBehaviour
 
     private IEnumerator PerformShootAttack()
     {
-        Debug.Log("Starting Shoot Attack");
+        Debug.Log("BOSS ATTACK: SHOOT START");
         for (int i = 0; i < bulletCount; i++)
         {
             ShootBullet();
             yield return new WaitForSeconds(timeToNextShot);
         }
 
-        Debug.Log("Shoot Attack Complete");
+        Debug.Log("BOSS ATTACK: SHOOT END");
         NextState();
     }
 
@@ -126,7 +132,7 @@ public class BossController : MonoBehaviour
 
     private IEnumerator PerformChargeAttack()
     {
-        Debug.Log("Starting Charge Attack");
+        Debug.Log("BOSS ATTACK: CHARGE ATTACK START");
         for (int i = 0; i < numberOfCharges; i++)
         {
             Transform target = null;
@@ -149,7 +155,7 @@ public class BossController : MonoBehaviour
             yield return new WaitForSeconds(chargeCooldown);
         }
 
-        Debug.Log("Charge Attack Complete");
+        Debug.Log("BOSS ATTACK: CHARGE ATTACK END");
         NextState();
     }
 
