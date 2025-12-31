@@ -147,6 +147,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e222e52e160e28e4bbde53a8a3d8303d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraOffset: {x: 0, y: 0}
-  duration: 3
-  camCon: {fileID: 0}
+  cameraMode: 0
+  sharedTarget: {fileID: 0}

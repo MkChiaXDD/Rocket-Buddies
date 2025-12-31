@@ -3,87 +3,69 @@ using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] private GameObject Divider;
-    [SerializeField] private GameObject TextField;
+    // ================= ENUM =================
+    public enum CameraMode
+    {
+        Shared,
+        SharedWithTarget,
+        Split
+    }
+
+    [Header("Current Mode")]
+    [SerializeField] private CameraMode currentMode = CameraMode.Shared;
+
+    // ================= REFERENCES =================
+    [Header("UI")]
+    [SerializeField] private GameObject divider;
+    [SerializeField] private GameObject textField;
+
+    [Header("Spawn")]
     [SerializeField] private Transform[] spawnPoints;
 
     [Header("Cameras")]
     [SerializeField] private CameraFollow2D sharedCamera;
     [SerializeField] private CameraFollow2D[] playerCameras;
 
-
-    [Header("Shared Camera Offset Control")]
-    [SerializeField] private float offsetSmoothSpeed = 5f;
-
-    private Vector2 baseOffset = Vector2.zero;
-    private Vector2 currentOffset = Vector2.zero;
-    private Vector2 targetOffset = Vector2.zero;
-
-    [Header("Cinematic Split Settings")]
-    [SerializeField] private float splitTransitionSpeed = 2.5f;
-    [SerializeField] private AnimationCurve splitCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
-
-    private float splitBlend = 0f; // 0 = shared, 1 = fully split
-    private float targetBlend = 0f;
-
-
-    [Header("Distances")]
-    [SerializeField] private float splitDistance = 18f;
-    [SerializeField] private float mergeDistance = 14f;
-
+    // ================= ANIMATION =================
     [Header("Animator Controllers")]
     [SerializeField] private RuntimeAnimatorController player1AnimatorController;
     [SerializeField] private RuntimeAnimatorController player2AnimatorController;
 
-    private int playerCount = 0;
-    private Transform[] playerFollowTargets = new Transform[2];
-    private Transform midTarget;            // midpoint object
-    private bool usingShared = true;
+    // ================= PLAYERS =================
+    private Transform[] playerTargets = new Transform[2];
+    private int playerCount;
 
-    [Header("Mode Toggles")]
-    [SerializeField] private bool enableShared = true;
-    [SerializeField] private bool enableSplit = true;
+    // ================= SHARED CAMERA =================
+    private Transform midTarget;
+    private Transform extraTarget; // for SharedWithTarget
 
-
+    // ================= UNITY =================
     private void Awake()
     {
-        // midpoint object for shared camera
         midTarget = new GameObject("CameraMidTarget").transform;
     }
 
     private void Start()
     {
-        if (Divider) Divider.SetActive(false);
-        if (TextField) TextField.SetActive(true);
+        divider?.SetActive(false);
+        textField?.SetActive(true);
 
-        if (!enableShared && enableSplit)
-        {
-            usingShared = false;
-            splitBlend = 1f;
-            targetBlend = 1f;
-            SetSharedCameraActive(false);
-            SetSplitCamerasActive(true);
-            Divider?.SetActive(true);
-        }
-        else
-        {
-            usingShared = true;
-            splitBlend = 0f;
-            targetBlend = 0f;
-            SetSharedCameraActive(true);
-            SetSplitCamerasActive(false);
-        }
+        SetMode(CameraMode.Split);
     }
 
-
+    // ================= PLAYER JOIN =================
     private void OnPlayerJoined(PlayerInput player)
     {
         int index = player.playerIndex;
         playerCount++;
 
-        player.gameObject.name = (index == 0) ? "Player1" : "Player2";
+        player.gameObject.name = index == 0 ? "Player1" : "Player2";
 
-        // ? Set the animator controller based on which player it is
+        // Spawn
+        if (spawnPoints != null && index < spawnPoints.Length)
+            player.transform.position = spawnPoints[index].position;
+
+        // ---------- ANIMATOR SETUP (RESTORED) ----------
         Transform capsule = player.transform.Find("Capsule");
         if (capsule != null)
         {
@@ -91,25 +73,14 @@ public class CameraController : MonoBehaviour
             if (anim != null)
             {
                 if (index == 0 && player1AnimatorController != null)
-                {
                     anim.runtimeAnimatorController = player1AnimatorController;
-                }
                 else if (index == 1 && player2AnimatorController != null)
-                {
                     anim.runtimeAnimatorController = player2AnimatorController;
-                }
             }
         }
 
-        // Spawn position
-        if (spawnPoints != null && index < spawnPoints.Length)
-        {
-            player.transform.position = spawnPoints[index].position;
-        }
-
-        // Find "FirePoint" anywhere under this player (not just direct child)
-        Transform followTarget = player.transform; // default to player
-
+        // Find FirePoint or fallback to player
+        Transform followTarget = player.transform;
         foreach (Transform t in player.GetComponentsInChildren<Transform>(true))
         {
             if (t.name == "FirePoint")
@@ -119,202 +90,111 @@ public class CameraController : MonoBehaviour
             }
         }
 
-        playerFollowTargets[index] = followTarget;
+        playerTargets[index] = followTarget;
 
-
-        // Hook up player camera for this player
+        // Assign split camera
         if (index < playerCameras.Length && playerCameras[index] != null)
         {
             playerCameras[index].SetTarget(followTarget);
 
             if (playerCameras[index].Cam != null)
             {
-                if (index == 0)
-                    playerCameras[index].Cam.rect = new Rect(0f, 0.5f, 1f, 0.5f); // top
-                else if (index == 1)
-                    playerCameras[index].Cam.rect = new Rect(0f, 0f, 1f, 0.5f);   // bottom
+                playerCameras[index].Cam.rect =
+                    index == 0
+                    ? new Rect(0f, 0.5f, 1f, 0.5f)
+                    : new Rect(0f, 0f, 1f, 0.5f);
             }
         }
 
-        // When both players are in, enable cameras properly
+        // Both players ready
         if (playerCount == 2)
         {
-            // shared camera follows midpoint
             sharedCamera.SetTarget(midTarget);
-            if (sharedCamera.Cam != null)
-                sharedCamera.Cam.rect = new Rect(0f, 0f, 1f, 1f);
+            sharedCamera.Cam.rect = new Rect(0f, 0f, 1f, 1f);
 
-            if (TextField) TextField.SetActive(false);
-            Divider?.SetActive(false); // start in single-camera mode
-
-            FindFirstObjectByType<WorldOneManager>().StartGame();
+            textField?.SetActive(false);
+            FindFirstObjectByType<WorldOneManager>()?.StartGame();
         }
     }
 
-    private void Update()
+    // ================= CAMERA UPDATE =================
+    private void LateUpdate()
     {
         if (playerCount < 2) return;
+        if (currentMode == CameraMode.Split) return;
 
-        Vector3 p1 = playerFollowTargets[0].position;
-        Vector3 p2 = playerFollowTargets[1].position;
+        Vector3 p1 = playerTargets[0].position;
+        Vector3 p2 = playerTargets[1].position;
 
         Vector3 midpoint = (p1 + p2) * 0.5f;
 
-        if (usingShared)
+        if (currentMode == CameraMode.SharedWithTarget && extraTarget != null)
         {
-            currentOffset = Vector2.Lerp(
-                currentOffset,
-                targetOffset,
-                offsetSmoothSpeed * Time.deltaTime
-            );
-
-            midpoint.x += currentOffset.x;
-            midpoint.y += currentOffset.y;
+            midpoint = (midpoint * 2f + extraTarget.position) / 3f;
         }
 
         midTarget.position = midpoint;
-
-        float dist = Vector3.Distance(p1, p2);
-
-        if (enableShared && enableSplit)
-        {
-            if (usingShared && dist > splitDistance)
-                SwitchToSplit();
-            else if (!usingShared && dist < mergeDistance)
-                SwitchToShared();
-        }
-        else if (!enableShared && enableSplit)
-        {
-            // FORCE split only
-            usingShared = false;
-            targetBlend = 1f;
-        }
-        else if (enableShared && !enableSplit)
-        {
-            // FORCE shared only
-            usingShared = true;
-            targetBlend = 0f;
-        }
-
-
-        splitBlend = Mathf.MoveTowards(
-            splitBlend,
-            targetBlend,
-            splitTransitionSpeed * Time.deltaTime
-        );
-
-        float t = splitCurve.Evaluate(splitBlend);
-
-        UpdateCameraRects(t);
-
-        if (splitBlend <= 0.01f)
-        {
-            SetSplitCamerasActive(false);
-            SetSharedCameraActive(true);
-            Divider?.SetActive(false);
-        }
-        else
-        {
-            // active during transition AND full split
-            Divider?.SetActive(true);
-
-            if (splitBlend >= 0.99f)
-            {
-                SetSharedCameraActive(false);
-                SetSplitCamerasActive(true);
-            }
-            else
-            {
-                SetSharedCameraActive(true);
-                SetSplitCamerasActive(true);
-            }
-        }
-
     }
 
+    // ================= PUBLIC API =================
 
-    private void SwitchToSplit()
+    public void SetShared()
     {
-        if (!enableSplit) return;
-
-        usingShared = false;
-        targetBlend = 1f;
-        Divider?.SetActive(true);
+        extraTarget = null;
+        SetMode(CameraMode.Shared);
     }
 
-    private void SwitchToShared()
+    public void SetSharedWithTarget(Transform target)
     {
-        if (!enableShared) return;
-
-        usingShared = true;
-        targetBlend = 0f;
-        Divider?.SetActive(true); // keep active during blend
+        extraTarget = target;
+        SetMode(CameraMode.SharedWithTarget);
     }
 
-
-    private void SetSharedCameraActive(bool active)
+    public void SetSplit()
     {
-        if (sharedCamera && sharedCamera.Cam)
-            sharedCamera.Cam.enabled = active;
+        extraTarget = null;
+        SetMode(CameraMode.Split);
     }
 
-    private void SetSplitCamerasActive(bool active)
+    // ================= MODE HANDLER =================
+    private void SetMode(CameraMode mode)
     {
-        foreach (var camFollow in playerCameras)
+        currentMode = mode;
+
+        switch (currentMode)
         {
-            if (camFollow && camFollow.Cam)
-                camFollow.Cam.enabled = active;
+            case CameraMode.Shared:
+            case CameraMode.SharedWithTarget:
+                ActivateShared();
+                break;
+
+            case CameraMode.Split:
+                ActivateSplit();
+                break;
         }
     }
 
-    public void SetSharedCameraOffset(Vector2 offset)
+    // ================= MODE ACTIVATION =================
+    private void ActivateShared()
     {
-        targetOffset = offset;
+        sharedCamera.Cam.enabled = true;
+        SetSplitCameras(false);
+        divider?.SetActive(false);
     }
 
-    public void ResetSharedCameraOffset()
+    private void ActivateSplit()
     {
-        targetOffset = baseOffset;
+        sharedCamera.Cam.enabled = false;
+        SetSplitCameras(true);
+        divider?.SetActive(true);
     }
 
-    private void UpdateCameraRects(float t)
+    private void SetSplitCameras(bool active)
     {
-        if (playerCameras.Length < 2) return;
-
-        if (sharedCamera?.Cam != null)
+        foreach (var cam in playerCameras)
         {
-            sharedCamera.Cam.rect = new Rect(
-                0f,
-                Mathf.Lerp(0f, 0.25f, t),
-                1f,
-                Mathf.Lerp(1f, 0.5f, t)
-            );
-        }
-
-        if (playerCameras[0]?.Cam != null)
-        {
-            playerCameras[0].Cam.rect = new Rect(
-                0f,
-                Mathf.Lerp(0.25f, 0.5f, t),
-                1f,
-                Mathf.Lerp(0.5f, 0.5f, t)
-            );
-        }
-
-        if (playerCameras[1]?.Cam != null)
-        {
-            playerCameras[1].Cam.rect = new Rect(
-                0f,
-                Mathf.Lerp(0.25f, 0f, t),
-                1f,
-                Mathf.Lerp(0.5f, 0.5f, t)
-            );
-        }
-
-        if (Divider != null)
-        {
-            Divider.transform.localScale = new Vector3(1f, Mathf.Lerp(0f, 1f, t), 1f);
+            if (cam && cam.Cam)
+                cam.Cam.enabled = active;
         }
     }
-
 }

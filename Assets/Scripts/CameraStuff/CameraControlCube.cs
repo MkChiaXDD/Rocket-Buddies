@@ -1,47 +1,44 @@
-using System.Collections;
 using UnityEngine;
 
 public class CameraControlCube : MonoBehaviour
 {
-    [SerializeField] private Vector2 cameraOffset = new Vector2(0 ,0);
-    [SerializeField] private float duration = 3f;
-    [SerializeField] private CameraController camCon;
-    private bool isActive = false;
+    [Header("Camera Mode To Switch To")]
+    [SerializeField] private CameraController.CameraMode cameraMode;
 
-    private void Start()
+    [Header("Optional Target (for SharedWithTarget)")]
+    [SerializeField] private Transform sharedTarget;
+
+    private CameraController cameraController;
+
+    private void Awake()
     {
-        if (!camCon)
-        {
-            camCon = FindFirstObjectByType<CameraController>();
-        }
+        cameraController = FindFirstObjectByType<CameraController>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (isActive) return;
+        if (!collision.CompareTag("Player"))
+            return;
 
-        if (collision.gameObject.CompareTag("Player"))
+        if (cameraController == null)
+            return;
+
+        switch (cameraMode)
         {
-            if (duration > 0)
-            {
-                StartCoroutine(ResetTimer());
-            }
-            else
-            {
-                camCon.SetSharedCameraOffset(cameraOffset);
-            }
+            case CameraController.CameraMode.Shared:
+                cameraController.SetShared();
+                break;
+
+            case CameraController.CameraMode.Split:
+                cameraController.SetSplit();
+                break;
+
+            case CameraController.CameraMode.SharedWithTarget:
+                if (sharedTarget != null)
+                    cameraController.SetSharedWithTarget(sharedTarget);
+                else
+                    Debug.LogWarning("SharedWithTarget selected but no target assigned.", this);
+                break;
         }
-        
-    }
-
-    private IEnumerator ResetTimer()
-    {
-        isActive = true;
-        camCon.SetSharedCameraOffset(cameraOffset);
-
-        yield return new WaitForSeconds(duration);
-
-        isActive = false;
-        camCon.ResetSharedCameraOffset();
     }
 }
