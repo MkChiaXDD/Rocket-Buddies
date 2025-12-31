@@ -1,13 +1,19 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BossController : MonoBehaviour
 {
-    [SerializeField] private int MaxHealth = 30;
-    private int currHealth;
     private States currentState;
     private int currentAttack;
     private bool isAttacking;
+
+    [SerializeField] private Transform idlePos;
+
+    [Header("Health Settings")]
+    [SerializeField] private int MaxHealth = 30;
+    private int currHealth;
+    [SerializeField] private SpriteRenderer sprite;
 
     [Header("Shoot Settings")]
     [SerializeField] private BossBulletPool bossBulletPool;
@@ -69,12 +75,14 @@ public class BossController : MonoBehaviour
                 if (isAttacking) return;
 
                 isAttacking = true;
+                StartCoroutine(GoIdlePos());
                 arena.PerformChainsawAttack();
                 break;
             case 4:
                 if (isAttacking) return;
 
                 isAttacking = true;
+                StartCoroutine(GoIdlePos());
                 arena.PerformSpikeFallAttack();
                 break;
         }
@@ -82,6 +90,11 @@ public class BossController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X))
         {
             StartBossFight();
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Damage();
         }
     }
 
@@ -161,6 +174,31 @@ public class BossController : MonoBehaviour
 
     #endregion
 
+    #region Health Functions
+
+    public void Damage()
+    {
+        currHealth--;
+        StartCoroutine(DamageFlash());
+    }
+
+    public void Heal()
+    {
+        currHealth++;
+    }
+
+    private IEnumerator DamageFlash()
+    {
+        Debug.Log("Boss Damaged");
+        sprite.color = Color.red;
+
+        yield return new WaitForSeconds(0.1f);
+
+        sprite.color = Color.white;
+    }
+
+    #endregion
+
     #region Helper Functions
 
     private Transform ChooseCurrentTarget()
@@ -171,7 +209,7 @@ public class BossController : MonoBehaviour
         float distPlayer1 = Vector2.Distance(player1.position, transform.position);
         float distPlayer2 = Vector2.Distance(player2.position, transform.position);
 
-        if (distPlayer1 > distPlayer2)
+        if (distPlayer1 < distPlayer2)
         {
             return player1;
         }
@@ -185,6 +223,21 @@ public class BossController : MonoBehaviour
     {
         isAttacking = false;
         currentAttack++;
+    }
+
+    #endregion
+
+    #region Go Idle
+
+    private IEnumerator GoIdlePos()
+    {
+        Vector2 targetPos = idlePos.position;
+
+        while (Vector2.Distance(transform.position, targetPos) > 0.1f)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, targetPos, chargeSpeed * Time.deltaTime);
+            yield return null;
+        }
     }
 
     #endregion

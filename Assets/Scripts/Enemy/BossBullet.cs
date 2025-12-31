@@ -13,6 +13,9 @@ public class BossBullet : MonoBehaviour
     {
         this.dir = dir;
         this.bulletSpeed = bulletSpeed;
+
+        float angle = Mathf.Atan2(this.dir.y, this.dir.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0f, 0f, angle);
     }
 
     private void Update()
@@ -28,7 +31,7 @@ public class BossBullet : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Player"))
         {
-            FindFirstObjectByType<HealthManager>()?.Damage(1);
+            //FindFirstObjectByType<HealthManager>()?.Damage(1);
             pool.ReturnObject(gameObject);
         }
         else
