@@ -200,6 +200,10 @@ public class BossController : MonoBehaviour
     {
         isAttacking = false;
         currentAttack++;
+        if (currentAttack > 4)
+        {
+            currentAttack = 1;
+        }
     }
 
     #endregion
