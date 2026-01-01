@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Boss
   - Pylon
+  - Bullet
   layers:
   - Default
   - TransparentFX

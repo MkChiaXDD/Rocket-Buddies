@@ -891,6 +891,8 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: f02e3c8421d19504389b10a310f10700, type: 3}
   - name: Die
     clip: {fileID: 8300000, guid: c27e48d8e326c2045809cc0968827836, type: 3}
+  - name: Hit
+    clip: {fileID: 8300000, guid: 22c39906c63d84048a5e7927ed89eedd, type: 3}
 --- !u!4 &484256273
 Transform:
   m_ObjectHideFlags: 0

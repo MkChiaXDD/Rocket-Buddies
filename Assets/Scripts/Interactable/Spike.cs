@@ -3,10 +3,10 @@ using UnityEngine;
 public class Spike : MonoBehaviour
 {
     public bool hasHit;
-    private HealthManager hpMgr;
-    private void Start()
+
+    public void ResetHasHit()
     {
-        hpMgr = FindFirstObjectByType<HealthManager>();
+        hasHit = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -15,7 +15,7 @@ public class Spike : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Player"))
         {
-            //hpMgr.Damage(1);
+            FindFirstObjectByType<HealthManager>()?.Damage(1);
             hasHit = true;
         }
     }

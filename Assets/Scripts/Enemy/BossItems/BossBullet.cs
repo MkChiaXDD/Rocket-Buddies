@@ -25,13 +25,13 @@ public class BossBullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Boss"))
+        if (collision.gameObject.CompareTag("Boss") || collision.gameObject.CompareTag("Bullet"))
         {
             return;
         }
         if (collision.gameObject.CompareTag("Player"))
         {
-            //FindFirstObjectByType<HealthManager>()?.Damage(1);
+            FindFirstObjectByType<HealthManager>()?.Damage(1);
             pool.ReturnObject(gameObject);
         }
         else

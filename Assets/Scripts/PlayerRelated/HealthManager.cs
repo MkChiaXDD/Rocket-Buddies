@@ -20,6 +20,14 @@ public class HealthManager : MonoBehaviour
         UpdateHearts();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            Damage(1);
+        }
+    }
+
     // ---------------- HEALTH ----------------
 
     public void Heal(int amount)
@@ -32,6 +40,7 @@ public class HealthManager : MonoBehaviour
 
     public void Damage(int amount)
     {
+        AudioManager.Instance.PlaySFX("Hit");
         if (godMode) return;
         if (alreadyDead) return;
         currHp -= amount;

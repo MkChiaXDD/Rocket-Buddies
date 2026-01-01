@@ -47,6 +47,7 @@ public class BossArenaManager : MonoBehaviour
     private IEnumerator ChainsawAttack(int LorR)
     {
         FindFirstObjectByType<CameraController>()?.SetSharedWithTarget(chainsaw);
+        chainsaw.gameObject.GetComponent<BossChainsaw>()?.ResetDamagePlayer();
         Debug.Log("BOSS ATTACK: CHAINSAW START");
         Vector2 targetPos;
         if (LorR == 0)
@@ -115,7 +116,7 @@ public class BossArenaManager : MonoBehaviour
     private IEnumerator DropSingleSpike(GameObject spike)
     {
         spike.SetActive(true);
-
+        spike.GetComponent<Spike>()?.ResetHasHit();
         Vector3 startPos = spike.transform.position;
         Vector3 targetPos = new Vector3(
             startPos.x,

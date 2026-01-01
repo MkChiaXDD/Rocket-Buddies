@@ -26,6 +26,14 @@ public class BossController : MonoBehaviour
     [SerializeField] private float chargeSpeed = 2f;
     [SerializeField] private int numberOfCharges = 3;
     [SerializeField] private float chargeCooldown = 1f;
+    private bool chargeCanHit = false;
+
+    [Header("Direct Hit Settings")]
+    [SerializeField] private int attackCount = 3;
+    [SerializeField] private float attackCooldown = 2f;
+    [SerializeField] private float timeTillImpact = 3f;
+    [SerializeField] private float indicatorSize = 3f;
+    [SerializeField] private BossDirectHitIndicatorPool indicatorPool;
 
     [Header("Arena Attacks")]
     [SerializeField] private BossArenaManager arena;
@@ -70,14 +78,14 @@ public class BossController : MonoBehaviour
                 if (isAttacking) return;
 
                 isAttacking = true;
-                StartCoroutine(PerformChargeAttack());
+                StartCoroutine(GoIdlePos());
+                arena.PerformChainsawAttack();
                 break;
             case 3:
                 if (isAttacking) return;
 
                 isAttacking = true;
-                StartCoroutine(GoIdlePos());
-                arena.PerformChainsawAttack();
+                StartCoroutine(PerformChargeAttack());
                 break;
             case 4:
                 if (isAttacking) return;
@@ -86,6 +94,13 @@ public class BossController : MonoBehaviour
                 StartCoroutine(GoIdlePos());
                 arena.PerformSpikeFallAttack();
                 break;
+            //case 5:
+            //    if (isAttacking) return;
+
+            //    isAttacking = true;
+            //    StartCoroutine(GoIdlePos());
+            //    StartCoroutine(PerformDirectHitAttack());
+            //    break;
         }
 
         if (Input.GetKeyDown(KeyCode.X))
@@ -99,6 +114,14 @@ public class BossController : MonoBehaviour
         currentAttack = 1;
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player") && chargeCanHit)
+        {
+            FindFirstObjectByType<HealthManager>()?.Damage(1);
+            chargeCanHit = false;
+        }
+    }
 
     #region Shooting Attack
 
@@ -148,6 +171,7 @@ public class BossController : MonoBehaviour
         Debug.Log("BOSS ATTACK: CHARGE ATTACK START");
         for (int i = 0; i < numberOfCharges; i++)
         {
+            chargeCanHit = true;
             Transform target = null;
             while (target == null)
             {
@@ -171,6 +195,28 @@ public class BossController : MonoBehaviour
         }
 
         Debug.Log("BOSS ATTACK: CHARGE ATTACK END");
+        NextState();
+    }
+
+    #endregion
+
+    #region Direct Hit Attack
+    private IEnumerator PerformDirectHitAttack()
+    {
+        for (int i = 0; i < attackCount; i++)
+        {
+            Transform target = ChooseCurrentTarget();
+            if (target == null) yield break;
+
+            GameObject indicatorObj = indicatorPool.GetObject();
+            BossDirectHitIndicator indicator =
+                indicatorObj.GetComponent<BossDirectHitIndicator>();
+
+            indicator.Init(target.position, timeTillImpact, indicatorSize, indicatorPool);
+
+            yield return new WaitForSeconds(attackCooldown);
+        }
+
         NextState();
     }
 
@@ -202,6 +248,7 @@ public class BossController : MonoBehaviour
         currentAttack++;
         if (currentAttack > 4)
         {
+            arena.SpawnPylons();
             currentAttack = 1;
         }
     }
