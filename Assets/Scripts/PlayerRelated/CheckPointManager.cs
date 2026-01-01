@@ -7,6 +7,14 @@ public class CheckPointManager : MonoBehaviour
 
     private CheckPoint currentCheckPoint;
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            RespawnPlayers();
+        }
+    }
+
     // Call this when a checkpoint is triggered
     public void SetCheckPoint(int index, Vector3 loc)
     {

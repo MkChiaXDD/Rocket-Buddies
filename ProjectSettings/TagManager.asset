@@ -8,6 +8,7 @@ TagManager:
   - Target
   - Enemy
   - Boss
+  - Pylon
   layers:
   - Default
   - TransparentFX

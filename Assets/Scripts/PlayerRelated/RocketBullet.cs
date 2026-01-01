@@ -141,6 +141,16 @@ public class RocketBullet : MonoBehaviour
                 Explode(collision.transform.position);
             }
         }
+        if (collision.gameObject.CompareTag("Boss"))
+        {
+            FindFirstObjectByType<BossHealthManager>()?.Damage();
+            Explode(collision.transform.position);
+        }
+        if (collision.gameObject.CompareTag("Pylon"))
+        {
+            collision.gameObject.GetComponent<BossHealingPylon>()?.Damage();
+            Explode(collision.transform.position);
+        }
     }
 
     private void ExplodeSelf() => Explode(transform.position);

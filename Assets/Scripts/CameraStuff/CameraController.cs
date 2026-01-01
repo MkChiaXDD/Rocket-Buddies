@@ -49,8 +49,6 @@ public class CameraController : MonoBehaviour
     {
         divider?.SetActive(false);
         textField?.SetActive(true);
-
-        SetMode(CameraMode.Split);
     }
 
     // ================= PLAYER JOIN =================
@@ -113,6 +111,7 @@ public class CameraController : MonoBehaviour
             sharedCamera.Cam.rect = new Rect(0f, 0f, 1f, 1f);
 
             textField?.SetActive(false);
+            SetMode(currentMode);
             FindFirstObjectByType<WorldOneManager>()?.StartGame();
         }
     }

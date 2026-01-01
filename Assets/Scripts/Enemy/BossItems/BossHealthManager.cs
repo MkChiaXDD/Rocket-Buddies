@@ -1,0 +1,61 @@
+using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class BossHealthManager : MonoBehaviour
+{
+    [SerializeField] private Image healthBar;
+    [SerializeField] private SpriteRenderer sprite;
+    [SerializeField] private int maxHealth;
+    private int currHealth;
+
+    private void Start()
+    {
+        currHealth = maxHealth;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Damage();
+        }
+    }
+
+    public void Damage()
+    {
+        if (currHealth > 0)
+        {
+            currHealth--;
+        }
+        StartCoroutine(DamageFlash());
+        UpdateHealthBar();
+    }
+
+    public void Heal()
+    {
+        if (currHealth < maxHealth)
+        {
+            currHealth++;
+            UpdateHealthBar();
+        }
+    }
+
+    private IEnumerator DamageFlash()
+    {
+        Debug.Log("Boss Damaged");
+        sprite.color = Color.red;
+
+        yield return new WaitForSeconds(0.1f);
+
+        sprite.color = Color.white;
+    }
+
+    protected virtual void UpdateHealthBar()
+    {
+        if (healthBar == null) return;
+
+        float normalizedHp = (float)currHealth / maxHealth;
+        healthBar.fillAmount = normalizedHp;
+    }
+}
