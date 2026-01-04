@@ -70,11 +70,13 @@ public class Door : MonoBehaviour
     public void OpenDoor()
     {
         ToggleDoor(true);
+        AudioManager.Instance.PlaySFX("Door");
     }
 
     public void CloseDoor()
     {
         ToggleDoor(false);
+        AudioManager.Instance.PlaySFX("Door");
     }
 
     private void ToggleDoor(bool open)

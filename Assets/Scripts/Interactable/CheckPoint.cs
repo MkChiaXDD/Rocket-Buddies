@@ -15,6 +15,9 @@ public class CheckPoint : MonoBehaviour
     [Header("Enemies for this Checkpoint")]
     [SerializeField] private EnemyBase[] checkpointEnemies;
 
+    [Header("Boss Reset")]
+    [SerializeField] private BossArenaManager bossArena;
+
     [Header("Door To Unlock")]
     [SerializeField] private Door linkedDoor;   // DRAG DOOR HERE ??
     [SerializeField] private Door enemyResetDoor;
@@ -94,6 +97,13 @@ public class CheckPoint : MonoBehaviour
         {
             enemyResetDoor.ResetEnemyGate();
         }
+    }
+
+    public void ResetBoss()
+    {
+        if (bossArena == null) return;
+
+        bossArena.Reset();
     }
 
     public int GetCheckPointIndex()

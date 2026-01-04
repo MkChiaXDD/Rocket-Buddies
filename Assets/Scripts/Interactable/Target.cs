@@ -15,6 +15,7 @@ public class Target : MonoBehaviour
     {
         if (isHit) return;
 
+        AudioManager.Instance.PlaySFX("TargetHit");
         isHit = true;
         GetComponent<SpriteRenderer>().color = Color.red;
 

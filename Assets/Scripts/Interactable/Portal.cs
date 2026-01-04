@@ -35,6 +35,7 @@ public class Portal : MonoBehaviour
         {
             if (player1 && player2 && linkedPortal)
             {
+                AudioManager.Instance.PlaySFX("Teleport");
                 player1.transform.position = linkedPortal.transform.position;
                 player2.transform.position = linkedPortal.transform.position;
             }

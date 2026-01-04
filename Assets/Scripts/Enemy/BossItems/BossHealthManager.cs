@@ -9,6 +9,12 @@ public class BossHealthManager : MonoBehaviour
     [SerializeField] private int maxHealth;
     private int currHealth;
 
+    public void Reset()
+    {
+        currHealth = maxHealth;
+        UpdateHealthBar();
+    }
+
     private void Start()
     {
         currHealth = maxHealth;

@@ -45,6 +45,7 @@ public class StepButton : MonoBehaviour
         if (unPressedButton) unPressedButton.SetActive(!pressed);
         if (pressedButton) pressedButton.SetActive(pressed);
 
+        AudioManager.Instance.PlaySFX("ButtonClick");
         isActive = pressed;
         UpdateDoors();
     }

@@ -11,11 +11,6 @@ public class BossController : MonoBehaviour
     [SerializeField] private Transform idlePos;
     [SerializeField] private BossAnimationController bossAnim;
 
-    [Header("Health Settings")]
-    [SerializeField] private int MaxHealth = 30;
-    private int currHealth;
-    [SerializeField] private SpriteRenderer sprite;
-
     [Header("Shoot Settings")]
     [SerializeField] private BossBulletPool bossBulletPool;
     [SerializeField] private float bulletSpeed = 1.0f;
@@ -45,12 +40,18 @@ public class BossController : MonoBehaviour
         chainsaw,
     }
 
+    public void Reset()
+    {
+        transform.position = idlePos.position;
+        currentAttack = 0;
+        isAttacking = false;
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         currentAttack = 0;
         isAttacking = false;
-        currHealth = MaxHealth;
 
         if (bossBulletPool == null)
         {

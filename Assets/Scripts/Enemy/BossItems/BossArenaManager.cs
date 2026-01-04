@@ -5,6 +5,7 @@ using UnityEngine;
 public class BossArenaManager : MonoBehaviour
 {
     [SerializeField] private BossController boss;
+    [SerializeField] private BossHealthManager bossHp;
 
     [Header("Chainsaw Attack")]
     [SerializeField] private Transform chainsaw;
@@ -21,6 +22,16 @@ public class BossArenaManager : MonoBehaviour
     [Header("Boss Pylons")]
     [SerializeField] private List<GameObject> pylons;
 
+    public void Reset()
+    {
+        SetSpikeInactive();
+        SetPylonInactive();
+
+        chainsaw.position = chainsawLeftPos.position;
+
+        boss.Reset();
+        bossHp.Reset();
+    }
     private void Start()
     {
         SetSpikeInactive();

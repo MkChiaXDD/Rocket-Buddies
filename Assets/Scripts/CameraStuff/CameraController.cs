@@ -112,7 +112,7 @@ public class CameraController : MonoBehaviour
 
             textField?.SetActive(false);
             SetMode(currentMode);
-            FindFirstObjectByType<WorldOneManager>()?.StartGame();
+            FindFirstObjectByType<WorldManager>()?.StartGame();
         }
     }
 

@@ -29,28 +29,25 @@ public class CheckPointManager : MonoBehaviour
 
     public void RespawnPlayers()
     {
-        // Find ALL players with the tag "Player"
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
         foreach (GameObject player in players)
         {
-            // Reset position
             player.transform.position = LatestCheckPointLocation;
 
-            // Optional: also reset velocity so they don’t fly away
             Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
             if (rb != null)
                 rb.linearVelocity = Vector2.zero;
 
             AudioManager.Instance.PlaySFX("Respawn", 0.7f);
 
-            // Optional: disable/enable scripts for safety
-            //player.GetComponent<PlayerController>().ResetState();
         }
 
-        // ?? THIS IS THE KEY LINE
         if (currentCheckPoint != null)
             currentCheckPoint.ResetEnemies();
+
+        if (currentCheckPoint != null)
+            currentCheckPoint.ResetBoss();
     }
 
     private CheckPoint FindCheckPointByIndex(int index)
