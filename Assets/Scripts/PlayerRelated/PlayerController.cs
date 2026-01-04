@@ -65,6 +65,7 @@ public class PlayerController : MonoBehaviour
 
     private bool movementDisabled = false;
 
+    [SerializeField] private PlayerAnimationController playerAnim;
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -154,6 +155,8 @@ public class PlayerController : MonoBehaviour
             movementInput = Vector2.zero;
             aimInput = Vector2.zero;
             isFireHeld = false;
+
+            playerAnim.PlayDie();
         }
     }
 

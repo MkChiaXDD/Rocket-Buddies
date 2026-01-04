@@ -5,7 +5,7 @@ public class WorldManager : MonoBehaviour
     [SerializeField] private GameObject StartingDoor;
     [SerializeField] private GameObject WorldSpaceCanvas;
 
-    [SerializeField] private string worldOneBGM, worldTwoBGM, worldThreeBGM;
+    [SerializeField] private string worldOneBGM;
 
     private void Start()
     {
@@ -23,6 +23,7 @@ public class WorldManager : MonoBehaviour
 
     private void PlayWorldBGM(string name)
     {
-        AudioManager.Instance.PlayBGM(name, true);
+        AudioManager.Instance.StopBGM();
+        AudioManager.Instance.PlayBGM(name, true, 0.01f);
     }
 }

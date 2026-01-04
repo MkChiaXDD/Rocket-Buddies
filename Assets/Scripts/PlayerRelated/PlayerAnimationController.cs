@@ -57,4 +57,9 @@ public class PlayerAnimationController : MonoBehaviour
             sprite.flipX = moveDir > 0f;
         }
     }
+
+    public void PlayDie()
+    {
+        anim.SetTrigger("Die");
+    }
 }

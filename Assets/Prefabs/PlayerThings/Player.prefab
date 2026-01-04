@@ -135,6 +135,7 @@ MonoBehaviour:
   groundCheckPoint: {fileID: 2580960115869560582}
   player1Hex: '#4A65B5'
   player2Hex: '#C52053'
+  playerAnim: {fileID: 7707508261410095030}
 --- !u!114 &8695617778799761993
 MonoBehaviour:
   m_ObjectHideFlags: 0
