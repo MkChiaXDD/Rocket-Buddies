@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class BossHealthManager : MonoBehaviour
 {
+    [SerializeField] private Image hpBg;
     [SerializeField] private Image healthBar;
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private int maxHealth;
@@ -15,9 +16,18 @@ public class BossHealthManager : MonoBehaviour
         UpdateHealthBar();
     }
 
+    public void ShowHpBar()
+    {
+        hpBg.enabled = true;
+        healthBar.enabled = true;
+    }
+
     private void Start()
     {
         currHealth = maxHealth;
+
+        hpBg.enabled = false;
+        healthBar.enabled = false;
     }
 
     private void Update()

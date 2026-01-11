@@ -11,6 +11,8 @@ public class Portal : MonoBehaviour
     private GameObject player1;
     private GameObject player2;
 
+    [SerializeField] private BossController boss;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (linkedPortal == null) return;
@@ -38,6 +40,11 @@ public class Portal : MonoBehaviour
                 AudioManager.Instance.PlaySFX("Teleport");
                 player1.transform.position = linkedPortal.transform.position;
                 player2.transform.position = linkedPortal.transform.position;
+
+                if (boss != null)
+                {
+                    boss.StartBossFight();
+                }
             }
         }
     }

@@ -32,6 +32,9 @@ public class BossController : MonoBehaviour
 
     [Header("Arena Attacks")]
     [SerializeField] private BossArenaManager arena;
+
+    [Header("Health Things")]
+    [SerializeField] private BossHealthManager hpMgr;
     private enum States
     {
         idle,
@@ -112,6 +115,7 @@ public class BossController : MonoBehaviour
 
     public void StartBossFight()
     {
+        hpMgr.ShowHpBar();
         currentAttack = 1;
     }
 
