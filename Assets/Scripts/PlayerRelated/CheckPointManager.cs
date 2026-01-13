@@ -44,10 +44,10 @@ public class CheckPointManager : MonoBehaviour
         }
 
         if (currentCheckPoint != null)
+        {
             currentCheckPoint.ResetEnemies();
-
-        if (currentCheckPoint != null)
             currentCheckPoint.ResetBoss();
+        }
     }
 
     private CheckPoint FindCheckPointByIndex(int index)

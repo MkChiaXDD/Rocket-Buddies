@@ -37,13 +37,14 @@ public class Portal : MonoBehaviour
         {
             if (player1 && player2 && linkedPortal)
             {
-                AudioManager.Instance.PlaySFX("Teleport");
+                AudioManager.Instance.PlaySFX("Teleport", 0.1f);
                 player1.transform.position = linkedPortal.transform.position;
                 player2.transform.position = linkedPortal.transform.position;
 
                 if (boss != null)
                 {
                     boss.StartBossFight();
+                    FindFirstObjectByType<CameraController>()?.SetSharedWithTarget(boss.transform);
                 }
             }
         }

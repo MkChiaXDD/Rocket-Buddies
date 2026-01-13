@@ -7,6 +7,7 @@ public class MenuButtonManager : MonoBehaviour
 {
     [Header("Panels")]
     [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private GameObject instructionsPanel;
 
     [Header("Audio")]
     [SerializeField] private AudioMixer audioMixer;
@@ -22,26 +23,47 @@ public class MenuButtonManager : MonoBehaviour
 
     private void Start()
     {
+        masterSlider.onValueChanged.AddListener(OnMasterChanged);
+        sfxSlider.onValueChanged.AddListener(OnSFXChanged);
+        bgmSlider.onValueChanged.AddListener(OnBGMChanged);
+
         LoadAudio();
         settingsPanel.SetActive(false);
+        instructionsPanel.SetActive(false);
     }
+
 
     // ================= BUTTONS =================
 
     public void PlayButton()
     {
+        AudioManager.Instance.PlaySFX("ButtonClick");
         SceneManager.LoadScene("GameScene");
     }
 
     public void OpenSettings()
     {
+        AudioManager.Instance.PlaySFX("ButtonClick");
         settingsPanel.SetActive(true);
         LoadAudio();
     }
 
     public void CloseSettings()
     {
+        AudioManager.Instance.PlaySFX("ButtonClick");
         settingsPanel.SetActive(false);
+    }
+
+    public void OpenInstructions()
+    {
+        AudioManager.Instance.PlaySFX("ButtonClick");
+        instructionsPanel.SetActive(true);
+    }
+
+    public void CloseInstructions()
+    {
+        AudioManager.Instance.PlaySFX("ButtonClick");
+        instructionsPanel.SetActive(false);
     }
 
     // ================= AUDIO =================

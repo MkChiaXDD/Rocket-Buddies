@@ -7,6 +7,7 @@ public class BossHealthManager : MonoBehaviour
     [SerializeField] private Image hpBg;
     [SerializeField] private Image healthBar;
     [SerializeField] private SpriteRenderer sprite;
+    [SerializeField] private GameObject bossName;
     [SerializeField] private int maxHealth;
     private int currHealth;
 
@@ -14,12 +15,16 @@ public class BossHealthManager : MonoBehaviour
     {
         currHealth = maxHealth;
         UpdateHealthBar();
+        hpBg.enabled = false;
+        healthBar.enabled = false;
+        bossName.SetActive(false);
     }
 
     public void ShowHpBar()
     {
         hpBg.enabled = true;
         healthBar.enabled = true;
+        bossName.SetActive(true);
     }
 
     private void Start()
@@ -28,6 +33,7 @@ public class BossHealthManager : MonoBehaviour
 
         hpBg.enabled = false;
         healthBar.enabled = false;
+        bossName.SetActive(false);
     }
 
     private void Update()
