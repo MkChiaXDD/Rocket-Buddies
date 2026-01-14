@@ -45,6 +45,8 @@ public class BossController : MonoBehaviour
 
     public void Reset()
     {
+        StopCoroutine(PerformChargeAttack());
+        StopCoroutine(PerformShootAttack());
         transform.position = idlePos.position;
         currentAttack = 0;
         isAttacking = false;

@@ -22,8 +22,23 @@ public class BossArenaManager : MonoBehaviour
     [Header("Boss Pylons")]
     [SerializeField] private List<GameObject> pylons;
 
+    private Coroutine spikeCoroutine;
+    private Coroutine chainsawCoroutine;
+
     public void Reset()
     {
+        if (spikeCoroutine != null)
+        {
+            StopCoroutine(spikeCoroutine);
+            spikeCoroutine = null;
+        }
+
+        if (chainsawCoroutine != null)
+        {
+            StopCoroutine(chainsawCoroutine);
+            chainsawCoroutine = null;
+        }
+
         SetSpikeInactive();
         SetPylonInactive();
 
@@ -32,6 +47,7 @@ public class BossArenaManager : MonoBehaviour
         boss.Reset();
         bossHp.Reset();
     }
+
     private void Start()
     {
         SetSpikeInactive();
@@ -49,10 +65,12 @@ public class BossArenaManager : MonoBehaviour
     #region Chainsaw Attack
     public void PerformChainsawAttack()
     {
-        //0 = Left, 1 = Right
         int LorR = Random.Range(0, 2);
 
-        StartCoroutine(ChainsawAttack(LorR));
+        if (chainsawCoroutine != null)
+            StopCoroutine(chainsawCoroutine);
+
+        chainsawCoroutine = StartCoroutine(ChainsawAttack(LorR));
     }
 
     private IEnumerator ChainsawAttack(int LorR)
@@ -98,7 +116,11 @@ public class BossArenaManager : MonoBehaviour
     public void PerformSpikeFallAttack()
     {
         int amt = Random.Range(minSpikes, spikes.Count);
-        StartCoroutine(SpikeFallAttack(amt));
+
+        if (spikeCoroutine != null)
+            StopCoroutine(spikeCoroutine);
+
+        spikeCoroutine = StartCoroutine(SpikeFallAttack(amt));
     }
 
     private IEnumerator SpikeFallAttack(int amt)
