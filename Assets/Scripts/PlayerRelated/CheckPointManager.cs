@@ -13,6 +13,53 @@ public class CheckPointManager : MonoBehaviour
         {
             RespawnPlayers();
         }
+        
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            TeleportToNextCheckpoint();
+        }
+    }
+
+    private void TeleportToNextCheckpoint()
+    {
+        int nextIndex = currCheckPointIndex + 1;
+        string nextCheckpointName = "CheckPoint " + nextIndex;
+
+        GameObject checkpointObj = GameObject.Find(nextCheckpointName);
+
+        if (checkpointObj == null)
+        {
+            Debug.Log("No checkpoint found with name: " + nextCheckpointName);
+            return;
+        }
+
+        CheckPoint nextCheckpoint = checkpointObj.GetComponent<CheckPoint>();
+
+        if (nextCheckpoint == null)
+        {
+            Debug.Log("Checkpoint object has no CheckPoint component.");
+            return;
+        }
+
+        Vector3 targetPos = checkpointObj.transform.position;
+
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach (GameObject player in players)
+        {
+            player.transform.position = targetPos;
+
+            Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
+            if (rb != null)
+                rb.linearVelocity = Vector2.zero;
+        }
+
+        // Update state
+        currCheckPointIndex = nextIndex;
+        LatestCheckPointLocation = targetPos;
+        currentCheckPoint = nextCheckpoint;
+
+        AudioManager.Instance.PlaySFX("Checkpoint");
     }
 
     // Call this when a checkpoint is triggered
