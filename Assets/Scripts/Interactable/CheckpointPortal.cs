@@ -12,6 +12,7 @@ public class CheckpointPortal : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Player"))
         {
+            FloatingText.Instance.Show("World Two");
             collision.transform.position = linkedCheckpoint.transform.position;
         }
     }

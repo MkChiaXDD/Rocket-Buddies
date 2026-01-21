@@ -4,6 +4,7 @@ public class Portal : MonoBehaviour
 {
     [SerializeField] private Portal linkedPortal;
     [SerializeField] private bool IsExitPortal = false;
+    [SerializeField] private string popupText; 
 
     private bool player1Reached = false;
     private bool player2Reached = false;
@@ -38,6 +39,10 @@ public class Portal : MonoBehaviour
             if (player1 && player2 && linkedPortal)
             {
                 AudioManager.Instance.PlaySFX("Teleport", 0.1f);
+                if (popupText != null)
+                {
+                    FloatingText.Instance.Show(popupText);
+                }
                 player1.transform.position = linkedPortal.transform.position;
                 player2.transform.position = linkedPortal.transform.position;
 
