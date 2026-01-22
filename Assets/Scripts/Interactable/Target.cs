@@ -34,8 +34,14 @@ public class Target : MonoBehaviour
         StartCoroutine(Reset());
 
         // Door logic (UNCHANGED)
-        if (door != null)
+        if (door != null && openDoorDuration > 0)
+        {
             StartCoroutine(OpenCloseDoor());
+        }
+        else
+        {
+            door.OpenDoor();
+        }
 
         // ?? ADD THIS (Laser logic)
         if (lazer != null)
