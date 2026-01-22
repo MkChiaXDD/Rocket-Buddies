@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Target : MonoBehaviour
@@ -10,6 +11,17 @@ public class Target : MonoBehaviour
 
     // ?? ADD THIS
     [SerializeField] private Lazer lazer;
+
+    [SerializeField] private float appearDuration = 2f;
+    [SerializeField] private List<GameObject> objectAppear;
+
+    private void Start()
+    {
+        for (int i = 0; i < objectAppear.Count; i++)
+        {
+            objectAppear[i].SetActive(false);
+        }
+    }
 
     public void OnHit()
     {
@@ -28,6 +40,9 @@ public class Target : MonoBehaviour
         // ?? ADD THIS (Laser logic)
         if (lazer != null)
             lazer.DeactivateLazer(openDoorDuration);
+
+        if (objectAppear != null)
+            StartCoroutine(OnOffObject());
     }
 
     public bool GetIsHit()
@@ -50,5 +65,20 @@ public class Target : MonoBehaviour
         yield return new WaitForSeconds(openDoorDuration);
 
         door.CloseDoor();
+    }
+
+    private IEnumerator OnOffObject()
+    {
+        for (int i = 0; i < objectAppear.Count; i++)
+        {
+            objectAppear[i].SetActive(true);
+        }
+
+        yield return new WaitForSeconds(appearDuration);
+
+        for (int i = 0; i < objectAppear.Count; i++)
+        {
+            objectAppear[i].SetActive(false);
+        }
     }
 }
