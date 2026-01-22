@@ -6,10 +6,16 @@ public class StepButton : MonoBehaviour
     private bool isActive;
     private int playersOnButton = 0;
 
+    [Header("Visuals")]
     [SerializeField] private GameObject unPressedButton;
     [SerializeField] private GameObject pressedButton;
 
+    [Header("Door Settings")]
     [SerializeField] private List<Door> doors;
+    [SerializeField] private bool openRandomDoor = false;
+    [SerializeField] private int requiredPlayers = 1; // 1 or 2 players needed
+
+    private Door currentRandomDoor;
 
     private void Start()
     {
@@ -26,7 +32,7 @@ public class StepButton : MonoBehaviour
 
         playersOnButton++;
 
-        if (!isActive)
+        if (!isActive && playersOnButton >= requiredPlayers)
             SetButton(true);
     }
 
@@ -36,28 +42,55 @@ public class StepButton : MonoBehaviour
 
         playersOnButton = Mathf.Max(0, playersOnButton - 1);
 
-        if (playersOnButton == 0)
+        if (isActive && playersOnButton < requiredPlayers)
             SetButton(false);
     }
 
     private void SetButton(bool pressed)
     {
+        isActive = pressed;
+
         if (unPressedButton) unPressedButton.SetActive(!pressed);
         if (pressedButton) pressedButton.SetActive(pressed);
 
         AudioManager.Instance.PlaySFX("ButtonClick");
-        isActive = pressed;
+
         UpdateDoors();
     }
 
     private void UpdateDoors()
     {
-        foreach (var door in doors)
+        if (doors == null || doors.Count == 0) return;
+
+        if (openRandomDoor)
         {
-            if (isActive)
-                door.OpenDoor();
-            else
-                door.CloseDoor();
+            HandleRandomDoor();
+        }
+        else
+        {
+            foreach (var door in doors)
+            {
+                if (isActive)
+                    door.OpenDoor();
+                else
+                    door.CloseDoor();
+            }
+        }
+    }
+
+    private void HandleRandomDoor()
+    {
+        if (isActive)
+        {
+            int randomIndex = Random.Range(0, doors.Count);
+            currentRandomDoor = doors[randomIndex];
+
+            currentRandomDoor?.OpenDoor();
+        }
+        else
+        {
+            currentRandomDoor?.CloseDoor();
+            currentRandomDoor = null;
         }
     }
 }

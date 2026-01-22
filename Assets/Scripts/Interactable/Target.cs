@@ -15,6 +15,14 @@ public class Target : MonoBehaviour
     [SerializeField] private float appearDuration = 2f;
     [SerializeField] private List<GameObject> objectAppear;
 
+    [Header("Random Door Settings")]
+    [SerializeField] private List<Door> randomDoors;
+    [SerializeField] private bool closeRandomDoor = true;
+
+    [Header("Laser Race Thing")]
+    [SerializeField] private LaserRace race;
+
+
     private void Start()
     {
         for (int i = 0; i < objectAppear.Count; i++)
@@ -36,11 +44,14 @@ public class Target : MonoBehaviour
         // Door logic (UNCHANGED)
         if (door != null && openDoorDuration > 0)
         {
-            StartCoroutine(OpenCloseDoor());
-        }
-        else
-        {
-            door.OpenDoor();
+            if (openDoorDuration > 0)
+            {
+                StartCoroutine(OpenCloseDoor());
+            }
+            else
+            {
+                door.OpenDoor();
+            }
         }
 
         // ?? ADD THIS (Laser logic)
@@ -49,6 +60,17 @@ public class Target : MonoBehaviour
 
         if (objectAppear != null)
             StartCoroutine(OnOffObject());
+
+        // Random door logic
+        if (randomDoors != null && randomDoors.Count > 0)
+        {
+            OpenRandomDoor();
+        }
+
+        if (race != null)
+        {
+            StartLaserRace();
+        }
     }
 
     public bool GetIsHit()
@@ -86,5 +108,31 @@ public class Target : MonoBehaviour
         {
             objectAppear[i].SetActive(false);
         }
+    }
+
+    private void OpenRandomDoor()
+    {
+        int randomIndex = Random.Range(0, randomDoors.Count);
+        Door selectedDoor = randomDoors[randomIndex];
+
+        if (selectedDoor == null) return;
+
+        selectedDoor.OpenDoor();
+
+        if (closeRandomDoor && openDoorDuration > 0)
+        {
+            StartCoroutine(CloseRandomDoorAfterTime(selectedDoor));
+        }
+    }
+
+    private IEnumerator CloseRandomDoorAfterTime(Door doorToClose)
+    {
+        yield return new WaitForSeconds(openDoorDuration);
+        doorToClose.CloseDoor();
+    }
+
+    private void StartLaserRace()
+    {
+        race.StartRace();
     }
 }

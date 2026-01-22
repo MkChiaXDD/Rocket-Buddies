@@ -94,6 +94,7 @@ public class CheckPointManager : MonoBehaviour
         {
             currentCheckPoint.ResetEnemies();
             currentCheckPoint.ResetBoss();
+            currentCheckPoint.ResetRace();
         }
     }
 

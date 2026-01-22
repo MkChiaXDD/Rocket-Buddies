@@ -22,6 +22,9 @@ public class CheckPoint : MonoBehaviour
     [SerializeField] private Door linkedDoor;   // DRAG DOOR HERE ??
     [SerializeField] private Door enemyResetDoor;
 
+    [Header("Laser Race")]
+    [SerializeField] private LaserRace race;
+
     private void Start()
     {
         // Initial visual state
@@ -114,5 +117,12 @@ public class CheckPoint : MonoBehaviour
     public bool IsActivated()
     {
         return activated;
+    }
+
+    public void ResetRace()
+    {
+        if (race == null) return;
+
+        race.ResetRace();
     }
 }
