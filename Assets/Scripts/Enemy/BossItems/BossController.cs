@@ -118,6 +118,13 @@ public class BossController : MonoBehaviour
     public void StartBossFight()
     {
         hpMgr.ShowHpBar();
+        StartCoroutine(DelayStartBossFight());   
+    }
+
+    private IEnumerator DelayStartBossFight()
+    {
+        yield return new WaitForSeconds(2f);
+
         currentAttack = 1;
     }
 

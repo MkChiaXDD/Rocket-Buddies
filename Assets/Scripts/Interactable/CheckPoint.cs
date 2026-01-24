@@ -123,6 +123,7 @@ public class CheckPoint : MonoBehaviour
     {
         if (race == null) return;
 
+        race.StopRace();
         race.ResetRace();
     }
 }

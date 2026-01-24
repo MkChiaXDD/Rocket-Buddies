@@ -7,9 +7,10 @@ public class BossArenaManager : MonoBehaviour
     [SerializeField] private BossController boss;
     [SerializeField] private BossHealthManager bossHp;
 
-    [Header("Chainsaw Attack")]
+    [Header("Chainsaw Attack")] 
     [SerializeField] private Transform chainsaw;
     [SerializeField] private Transform chainsawLeftPos, chainsawRightPos;
+    [SerializeField] private GameObject warningLeft, warningRight;
     [SerializeField] private float moveSpeed = 3f;
 
     [Header("Spike Fall Attack")]
@@ -46,12 +47,18 @@ public class BossArenaManager : MonoBehaviour
 
         boss.Reset();
         bossHp.Reset();
+
+        warningLeft.SetActive(false);
+        warningRight.SetActive(true);
     }
 
     private void Start()
     {
         SetSpikeInactive();
         SetPylonInactive();
+
+        warningLeft.SetActive(false);
+        warningRight.SetActive(false);
     }
 
     private void Update()
@@ -75,31 +82,49 @@ public class BossArenaManager : MonoBehaviour
 
     private IEnumerator ChainsawAttack(int LorR)
     {
-        FindFirstObjectByType<CameraController>()?.SetSharedWithTarget(chainsaw);
-        chainsaw.gameObject.GetComponent<BossChainsaw>()?.ResetDamagePlayer();
+        // LorR: 0 = Left, 1 = Right
+        bool isLeft = LorR == 0;
+
+        var cam = FindFirstObjectByType<CameraController>();
+        cam?.SetSharedWithTarget(chainsaw);
+
+        chainsaw.GetComponent<BossChainsaw>()?.ResetDamagePlayer();
         Debug.Log("BOSS ATTACK: CHAINSAW START");
-        Vector2 targetPos;
-        if (LorR == 0)
+
+        Transform startPos = isLeft ? chainsawLeftPos : chainsawRightPos;
+        Transform endPos = isLeft ? chainsawRightPos : chainsawLeftPos;
+        GameObject warning = isLeft ? warningLeft : warningRight;
+
+        chainsaw.position = startPos.position;
+
+        // Warning flash
+        for (int i = 0; i < 3; i++)
         {
-            chainsaw.position = chainsawLeftPos.position;
-            targetPos = chainsawRightPos.position;
+            warning.SetActive(true);
+            yield return new WaitForSeconds(0.15f);
+
+            warning.SetActive(false);
+            yield return new WaitForSeconds(0.15f);
         }
-        else
-        {
-            chainsaw.position = chainsawRightPos.position;
-            targetPos = chainsawLeftPos.position;
-        }
+
+        // Move chainsaw across arena
+        Vector2 targetPos = endPos.position;
 
         while (Vector2.Distance(chainsaw.position, targetPos) > 0.1f)
         {
-            chainsaw.position = Vector2.MoveTowards(chainsaw.position, targetPos, moveSpeed * Time.deltaTime);
+            chainsaw.position = Vector2.MoveTowards(
+                chainsaw.position,
+                targetPos,
+                moveSpeed * Time.deltaTime
+            );
             yield return null;
         }
 
-        FindFirstObjectByType<CameraController>()?.SetSharedWithTarget(boss.gameObject.transform);
+        cam?.SetSharedWithTarget(boss.transform);
         boss.NextState();
         Debug.Log("BOSS ATTACK: CHAINSAW END");
     }
+
 
     #endregion
 
@@ -169,7 +194,7 @@ public class BossArenaManager : MonoBehaviour
         }
 
         // Stay down briefly
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.25f);
 
         spike.transform.position = startPos;
         spike.GetComponent<Spike>().hasHit = false;

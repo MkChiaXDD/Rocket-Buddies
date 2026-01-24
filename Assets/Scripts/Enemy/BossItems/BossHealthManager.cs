@@ -50,6 +50,10 @@ public class BossHealthManager : MonoBehaviour
         {
             currHealth--;
         }
+        else
+        {
+            Destroy(gameObject);
+        }
         StartCoroutine(DamageFlash());
         UpdateHealthBar();
     }
