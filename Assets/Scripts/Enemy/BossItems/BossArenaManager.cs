@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BossArenaManager : MonoBehaviour
@@ -15,6 +16,7 @@ public class BossArenaManager : MonoBehaviour
     [SerializeField] private float moveSpeed = 3f;
 
     [Header("Spike Fall Attack")]
+    [SerializeField] private GameObject spikeWarning;
     [SerializeField] private List<GameObject> spikes;
     [SerializeField] private Transform spikeStopPoint;
     [SerializeField] private int minSpikes;
@@ -51,7 +53,8 @@ public class BossArenaManager : MonoBehaviour
         bossHp.Reset();
 
         warningLeft.SetActive(false);
-        warningRight.SetActive(true);
+        warningRight.SetActive(false);
+        spikeWarning.SetActive(false);
     }
 
     private void Start()
@@ -61,6 +64,7 @@ public class BossArenaManager : MonoBehaviour
 
         warningLeft.SetActive(false);
         warningRight.SetActive(false);
+        spikeWarning.SetActive(false);
     }
 
     private void Update()
@@ -167,6 +171,16 @@ public class BossArenaManager : MonoBehaviour
             available.RemoveAt(index);
         }
 
+        AudioManager.Instance.PlaySFX("BossSawAlert", 0.1f);
+        for (int i = 0; i < 3; i++)
+        {
+            spikeWarning.SetActive(true);
+            yield return new WaitForSeconds(0.15f);
+
+            spikeWarning.SetActive(false);
+            yield return new WaitForSeconds(0.15f);
+        }
+
         foreach (GameObject spike in chosen)
         {
             StartCoroutine(DropSingleSpike(spike));
@@ -201,7 +215,7 @@ public class BossArenaManager : MonoBehaviour
             yield return null;
         }
 
-        AudioManager.Instance.PlaySFX("SpikeLand");
+        AudioManager.Instance.PlaySFX("SpikeLand", 0.3f);
 
         // Stay down briefly
         yield return new WaitForSeconds(0.25f);

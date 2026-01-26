@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2648401800106757043}
   - component: {fileID: 5550744471454511243}
   - component: {fileID: 2952374990741874698}
+  - component: {fileID: 5393138391210542973}
   m_Layer: 0
   m_Name: BossBullet
   m_TagString: Untagged
@@ -30,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -67.26862, y: -389.70642, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 6, y: 6, z: 6}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -165,3 +166,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ac3e03d4cc08a94797807964bcb3207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &5393138391210542973
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5663865160111780722}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 03e3cc21dcf14e046b72a4061bc583b0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

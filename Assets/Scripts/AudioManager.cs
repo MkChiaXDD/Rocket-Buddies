@@ -23,6 +23,14 @@ public class AudioManager : MonoBehaviour
     private Dictionary<string, AudioClip> bgmDict;
     private Dictionary<string, AudioClip> sfxDict;
 
+    private const string MASTER_KEY = "MasterVolume";
+    private const string SFX_KEY = "SFXVolume";
+    private const string BGM_KEY = "BGMVolume";
+
+    private float masterVolume = 1f;
+    private float bgmVolume = 1f;
+    private float sfxVolume = 1f;
+
     private void Awake()
     {
         // Singleton pattern
@@ -35,6 +43,8 @@ public class AudioManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         BuildDictionaries();
+        LoadVolumes();
+        ApplyVolumes();
     }
 
     private void BuildDictionaries()
@@ -134,5 +144,21 @@ public class AudioManager : MonoBehaviour
     {
         if (sfxSource != null)
             sfxSource.volume = volume;
+    }
+
+    private void LoadVolumes()
+    {
+        masterVolume = PlayerPrefs.GetFloat(MASTER_KEY, 1f);
+        bgmVolume = PlayerPrefs.GetFloat(BGM_KEY, 1f);
+        sfxVolume = PlayerPrefs.GetFloat(SFX_KEY, 1f);
+    }
+
+    private void ApplyVolumes()
+    {
+        if (bgmSource != null)
+            bgmSource.volume = bgmVolume * masterVolume;
+
+        if (sfxSource != null)
+            sfxSource.volume = sfxVolume * masterVolume;
     }
 }

@@ -16,6 +16,7 @@ public class BossController : MonoBehaviour
     [SerializeField] private float bulletSpeed = 1.0f;
     [SerializeField] private int bulletCount = 3;
     [SerializeField] private float timeToNextShot = 1f;
+    [SerializeField] private float shootRecoilDistance = 0.15f;
 
     [Header("Charge Settings")]
     [SerializeField] private ParticleSystem dashAfterImageFX;
@@ -177,6 +178,8 @@ public class BossController : MonoBehaviour
         newBullet.transform.position = transform.position;
         BossBullet newBulletScript = newBullet.GetComponent<BossBullet>();
         newBulletScript.Init(shootDir, bulletSpeed);
+
+        transform.position -= (Vector3)(shootDir * shootRecoilDistance);
     }
 
     #endregion
@@ -187,6 +190,7 @@ public class BossController : MonoBehaviour
     {
         Debug.Log("BOSS ATTACK: CHARGE ATTACK START");
         dashAfterImageFX.Play();
+        yield return new WaitForSeconds(chargeCooldown);
         for (int i = 0; i < numberOfCharges; i++)
         {
             chargeCanHit = true;

@@ -63,6 +63,7 @@ public class BossHealthManager : MonoBehaviour
         if (currHealth < maxHealth)
         {
             currHealth++;
+            StartCoroutine(HealFlash());
             UpdateHealthBar();
         }
     }
@@ -75,6 +76,15 @@ public class BossHealthManager : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
         sprite.color = Color.white;
+    }
+
+    private IEnumerator HealFlash()
+    {
+        sprite.color = Color.red;
+
+        yield return new WaitForSeconds(0.1f);
+
+        sprite.color = Color.green;
     }
 
     protected virtual void UpdateHealthBar()
