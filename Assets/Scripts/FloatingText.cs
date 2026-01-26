@@ -8,21 +8,20 @@ public class FloatingText : MonoBehaviour
 
     [SerializeField] private TMP_Text text;
 
-    [Header("Positions")]
-    public float startX = 900f;
-    public float centerX = 0f;
-    public float endX = -900f;
+    [Header("Positions (X)")]
+    [SerializeField] private float startX = 900f;
+    [SerializeField] private float centerX = 0f;
+    [SerializeField] private float endX = -900f;
 
-    [Header("Speeds")]
-    public float fastSpeed = 2400f;
-    public float slowSpeed = 450f;
-
-    [Header("Center Slow Zone")]
-    public float slowRange = 180f;      // ± range around center
-    public float minSlowTime = 0.6f;    // how long it lingers while moving
+    [Header("Timings (seconds)")]
+    [SerializeField] private float enterDuration = 0.6f;
+    [SerializeField] private float lingerDuration = 0.8f;
+    [SerializeField] private float exitDuration = 0.4f;
 
     private RectTransform rect;
     private Coroutine routine;
+
+    // ================= UNITY =================
 
     private void Awake()
     {
@@ -50,48 +49,38 @@ public class FloatingText : MonoBehaviour
         text.text = msg;
         text.enabled = true;
 
-        float x = startX;
-        rect.anchoredPosition = new Vector2(x, 0);
+        // Start off-screen (right)
+        rect.anchoredPosition = new Vector2(startX, 0);
 
-        float slowTimer = 0f;
-        bool exitedCenter = false;
+        AudioManager.Instance.PlaySFX("FloatingTextSwoosh");
+        // 1?? Enter: right ? center
+        yield return MoveTimed(startX, centerX, enterDuration);
 
-        while (!exitedCenter)
-        {
-            float distToCenter = Mathf.Abs(x - centerX);
-            bool inSlowZone = distToCenter <= slowRange;
+        // 2?? Linger at center
+        yield return new WaitForSeconds(lingerDuration);
 
-            float speed = inSlowZone ? slowSpeed : fastSpeed;
-
-            x += Mathf.Sign(centerX - x) * speed * Time.deltaTime;
-            rect.anchoredPosition = new Vector2(x, 0);
-
-            if (inSlowZone)
-                slowTimer += Time.deltaTime;
-
-            // Once we've lingered long enough and passed center ? exit
-            if (slowTimer >= minSlowTime && x <= centerX)
-                exitedCenter = true;
-
-            yield return null;
-        }
-
-        // Fast exit to the left
-        yield return MoveLinear(x, endX, fastSpeed);
+        AudioManager.Instance.PlaySFX("FloatingTextSwoosh");
+        // 3?? Exit: center ? left
+        yield return MoveTimed(centerX, endX, exitDuration);
 
         text.enabled = false;
     }
 
-    // ================= EXIT =================
+    // ================= HELPERS =================
 
-    private IEnumerator MoveLinear(float from, float to, float speed)
+    private IEnumerator MoveTimed(float from, float to, float duration)
     {
-        float x = from;
-        float dir = Mathf.Sign(to - from);
+        float elapsed = 0f;
 
-        while ((dir > 0 && x < to) || (dir < 0 && x > to))
+        while (elapsed < duration)
         {
-            x += dir * speed * Time.deltaTime;
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+
+            // Smooth easing (feels much better for UI)
+            float eased = Mathf.SmoothStep(0f, 1f, t);
+            float x = Mathf.Lerp(from, to, eased);
+
             rect.anchoredPosition = new Vector2(x, 0);
             yield return null;
         }

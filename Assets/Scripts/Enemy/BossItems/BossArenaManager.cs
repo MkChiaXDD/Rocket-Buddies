@@ -6,6 +6,7 @@ public class BossArenaManager : MonoBehaviour
 {
     [SerializeField] private BossController boss;
     [SerializeField] private BossHealthManager bossHp;
+    [SerializeField] private BossAnimationController bossAnim;
 
     [Header("Chainsaw Attack")] 
     [SerializeField] private Transform chainsaw;
@@ -17,6 +18,7 @@ public class BossArenaManager : MonoBehaviour
     [SerializeField] private List<GameObject> spikes;
     [SerializeField] private Transform spikeStopPoint;
     [SerializeField] private int minSpikes;
+    [SerializeField] private int maxSpikes;
     [SerializeField] private float spikeDropCooldown;
     [SerializeField] private float spikeFallSpeed;
 
@@ -96,7 +98,8 @@ public class BossArenaManager : MonoBehaviour
         GameObject warning = isLeft ? warningLeft : warningRight;
 
         chainsaw.position = startPos.position;
-
+        bossAnim.StartAbilityAnim();
+        AudioManager.Instance.PlaySFX("BossSawAlert", 0.1f);
         // Warning flash
         for (int i = 0; i < 3; i++)
         {
@@ -107,6 +110,7 @@ public class BossArenaManager : MonoBehaviour
             yield return new WaitForSeconds(0.15f);
         }
 
+        AudioManager.Instance.PlaySFX("BossSaw");
         // Move chainsaw across arena
         Vector2 targetPos = endPos.position;
 
@@ -120,6 +124,7 @@ public class BossArenaManager : MonoBehaviour
             yield return null;
         }
 
+        bossAnim.EndAbilityAnim();
         cam?.SetSharedWithTarget(boss.transform);
         boss.NextState();
         Debug.Log("BOSS ATTACK: CHAINSAW END");
@@ -140,7 +145,7 @@ public class BossArenaManager : MonoBehaviour
 
     public void PerformSpikeFallAttack()
     {
-        int amt = Random.Range(minSpikes, spikes.Count);
+        int amt = Random.Range(minSpikes, maxSpikes);
 
         if (spikeCoroutine != null)
             StopCoroutine(spikeCoroutine);
@@ -150,6 +155,7 @@ public class BossArenaManager : MonoBehaviour
 
     private IEnumerator SpikeFallAttack(int amt)
     {
+        bossAnim.StartAbilityAnim();
         Debug.Log("BOSS ATTACK: SPIKE FALL START");
         List<GameObject> available = new List<GameObject>(spikes);
         List<GameObject> chosen = new List<GameObject>();
@@ -167,6 +173,8 @@ public class BossArenaManager : MonoBehaviour
             yield return new WaitForSeconds(spikeDropCooldown);
         }
 
+        bossAnim.EndAbilityAnim();
+        yield return new WaitForSeconds(0.5f);
         boss.NextState();
         Debug.Log("BOSS ATTACK: SPIKE FALL END");
     }
@@ -192,6 +200,8 @@ public class BossArenaManager : MonoBehaviour
             );
             yield return null;
         }
+
+        AudioManager.Instance.PlaySFX("SpikeLand");
 
         // Stay down briefly
         yield return new WaitForSeconds(0.25f);

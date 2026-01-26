@@ -18,6 +18,7 @@ public class BossController : MonoBehaviour
     [SerializeField] private float timeToNextShot = 1f;
 
     [Header("Charge Settings")]
+    [SerializeField] private ParticleSystem dashAfterImageFX;
     [SerializeField] private float chargeSpeed = 2f;
     [SerializeField] private int numberOfCharges = 3;
     [SerializeField] private float chargeCooldown = 1f;
@@ -146,10 +147,12 @@ public class BossController : MonoBehaviour
         {
             bossAnim.PlayShootAnim();
             yield return new WaitForSeconds(0.3f);
+            AudioManager.Instance.PlaySFX("BossShoot");
             ShootBullet();
             yield return new WaitForSeconds(timeToNextShot);
         }
 
+        yield return new WaitForSeconds(0.5f);
         Debug.Log("BOSS ATTACK: SHOOT END");
         NextState();
     }
@@ -183,6 +186,7 @@ public class BossController : MonoBehaviour
     private IEnumerator PerformChargeAttack()
     {
         Debug.Log("BOSS ATTACK: CHARGE ATTACK START");
+        dashAfterImageFX.Play();
         for (int i = 0; i < numberOfCharges; i++)
         {
             chargeCanHit = true;
@@ -199,6 +203,11 @@ public class BossController : MonoBehaviour
             bool faceLeft = target.position.x < transform.position.x;
             bossAnim.SetFacing(faceLeft);
 
+            // Flip dash afterimage FX to match boss
+            Vector3 fxScale = dashAfterImageFX.transform.localScale;
+            fxScale.x = Mathf.Abs(fxScale.x) * (faceLeft ? -1f : 1f);
+            dashAfterImageFX.transform.localScale = fxScale;
+            AudioManager.Instance.PlaySFX("BossCharge");
             while (Vector2.Distance(transform.position, chargeTargetPos) > 0.1f)
             {
                 transform.position = Vector2.MoveTowards(transform.position, chargeTargetPos, chargeSpeed * Time.deltaTime);
@@ -209,6 +218,7 @@ public class BossController : MonoBehaviour
         }
 
         Debug.Log("BOSS ATTACK: CHARGE ATTACK END");
+        dashAfterImageFX.Stop();
         NextState();
     }
 
@@ -266,6 +276,7 @@ public class BossController : MonoBehaviour
             currentAttack = 1;
         }
     }
+
 
     #endregion
 

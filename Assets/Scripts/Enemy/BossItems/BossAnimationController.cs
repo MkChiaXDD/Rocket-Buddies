@@ -21,4 +21,14 @@ public class BossAnimationController : MonoBehaviour
     {
         anim.SetTrigger("Shoot");
     }
+
+    public void StartAbilityAnim()
+    {
+        anim.SetTrigger("AbilityStart");
+    }
+
+    public void EndAbilityAnim()
+    {
+        anim.SetTrigger("AbilityEnd");
+    }
 }
