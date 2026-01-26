@@ -63,6 +63,7 @@ public class BossHealthManager : MonoBehaviour
         if (currHealth < maxHealth)
         {
             currHealth++;
+            AudioManager.Instance.PlaySFX("BossHeal");
             StartCoroutine(HealFlash());
             UpdateHealthBar();
         }
@@ -80,11 +81,11 @@ public class BossHealthManager : MonoBehaviour
 
     private IEnumerator HealFlash()
     {
-        sprite.color = Color.red;
+        sprite.color = Color.green;
 
         yield return new WaitForSeconds(0.1f);
 
-        sprite.color = Color.green;
+        sprite.color = Color.white;
     }
 
     protected virtual void UpdateHealthBar()

@@ -12,10 +12,34 @@ public class PostProcessingSwitcher : MonoBehaviour
     [SerializeField] private VolumeProfile caveProfile;
     [SerializeField] private VolumeProfile mansionProfile;
 
+    public enum ZoneType
+    {
+        Sunny,
+        ColdMountain,
+        Cave,
+        Mansion
+    }
+
+    [SerializeField] private ZoneType baseZoneType;
+
     private void Start()
     {
-        // Default when scene loads
-        //SetSunny();
+        if (baseZoneType == ZoneType.Sunny)
+        {
+            SetSunny();
+        }
+        else if (baseZoneType == ZoneType.ColdMountain)
+        {
+            SetColdMountain();
+        }
+        else if (baseZoneType == ZoneType.Cave)
+        {
+            SetCave();
+        }
+        else
+        {
+            SetMansion();
+        }
     }
 
     public void SetSunny()
