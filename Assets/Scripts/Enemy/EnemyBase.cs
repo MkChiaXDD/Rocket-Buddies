@@ -40,7 +40,7 @@ public abstract class EnemyBase : MonoBehaviour
         currHp = data.maxHealth;
         attackCooldown = 0f;
 
-        UpdateHealthBar(true);
+        UpdateHealthBar(false);
         OnInit();
     }
 
@@ -81,11 +81,14 @@ public abstract class EnemyBase : MonoBehaviour
         float normalizedHp = (float)currHp / data.maxHealth;
         healthFill.fillAmount = normalizedHp;
 
-        if (hideHealthBarWhenFull && !forceShow)
-        {
-            healthFill.transform.parent.gameObject.SetActive(normalizedHp < 1f);
-        }
+        bool shouldShow =
+            forceShow ||
+            !hideHealthBarWhenFull ||
+            normalizedHp < 1f;
+
+        healthFill.transform.parent.gameObject.SetActive(shouldShow);
     }
+
 
     protected void UpdateFacing(Vector3 destination)
     {
