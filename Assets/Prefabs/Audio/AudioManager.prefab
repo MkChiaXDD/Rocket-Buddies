@@ -70,6 +70,16 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 71f791e27892e3140a74a7d7c165b165, type: 3}
   - name: BossCharge
     clip: {fileID: 8300000, guid: 0f2b90715824d3b4888e55c0c909b26d, type: 3}
+  - name: BossSaw
+    clip: {fileID: 8300000, guid: b1720c7035f0eb54a844799dd2adabce, type: 3}
+  - name: BossSawAlert
+    clip: {fileID: 8300000, guid: 445b1cb35f3b004419fa7fc6f275efc2, type: 3}
+  - name: SpikeLand
+    clip: {fileID: 8300000, guid: 6ce8fa16372e818499bde157156141e8, type: 3}
+  - name: FloatingTextSwoosh
+    clip: {fileID: 8300000, guid: 1fdf3d29094600d41a817a01c7f156e1, type: 3}
+  - name: BossHeal
+    clip: {fileID: 8300000, guid: cb09f9ea813675c4cab0c08c585b5d2c, type: 3}
 --- !u!82 &4637655857562457489
 AudioSource:
   m_ObjectHideFlags: 0
