@@ -13,6 +13,7 @@ public class HealthManager : MonoBehaviour
     [SerializeField] private Image[] hearts;
 
     private bool alreadyDead = false;
+    public bool IsDead => alreadyDead;
 
     private void Start()
     {
@@ -40,9 +41,11 @@ public class HealthManager : MonoBehaviour
 
     public void Damage(int amount)
     {
-        AudioManager.Instance.PlaySFX("Hit");
         if (godMode) return;
         if (alreadyDead) return;
+
+        AudioManager.Instance.PlaySFX("Hit");
+
         currHp -= amount;
         UpdateHearts();
 
@@ -52,9 +55,17 @@ public class HealthManager : MonoBehaviour
         }
     }
 
+
     private void Die()
     {
+        if (alreadyDead) return; // SAFETY
+
+        alreadyDead = true;
+
         AudioManager.Instance.PlaySFX("Die", 0.7f);
+
+        FindFirstObjectByType<DeathCounter>()
+            ?.IncreaseDeath(gameObject.name);
 
         PlayerController[] players =
             FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
@@ -64,6 +75,7 @@ public class HealthManager : MonoBehaviour
 
         StartCoroutine(DelayRespawn());
     }
+
 
     private IEnumerator DelayRespawn()
     {

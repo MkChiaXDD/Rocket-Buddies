@@ -71,6 +71,9 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         rocketPool = FindFirstObjectByType<BulletPool>();
         landParticlePool = FindFirstObjectByType<LandParticlePool>();
+
+        isAiming = false;
+        longerRedLine.SetActive(false);
     }
 
     void FixedUpdate()

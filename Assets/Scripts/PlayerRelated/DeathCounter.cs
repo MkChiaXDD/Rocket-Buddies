@@ -15,13 +15,14 @@ public class DeathCounter : MonoBehaviour
         {
             blueDeathCounter++;
         }
-        else
+        else if (playerName == "Player2")
         {
             redDeathCounter++;
         }
 
         UpdateText();
     }
+
 
     private void UpdateText()
     {
