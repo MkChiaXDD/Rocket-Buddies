@@ -32,30 +32,25 @@ public class BossArenaManager : MonoBehaviour
 
     public void Reset()
     {
-        if (spikeCoroutine != null)
-        {
-            StopCoroutine(spikeCoroutine);
-            spikeCoroutine = null;
-        }
+        StopAllCoroutines(); // safest here
 
-        if (chainsawCoroutine != null)
-        {
-            StopCoroutine(chainsawCoroutine);
-            chainsawCoroutine = null;
-        }
+        spikeCoroutine = null;
+        chainsawCoroutine = null;
 
         SetSpikeInactive();
         SetPylonInactive();
 
         chainsaw.position = chainsawLeftPos.position;
 
-        boss.Reset();
-        bossHp.Reset();
-
         warningLeft.SetActive(false);
         warningRight.SetActive(false);
         spikeWarning.SetActive(false);
+
+        boss.Reset();
+        bossHp.Reset();
+        bossAnim.PlayIdleAnim();
     }
+
 
     private void Start()
     {

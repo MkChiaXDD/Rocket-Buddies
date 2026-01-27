@@ -25,7 +25,7 @@ public class BossBullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Boss") || collision.gameObject.CompareTag("Bullet"))
+        if (collision.gameObject.CompareTag("Boss") || collision.gameObject.CompareTag("Bullet") || collision.gameObject.CompareTag("Pylon"))
         {
             return;
         }

@@ -37,6 +37,9 @@ public class BossController : MonoBehaviour
 
     [Header("Health Things")]
     [SerializeField] private BossHealthManager hpMgr;
+
+    private Coroutine shootCoroutine;
+    private Coroutine chargeCoroutine;
     private enum States
     {
         idle,
@@ -47,8 +50,17 @@ public class BossController : MonoBehaviour
 
     public void Reset()
     {
-        StopCoroutine(PerformChargeAttack());
-        StopCoroutine(PerformShootAttack());
+        if (shootCoroutine != null)
+        {
+            StopCoroutine(shootCoroutine);
+            shootCoroutine = null;
+        }
+
+        if (chargeCoroutine != null)
+        {
+            StopCoroutine(chargeCoroutine);
+            chargeCoroutine = null;
+        }
         transform.position = idlePos.position;
         currentAttack = 0;
         isAttacking = false;
@@ -59,6 +71,7 @@ public class BossController : MonoBehaviour
     {
         currentAttack = 0;
         isAttacking = false;
+
 
         if (bossBulletPool == null)
         {
@@ -79,7 +92,7 @@ public class BossController : MonoBehaviour
                 if (isAttacking) return;
 
                 isAttacking = true;
-                StartCoroutine(PerformShootAttack());
+                shootCoroutine = StartCoroutine(PerformShootAttack());
                 break;
             //Charge
             case 2:
@@ -93,7 +106,7 @@ public class BossController : MonoBehaviour
                 if (isAttacking) return;
 
                 isAttacking = true;
-                StartCoroutine(PerformChargeAttack());
+                chargeCoroutine = StartCoroutine(PerformChargeAttack());
                 break;
             case 4:
                 if (isAttacking) return;

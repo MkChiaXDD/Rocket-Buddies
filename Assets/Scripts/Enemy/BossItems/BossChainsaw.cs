@@ -3,9 +3,10 @@ using UnityEngine;
 public class BossChainsaw : MonoBehaviour
 {
     [SerializeField] private float rotationSpeed = 360f;
-    private bool hasDamagedPlayer = false;
 
-    // Update is called once per frame
+    private bool hasDamagedPlayer1;
+    private bool hasDamagedPlayer2;
+
     void Update()
     {
         transform.Rotate(0f, 0f, rotationSpeed * Time.deltaTime);
@@ -13,17 +14,30 @@ public class BossChainsaw : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (hasDamagedPlayer) return;
+        if (!collision.CompareTag("Player"))
+            return;
 
-        if (collision.gameObject.CompareTag("Player"))
+        // Identify which player
+        if (collision.gameObject.name == "Player1" && !hasDamagedPlayer1)
         {
-            FindFirstObjectByType<HealthManager>()?.Damage(1);
-            hasDamagedPlayer = true;
+            DamagePlayer();
+            hasDamagedPlayer1 = true;
         }
+        else if (collision.gameObject.name == "Player2" && !hasDamagedPlayer2)
+        {
+            DamagePlayer();
+            hasDamagedPlayer2 = true;
+        }
+    }
+
+    private void DamagePlayer()
+    {
+        FindFirstObjectByType<HealthManager>()?.Damage(1);
     }
 
     public void ResetDamagePlayer()
     {
-        hasDamagedPlayer = false;
+        hasDamagedPlayer1 = false;
+        hasDamagedPlayer2 = false;
     }
 }

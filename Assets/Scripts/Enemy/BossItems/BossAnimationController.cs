@@ -31,4 +31,9 @@ public class BossAnimationController : MonoBehaviour
     {
         anim.SetTrigger("AbilityEnd");
     }
+
+    public void PlayIdleAnim()
+    {
+        anim.SetTrigger("Idle");
+    }
 }
