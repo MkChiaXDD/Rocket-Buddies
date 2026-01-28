@@ -48,10 +48,10 @@ public class Target : MonoBehaviour
             {
                 StartCoroutine(OpenCloseDoor());
             }
-            else
-            {
-                door.OpenDoor();
-            }
+        }
+        else if (door != null && openDoorDuration <= 0)
+        {
+            door.OpenDoor();
         }
 
         // ?? ADD THIS (Laser logic)
