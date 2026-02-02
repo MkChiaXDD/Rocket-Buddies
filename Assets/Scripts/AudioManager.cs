@@ -78,17 +78,10 @@ public class AudioManager : MonoBehaviour
 
     public void PlayBGM(string name, bool loop = true, float volume = 1f)
     {
-        if (!bgmDict.TryGetValue(name, out var clip))
-        {
-            Debug.LogWarning($"BGM not found: {name}");
-            return;
-        }
+        if (!bgmDict.TryGetValue(name, out var clip)) return;
 
-        if (bgmSource == null)
-        {
-            Debug.LogWarning("BGM AudioSource is not assigned.");
+        if (bgmSource.clip == clip && bgmSource.isPlaying)
             return;
-        }
 
         bgmSource.clip = clip;
         bgmSource.loop = loop;
