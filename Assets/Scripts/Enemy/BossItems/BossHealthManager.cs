@@ -63,6 +63,7 @@ public class BossHealthManager : MonoBehaviour
             if (currHealth <= 0)
             {
                 StartCoroutine(DieSequence());
+                FindFirstObjectByType<BossAnimationController>()?.PlayDieAnim();
                 isDead = true;
             }
         }
@@ -78,9 +79,12 @@ public class BossHealthManager : MonoBehaviour
         if (img == null) yield break;
 
         gameObject.GetComponent<BossController>().BossDie();
+        FindFirstObjectByType<BossArenaManager>().BossDie();
+        FindFirstObjectByType<CameraController>().SetSharedWithTarget(gameObject.transform);
 
         // hide texts at start of sequence
         AudioManager.Instance.PlaySFX("BossDie");
+        FindFirstObjectByType<CameraController>()?.StartSharedShake(0.2f);
         if (endText != null) endText.gameObject.SetActive(false);
         if (timerText != null) timerText.gameObject.SetActive(false);
 
@@ -101,6 +105,7 @@ public class BossHealthManager : MonoBehaviour
 
         panelC.a = 1f;
         img.color = panelC;
+        FindFirstObjectByType<CameraController>()?.StopSharedShake();
 
         // ===== 2) Fade in endText =====
         if (endText != null)

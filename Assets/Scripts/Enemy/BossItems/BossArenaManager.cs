@@ -51,6 +51,23 @@ public class BossArenaManager : MonoBehaviour
         bossAnim.PlayIdleAnim();
     }
 
+    public void BossDie()
+    {
+        StopAllCoroutines(); // safest here
+
+        spikeCoroutine = null;
+        chainsawCoroutine = null;
+
+        SetSpikeInactive();
+        SetPylonInactive();
+
+        chainsaw.position = chainsawLeftPos.position;
+
+        warningLeft.SetActive(false);
+        warningRight.SetActive(false);
+        spikeWarning.SetActive(false);
+    }
+
 
     private void Start()
     {

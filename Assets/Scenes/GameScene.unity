@@ -19108,7 +19108,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'You Complete the game
+  m_text: 'You completed the game
 
     Well done twin'
   m_isRightToLeft: 0
