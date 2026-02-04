@@ -66,6 +66,24 @@ public class BossController : MonoBehaviour
         isAttacking = false;
     }
 
+    public void BossDie()
+    {
+        currentAttack = 0;
+        isAttacking = false;
+
+        if (shootCoroutine != null)
+        {
+            StopCoroutine(shootCoroutine);
+            shootCoroutine = null;
+        }
+
+        if (chargeCoroutine != null)
+        {
+            StopCoroutine(chargeCoroutine);
+            chargeCoroutine = null;
+        }
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -183,6 +201,8 @@ public class BossController : MonoBehaviour
             }
         }
 
+        FindFirstObjectByType<CameraController>()?.ShakeSharedCamera(0.1f, 0.2f);
+
         bool faceLeft = shootTarget.position.x < transform.position.x;
         bossAnim.SetFacing(faceLeft);
         Vector2 shootDir = (shootTarget.position - transform.position).normalized;
@@ -225,11 +245,13 @@ public class BossController : MonoBehaviour
             fxScale.x = Mathf.Abs(fxScale.x) * (faceLeft ? -1f : 1f);
             dashAfterImageFX.transform.localScale = fxScale;
             AudioManager.Instance.PlaySFX("BossCharge");
+            FindFirstObjectByType<CameraController>()?.StartSharedShake(0.2f);
             while (Vector2.Distance(transform.position, chargeTargetPos) > 0.1f)
             {
                 transform.position = Vector2.MoveTowards(transform.position, chargeTargetPos, chargeSpeed * Time.deltaTime);
                 yield return null;
             }
+            FindFirstObjectByType<CameraController>()?.StopSharedShake();
 
             yield return new WaitForSeconds(chargeCooldown);
         }

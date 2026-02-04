@@ -211,6 +211,7 @@ public abstract class EnemyBase : MonoBehaviour
     {
         if (healthFill != null)
             healthFill.transform.parent.gameObject.SetActive(false);
+        AudioManager.Instance.PlaySFX("BatDie");
 
         OnEnemyDied?.Invoke(this);
         gameObject.SetActive(false);

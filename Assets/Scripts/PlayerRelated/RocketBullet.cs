@@ -16,6 +16,7 @@ public class RocketBullet : MonoBehaviour
     [Header("Player Colours (Hex)")]
     [SerializeField] private string player1Hex = "#00A2FF"; // blue
     [SerializeField] private string player2Hex = "#FF4747"; // red
+    [SerializeField] private ParticleSystem trailParticle;
 
     private Color player1Color;
     private Color player2Color;
@@ -72,6 +73,9 @@ public class RocketBullet : MonoBehaviour
 
         if (blueParticlePool == null)
             blueParticlePool = FindFirstObjectByType<BlueParticlePool>();
+
+        if (trailParticle != null)
+            trailParticle.Clear(true);
     }
 
     // Called from PlayerController when spawning the rocket
@@ -276,13 +280,20 @@ public class RocketBullet : MonoBehaviour
 
         if (owner != null)
         {
-            if (owner.name == "Player1")
-                col = player1Color;
-            else if (owner.name == "Player2")
-                col = player2Color;
+            if (owner.name == "Player1") col = player1Color;
+            else if (owner.name == "Player2") col = player2Color;
         }
 
+        // bullet sprite tint
         foreach (var sr in GetComponentsInChildren<SpriteRenderer>(true))
             sr.color = col;
+
+        // particle tint
+        if (trailParticle != null)
+        {
+            var main = trailParticle.main;
+            main.startColor = col;
+        }
     }
+
 }

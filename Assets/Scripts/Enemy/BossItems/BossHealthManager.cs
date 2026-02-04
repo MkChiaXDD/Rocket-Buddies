@@ -1,5 +1,7 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class BossHealthManager : MonoBehaviour
@@ -9,7 +11,15 @@ public class BossHealthManager : MonoBehaviour
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private GameObject bossName;
     [SerializeField] private int maxHealth;
+    [SerializeField] private GameObject whitePanel;
+    [SerializeField] private float panelFadeDuration = 1f;
+    [SerializeField] private TMP_Text endText;
+    [SerializeField] private float endTextFadeDuration = 0.75f;
+    [SerializeField] private TMP_Text timerText;
+    [SerializeField] private int returnCountdownSeconds = 10;
+    [SerializeField] private float delayAfterEndText = 2f;
     private int currHealth;
+    private bool isDead = false;
 
     public void Reset()
     {
@@ -46,17 +56,95 @@ public class BossHealthManager : MonoBehaviour
 
     public void Damage()
     {
+        if (isDead) return;
         if (currHealth > 0)
         {
             currHealth--;
-        }
-        else
-        {
-            Destroy(gameObject);
+            if (currHealth <= 0)
+            {
+                StartCoroutine(DieSequence());
+                isDead = true;
+            }
         }
         StartCoroutine(DamageFlash());
         UpdateHealthBar();
     }
+
+    private IEnumerator DieSequence()
+    {
+        if (whitePanel == null) yield break;
+
+        Image img = whitePanel.GetComponent<Image>();
+        if (img == null) yield break;
+
+        gameObject.GetComponent<BossController>().BossDie();
+
+        // hide texts at start of sequence
+        AudioManager.Instance.PlaySFX("BossDie");
+        if (endText != null) endText.gameObject.SetActive(false);
+        if (timerText != null) timerText.gameObject.SetActive(false);
+
+        whitePanel.SetActive(true);
+
+        // ===== 1) Fade panel to alpha 1 =====
+        Color panelC = img.color;
+        float startA = panelC.a;
+        float t = 0f;
+
+        while (t < panelFadeDuration)
+        {
+            t += Time.deltaTime;
+            panelC.a = Mathf.Lerp(startA, 1f, t / panelFadeDuration);
+            img.color = panelC;
+            yield return null;
+        }
+
+        panelC.a = 1f;
+        img.color = panelC;
+
+        // ===== 2) Fade in endText =====
+        if (endText != null)
+        {
+            endText.gameObject.SetActive(true);
+
+            Color endC = endText.color;
+            endC.a = 0f;
+            endText.color = endC;
+
+            float tt = 0f;
+            while (tt < endTextFadeDuration)
+            {
+                tt += Time.deltaTime;
+                endC.a = Mathf.Lerp(0f, 1f, tt / endTextFadeDuration);
+                endText.color = endC;
+                yield return null;
+            }
+
+            endC.a = 1f;
+            endText.color = endC;
+        }
+
+        // ===== 3) Wait 2s =====
+        yield return new WaitForSeconds(delayAfterEndText);
+
+        // ===== 4) Show timer instantly + countdown =====
+        if (timerText != null)
+        {
+            timerText.gameObject.SetActive(true);
+
+            for (int i = returnCountdownSeconds; i > 0; i--)
+            {
+                timerText.text = $"Returning to menu in {i}s";
+                yield return new WaitForSeconds(1f);
+            }
+
+            timerText.text = $"Returning to menu in 0s";
+            yield return new WaitForSeconds(1.5f);
+        }
+
+        SceneManager.LoadScene("MainMenu");
+    }
+
 
     public void Heal()
     {

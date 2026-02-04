@@ -110,6 +110,7 @@ public class BossArenaManager : MonoBehaviour
         }
 
         AudioManager.Instance.PlaySFX("BossSaw");
+        FindFirstObjectByType<CameraController>()?.ShakeSharedCamera(0.2f, 2.5f);
         // Move chainsaw across arena
         Vector2 targetPos = endPos.position;
 

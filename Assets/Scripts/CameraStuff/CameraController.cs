@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -38,6 +39,12 @@ public class CameraController : MonoBehaviour
     // ================= SHARED CAMERA =================
     private Transform midTarget;
     private Transform extraTarget; // for SharedWithTarget
+
+    private Coroutine sharedShakeRoutine;
+    private Vector3 sharedCamBaseLocalPos;
+
+    private Coroutine sharedShakeLoop;
+    private Vector3 sharedShakeOffset;
 
     // ================= UNITY =================
     private void Awake()
@@ -194,6 +201,96 @@ public class CameraController : MonoBehaviour
         {
             if (cam && cam.Cam)
                 cam.Cam.enabled = active;
+        }
+    }
+
+    public void ShakeSharedCamera(float strength, float duration)
+    {
+        if (sharedCamera == null || sharedCamera.Cam == null) return;
+        if (!sharedCamera.Cam.enabled) return;          // only shake when shared cam is active
+        if (strength <= 0f || duration <= 0f) return;
+
+        if (sharedShakeRoutine != null)
+            StopCoroutine(sharedShakeRoutine);
+
+        sharedShakeRoutine = StartCoroutine(ShakeSharedRoutine(strength, duration));
+    }
+
+    private IEnumerator ShakeSharedRoutine(float strength, float duration)
+    {
+        Transform camT = sharedCamera.Cam.transform;
+
+        sharedShakeOffset = Vector3.zero;
+
+        float t = 0f;
+        while (t < duration)
+        {
+            yield return new WaitForEndOfFrame(); // let camera follow move first
+
+            // remove last offset
+            camT.localPosition -= sharedShakeOffset;
+
+            // apply new offset
+            sharedShakeOffset = new Vector3(
+                Random.Range(-1f, 1f) * strength,
+                Random.Range(-1f, 1f) * strength,
+                0f
+            );
+
+            camT.localPosition += sharedShakeOffset;
+
+            t += Time.deltaTime;
+        }
+
+        // clean up
+        camT.localPosition -= sharedShakeOffset;
+        sharedShakeOffset = Vector3.zero;
+        sharedShakeRoutine = null;
+    }
+
+
+    public void StartSharedShake(float strength)
+    {
+        if (sharedCamera == null || sharedCamera.Cam == null) return;
+        if (!sharedCamera.Cam.enabled) return;
+        if (strength <= 0f) return;
+
+        if (sharedShakeLoop != null) return;
+        sharedShakeOffset = Vector3.zero;
+        sharedShakeLoop = StartCoroutine(SharedShakeLoop(strength));
+    }
+
+    public void StopSharedShake()
+    {
+        if (sharedCamera == null || sharedCamera.Cam == null) return;
+
+        if (sharedShakeLoop != null)
+            StopCoroutine(sharedShakeLoop);
+
+        sharedShakeLoop = null;
+
+        // remove current offset only (don’t reset camera position)
+        sharedCamera.Cam.transform.localPosition -= sharedShakeOffset;
+        sharedShakeOffset = Vector3.zero;
+    }
+
+    private IEnumerator SharedShakeLoop(float strength)
+    {
+        Transform camT = sharedCamera.Cam.transform;
+
+        while (true)
+        {
+            yield return new WaitForEndOfFrame();
+
+            camT.localPosition -= sharedShakeOffset;
+
+            sharedShakeOffset = new Vector3(
+                Random.Range(-1f, 1f) * strength,
+                Random.Range(-1f, 1f) * strength,
+                0f
+            );
+
+            camT.localPosition += sharedShakeOffset;
         }
     }
 }
