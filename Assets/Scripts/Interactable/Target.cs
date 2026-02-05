@@ -52,6 +52,7 @@ public class Target : MonoBehaviour
         else if (door != null && openDoorDuration <= 0)
         {
             door.OpenDoor();
+            GetComponent<SpriteRenderer>().color = Color.red;
         }
 
         // ?? ADD THIS (Laser logic)
