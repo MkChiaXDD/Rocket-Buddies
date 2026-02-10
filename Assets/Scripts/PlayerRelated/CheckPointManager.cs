@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CheckPointManager : MonoBehaviour
 {
@@ -7,16 +8,20 @@ public class CheckPointManager : MonoBehaviour
 
     private CheckPoint currentCheckPoint;
 
+    [SerializeField] private PlayerInput action;
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G))
+        if (action.actions["Respawn"].WasPressedThisFrame())
         {
             RespawnPlayers();
+            Debug.Log("Respawn Player");
         }
         
-        if (Input.GetKeyDown(KeyCode.O))
+        if (action.actions["NextCheck"].WasPressedThisFrame())
         {
             TeleportToNextCheckpoint();
+            Debug.Log("Next Check");
         }
     }
 

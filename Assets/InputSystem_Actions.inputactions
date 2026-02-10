@@ -736,6 +736,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Respawn",
+                    "type": "Button",
+                    "id": "96c7c499-40cc-402a-903a-884d41e429f6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "NextCheck",
+                    "type": "Button",
+                    "id": "12d4ca43-65f2-465d-a775-029bf332e39d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -936,6 +954,50 @@
                     "action": "Shoot",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "65ebd60c-6663-4efa-911a-d8578e66882a",
+                    "path": "<XInputController>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Respawn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fca5b9b0-3a03-41f4-8524-37d63ff1814d",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Respawn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e077e80d-c788-4733-863b-bdf0989d52f9",
+                    "path": "<XInputController>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "NextCheck",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d7f3f83d-8617-4f7a-b33d-d9305ae3f68d",
+                    "path": "<Keyboard>/o",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "NextCheck",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -1032,6 +1094,17 @@
                 },
                 {
                     "name": "",
+                    "id": "006dc0e9-3270-4910-809a-2009945c72a7",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Next",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "47c664e8-ea03-45fd-85ea-979fb681c090",
                     "path": "<XInputController>/leftStick/up",
                     "interactions": "",
@@ -1054,6 +1127,17 @@
                 },
                 {
                     "name": "",
+                    "id": "34b411dd-afc4-469d-b693-1dc23ec8a280",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Previous",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "a7ffd3ac-c8e8-4c71-b971-27b8f78e3ab1",
                     "path": "<XInputController>/buttonSouth",
                     "interactions": "",
@@ -1065,8 +1149,30 @@
                 },
                 {
                     "name": "",
+                    "id": "ffcbab81-7ce0-48d6-9c3c-66488cb88a0b",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Submit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "9b3c9678-51db-43cd-9929-45eea73c671c",
                     "path": "<XInputController>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Back",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b21e2763-00b8-4e77-b52a-02c03a1bf54f",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
