@@ -27,6 +27,11 @@ public class HealthManager : MonoBehaviour
         {
             Damage(1);
         }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            godMode = !godMode;
+        }
     }
 
     // ---------------- HEALTH ----------------
