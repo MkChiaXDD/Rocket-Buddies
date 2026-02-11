@@ -31,6 +31,14 @@ public class GamePauseMenu : MonoBehaviour
         bgmSlider.onValueChanged.AddListener(OnBGMChanged);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePausePanel();
+        }
+    }
+
     public void TogglePausePanel()
     {
         isPaused = !isPaused;
