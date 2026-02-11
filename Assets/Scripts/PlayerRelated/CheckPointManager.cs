@@ -12,13 +12,13 @@ public class CheckPointManager : MonoBehaviour
 
     private void Update()
     {
-        if (action.actions["Respawn"].WasPressedThisFrame())
+        if (action.actions["Respawn"].WasPressedThisFrame() || Input.GetKeyDown(KeyCode.G))
         {
             RespawnPlayers();
             Debug.Log("Respawn Player");
         }
         
-        if (action.actions["NextCheck"].WasPressedThisFrame())
+        if (action.actions["NextCheck"].WasPressedThisFrame() || Input.GetKeyDown(KeyCode.O))
         {
             TeleportToNextCheckpoint();
             Debug.Log("Next Check");
